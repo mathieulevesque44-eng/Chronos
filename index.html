@@ -787,7 +787,154 @@ body::before {
   .jauges { gap: 8px; }
   .jauge { min-width: 55px; }
 }
+.chronos-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
 
+.cg-clock {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cg-top {
+  width: 90px;
+  height: 90px;
+  background: #4d311d;
+  border: 3px solid #c8a84b;
+  border-radius: 45px 45px 15px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cg-face {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #f0e6d0;
+  border: 2px solid #1a1008;
+  position: relative;
+}
+
+.cg-hand {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  background: #1a1008;
+  transform-origin: bottom center;
+}
+
+.cg-hour {
+  width: 4px;
+  height: 16px;
+  margin-left: -2px;
+  animation: spin 12s linear infinite;
+}
+
+.cg-minute {
+  width: 2px;
+  height: 22px;
+  margin-left: -1px;
+  animation: spin 2s linear infinite;
+}
+
+.cg-center {
+  width: 8px;
+  height: 8px;
+  background: #1a1008;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -4px;
+  margin-top: -4px;
+}
+
+.cg-body {
+  width: 75px;
+  height: 125px;
+  background: #3e2717;
+  border-left: 3px solid #c8a84b;
+  border-right: 3px solid #c8a84b;
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+}
+
+.cg-door {
+  width: 50px;
+  height: 96px;
+  border: 2px solid #c8a84b;
+  position: relative;
+}
+
+.cg-pendulum-rod {
+  width: 2px;
+  height: 45px;
+  background: #c8a84b;
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  margin-left: -1px;
+  transform-origin: top center;
+  animation: swing 1.3s ease-in-out infinite;
+}
+
+.cg-pendulum {
+  width: 18px;
+  height: 18px;
+  background: #c8a84b;
+  border-radius: 50%;
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  margin-left: -9px;
+  transform-origin: 50% -42px;
+  animation: swing 1.3s ease-in-out infinite;
+}
+
+.cg-base {
+  width: 96px;
+  height: 14px;
+  background: #4d311d;
+  border: 3px solid #c8a84b;
+  border-top: none;
+}
+
+.cg-loader-text {
+  margin-top: 12px;
+  font-family: 'Special Elite', cursive;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #c8a84b;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.cg-loader-sub {
+  margin-top: 5px;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(240,230,208,0.65);
+  text-align: center;
+}
+
+@keyframes swing {
+  0% { transform: rotate(-18deg); }
+  50% { transform: rotate(18deg); }
+  100% { transform: rotate(-18deg); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 </style>
 </head>
 <body>
@@ -984,8 +1131,28 @@ body::before {
       </div>
     </div>
 
-    <div class="loading" id="loading">Les presses tournent...</div>
-
+   <div class="loading" id="loading">
+  <div class="chronos-loader">
+    <div class="cg-clock">
+      <div class="cg-top">
+        <div class="cg-face">
+          <div class="cg-hand cg-hour"></div>
+          <div class="cg-hand cg-minute"></div>
+          <div class="cg-center"></div>
+        </div>
+      </div>
+      <div class="cg-body">
+        <div class="cg-door">
+          <div class="cg-pendulum-rod"></div>
+          <div class="cg-pendulum"></div>
+        </div>
+      </div>
+      <div class="cg-base"></div>
+    </div>
+    <div class="cg-loader-text">Chargement des archives temporelles...</div>
+    <div class="cg-loader-sub">Chaque choix laisse une trace</div>
+  </div>
+</div>
     <div class="decision-sec" id="decision-sec" style="display:none;">
       <span class="dec-lbl">— Votre décision, Monsieur Aubert —</span>
       <div class="quick-choices" id="quick-choices"></div>
@@ -1052,7 +1219,28 @@ body::before {
       <div class="pull-quote" id="n-pull-quote" style="display:none;"></div>
     </div>
 
-    <div class="loading" id="n-loading">La mer écrit l'histoire...</div>
+   <div class="loading" id="n-loading">
+  <div class="chronos-loader">
+    <div class="cg-clock">
+      <div class="cg-top">
+        <div class="cg-face">
+          <div class="cg-hand cg-hour"></div>
+          <div class="cg-hand cg-minute"></div>
+          <div class="cg-center"></div>
+        </div>
+      </div>
+      <div class="cg-body">
+        <div class="cg-door">
+          <div class="cg-pendulum-rod"></div>
+          <div class="cg-pendulum"></div>
+        </div>
+      </div>
+      <div class="cg-base"></div>
+    </div>
+    <div class="cg-loader-text">Le temps s'écoule sur l'île...</div>
+    <div class="cg-loader-sub">Le destin s'écrit en silence</div>
+  </div>
+</div>
 
     <div class="decision-zone" id="n-decision-zone">
       <span class="dec-label">— Que faites-vous, Thomas ? —</span>
