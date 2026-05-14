@@ -1922,7 +1922,7 @@ function updateNaufrageJauges() {
 
 async function callNaufrageAPI(msg) {
   gameState.messages.push({ role:'user', content:msg });
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+  const resp = await fetch('/.netlify/functions/anthropic', {
     method:'POST',
    headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':apiKey},
     body: JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1500,system:CHAPITRES[gameState.chapter].system,messages:gameState.messages})
