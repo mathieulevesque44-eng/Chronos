@@ -1755,19 +1755,20 @@ const CHAPITRES = {
     dateDebut: '14 Octobre 1704',
     system: `Tu es le narrateur de CHRONOS — Naufragé. Nous sommes en 1704. Thomas Garnier, 31 ans, marin breton sur le navire Saint-Malo, fait face à une tempête violente dans l'Océan Pacifique.
 
-CHAPITRE 1 : LA TEMPÊTE — 5 décisions dramatiques. Chaque mauvaise décision peut être mortelle.
+CHAPITRE 1 : LA TEMPÊTE — 5 moments dramatiques sur quelques heures. Chaque mauvaise décision peut être mortelle.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
 {"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne immersive 150-200 mots, description sensorielle intense de la tempête","pull_quote":"phrase courte et dramatique","quick_choices":["action courte 1","action courte 2","action courte 3"],"game_over":false,"game_over_type":null,"next_chapter":false}
 
 RÈGLES :
 - Narration viscérale, sensorielle — le vent, les vagues, la peur
-- 5 décisions maximum puis blackout et réveil sur île (next_chapter:true)
+- 5 moments maximum (quelques heures, pas des jours) puis blackout et réveil sur île (next_chapter:true)
+- Le champ 'date' doit indiquer l'heure approximative (ex: '14 oct. 1704 — 23h15', '15 oct. 1704 — 02h30')
 - Si mauvaise décision fatale → game_over:true, game_over_type:"noye"
 - Les 3 quick_choices doivent être variés : une action prudente, une risquée, une désespérée
-- Construire la tension progressivement — la 5ème décision = blackout sur île
+- Construire la tension progressivement — le 5ème moment = blackout sur île
 - ANACHRONISMES INTERDITS : 1704, objets de bord uniquement : cordages, bois, voiles, outils de marin, couteaux, allumettes (boîte à amadou).`,
-    startMsg: `Début. Nuit du 14 octobre 1704. Thomas Garnier est sur le pont du Saint-Malo. La tempête éclate soudainement. Des vagues énormes frappent le navire. L'équipage panique. Thomas doit agir immédiatement. Décision 1 sur 5.`
+    startMsg: `Début. Nuit du 14 octobre 1704, vers 22h00. Thomas Garnier est sur le pont du Saint-Malo. La tempête éclate soudainement. Des vagues énormes frappent le navire. L'équipage panique. Thomas doit agir immédiatement. Moment 1 sur 5.`
   },
   2: {
     num: 2,
@@ -1952,10 +1953,15 @@ async function submitNaufrageDecision() {
   histEl.className = 'hist-entry';
   histEl.textContent = 'Jour ' + gameState.day + ' — ' + decision.substring(0,70);
   document.getElementById('n-history-list').appendChild(histEl);
+  const currentDay = gameState.day;
+  const maxJours = CHAPITRES[gameState.chapter].maxJours;
+  const isLastDay = currentDay >= maxJours;
   gameState.day++;
-  document.getElementById('n-chap-info').textContent = 'Chapitre ' + gameState.chapter + ' · Jour ' + gameState.day;
+  const isChap1 = gameState.chapter === 1;
+  const unitLabel = isChap1 ? 'Moment' : 'Jour';
+  document.getElementById('n-chap-info').textContent = 'Chapitre ' + gameState.chapter + ' · ' + unitLabel + ' ' + gameState.day;
   const j = gameState.jauges;
-  const msg = 'Jour ' + gameState.day + '. Décision: "' + decision + '". Mental:' + j.mental + ' Faim:' + j.faim + ' Soif:' + j.soif + ' Abri:' + (j.abri||'-') + ' Froid:' + (j.froid||'-') + (gameState.chapter===3?' Radeau:'+j.progression_radeau+'%':'');
+  const msg = unitLabel + ' ' + currentDay + '/' + maxJours + (isLastDay ? (isChap1 ? ' (DERNIER MOMENT — blackout et next_chapter:true)' : ' (DERNIER JOUR — si Thomas est vivant, déclenche next_chapter:true)') : '') + '. Décision: "' + decision + '". Mental:' + j.mental + ' Faim:' + j.faim + ' Soif:' + j.soif + ' Abri:' + (j.abri||'-') + ' Froid:' + (j.froid||'-') + (gameState.chapter===3?' Radeau:'+j.progression_radeau+'%':'');
   try {
     const data = await callNaufrageAPI(msg);
     renderNaufrage(data);
