@@ -935,6 +935,429 @@ body::before {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* ===== PATRIOTES SCREEN ===== */
+#screen-patriotes {
+  background: #1a2e1a;
+  min-height: 100vh;
+  font-family: 'Special Elite', cursive;
+  color: #e8ead0;
+}
+
+:root {
+  --pat-vert: #2d5a2d;
+  --pat-vert-fonce: #1a2e1a;
+  --pat-vert-clair: #4a7c4a;
+  --pat-blanc: #f0ead8;
+  --pat-rouge: #8b1a1a;
+  --pat-or: #c8a84b;
+  --pat-gris: #8a8a7a;
+  --pat-pierre: #3d4a3d;
+}
+
+.pat-header {
+  background: #1a2e1a;
+  border-bottom: 2px solid #2d5a2d;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.pat-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pat-etoile {
+  font-size: 22px;
+  color: var(--pat-or);
+}
+
+.pat-title-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.pat-game-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pat-blanc);
+}
+
+.pat-chap-info {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--pat-vert-clair);
+  text-transform: uppercase;
+}
+
+.pat-jauges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 20px;
+  background: #111f11;
+  border-bottom: 1px solid #2d5a2d;
+}
+
+.pat-jauge {
+  flex: 1;
+  min-width: 100px;
+}
+
+.pat-jauge-hdr {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--pat-gris);
+  margin-bottom: 3px;
+}
+
+.pat-jauge-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.pat-jauge-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+.pat-fill-sante   { background: #8b1a1a; }
+.pat-fill-moral   { background: #c8a84b; }
+.pat-fill-suspicion { background: #b84a2a; }
+.pat-fill-reputation { background: #4a7c4a; }
+.pat-fill-fatigue { background: #5a5a4a; }
+
+.pat-fill-danger  { background: #cc2222 !important; }
+.pat-fill-warning { background: #cc8822 !important; }
+
+.pat-alert {
+  display: none;
+  background: rgba(139,26,26,0.15);
+  border: 1px solid var(--pat-rouge);
+  color: #cc4444;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 6px;
+  margin: 10px 20px 0;
+}
+
+.pat-alert.active { display: block; }
+
+.pat-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.pat-chapter-banner {
+  border-left: 3px solid var(--pat-or);
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  background: rgba(45,90,45,0.15);
+}
+
+.pat-chap-num {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--pat-or);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.pat-chap-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 700;
+  color: var(--pat-blanc);
+  margin-bottom: 2px;
+}
+
+.pat-chap-sub {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--pat-gris);
+  text-transform: uppercase;
+}
+
+.pat-narrative-card {
+  background: rgba(45,90,45,0.1);
+  border: 1px solid rgba(45,90,45,0.4);
+  border-left: 3px solid var(--pat-vert-clair);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.pat-narrative-date {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pat-or);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.pat-narrative-text p {
+  font-family: 'IM Fell English', serif;
+  font-size: 14px;
+  line-height: 1.85;
+  color: #d8dac0;
+  margin-bottom: 12px;
+}
+
+.pat-narrative-text p:last-child { margin-bottom: 0; }
+
+.pat-pull-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--pat-or);
+  border-top: 1px solid rgba(200,168,75,0.3);
+  padding-top: 12px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.pat-loading {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pat-loading.active { display: flex; }
+
+.pat-loader-img {
+  width: 90px;
+  opacity: 0.85;
+  animation: pat-march 0.6s ease-in-out infinite alternate;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+
+@keyframes pat-march {
+  from { transform: translateX(-4px) rotate(-1deg); }
+  to   { transform: translateX(4px)  rotate(1deg);  }
+}
+
+.pat-loader-text {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--pat-vert-clair);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pat-spin {
+  to { transform: rotate(360deg); }
+}
+
+.pat-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(200,168,75,0.2);
+  border-top-color: var(--pat-or);
+  border-radius: 50%;
+  animation: pat-spin 0.8s linear infinite;
+}
+
+.pat-decision-zone {
+  display: none;
+  margin-top: 16px;
+}
+
+.pat-decision-zone.active { display: block; }
+
+.pat-dec-lbl {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--pat-gris);
+  display: block;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.pat-choices {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.pat-choice-btn {
+  background: rgba(45,90,45,0.2);
+  border: 1px solid rgba(45,90,45,0.6);
+  color: rgba(232,234,208,0.8);
+  padding: 6px 14px;
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pat-choice-btn:hover {
+  background: rgba(45,90,45,0.5);
+  color: var(--pat-blanc);
+  border-color: var(--pat-vert-clair);
+}
+
+.pat-dec-input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(45,90,45,0.5);
+  padding: 9px 13px;
+  font-family: 'Special Elite', cursive;
+  font-size: 13px;
+  color: var(--pat-blanc);
+  resize: none;
+  min-height: 68px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.pat-dec-input:focus { border-color: var(--pat-vert-clair); }
+.pat-dec-input::placeholder { color: rgba(138,138,122,0.6); font-style: italic; }
+
+.pat-submit-btn {
+  margin-top: 7px;
+  background: var(--pat-vert);
+  color: var(--pat-blanc);
+  border: none;
+  padding: 8px 26px;
+  font-family: 'Special Elite', cursive;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  float: right;
+  transition: background 0.2s;
+}
+
+.pat-submit-btn:hover { background: var(--pat-vert-clair); }
+.pat-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pat-hist-toggle {
+  background: transparent;
+  border: 1px solid rgba(45,90,45,0.4);
+  color: var(--pat-gris);
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.pat-history-zone {
+  display: none;
+  margin-top: 8px;
+  border-left: 2px solid rgba(45,90,45,0.4);
+  padding-left: 14px;
+}
+
+.pat-history-zone.open { display: block; }
+
+.pat-hist-entry {
+  font-size: 10px;
+  color: var(--pat-gris);
+  letter-spacing: 1px;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(45,90,45,0.15);
+}
+
+.pat-gameover {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,15,10,0.97);
+  z-index: 300;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.pat-go-icon { font-size: 64px; margin-bottom: 20px; }
+
+.pat-go-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 700;
+  color: var(--pat-blanc);
+  margin-bottom: 14px;
+}
+
+.pat-go-text {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(232,234,208,0.65);
+  max-width: 480px;
+  line-height: 1.85;
+  margin-bottom: 28px;
+}
+
+.pat-go-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pat-go-btn {
+  background: transparent;
+  border: 2px solid rgba(45,90,45,0.6);
+  color: var(--pat-vert-clair);
+  padding: 11px 28px;
+  font-family: 'Special Elite', cursive;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.pat-go-btn-primary {
+  background: var(--pat-vert);
+  border-color: var(--pat-vert);
+  color: var(--pat-blanc);
+}
+
+.pat-victoire {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,20,10,0.97);
+  z-index: 300;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
 </style>
 </head>
 <body>
@@ -965,7 +1388,7 @@ body::before {
       </div>
       <div class="card-char">
         <div class="id-card">
-          <div class="id-photo">👤</div>
+          <div class="id-photo">⚔️</div>
           <div class="id-name">AUBERT<br>Marc H.<br>Imprimeur</div>
           <div class="id-stamp">LYON</div>
         </div>
@@ -985,8 +1408,8 @@ body::before {
     </div>
 
     <!-- LES PATRIOTES -->
-    <div class="story-card locked">
-      <div class="story-badge badge-coming">Bientôt</div>
+    <div class="story-card" onclick="openModal('patriotes')">
+      <div class="story-badge badge-free">Nouveau</div>
       <div class="card-hdr">
         <span class="card-era">Bas-Canada · 1837</span>
         <div class="card-title">Les Patriotes</div>
@@ -994,22 +1417,22 @@ body::before {
       </div>
       <div class="card-char">
         <div class="id-card">
-          <div class="id-photo">👤</div>
-          <div class="id-name">LEMAIRE<br>Joseph<br>Fermier</div>
+          <div class="id-photo">⚔️</div>
+          <div class="id-name">LEBLANC<br>Étienne<br>Cultivateur</div>
           <div class="id-stamp">QUÉBEC</div>
         </div>
         <div class="char-info">
           <span class="char-role">Vous incarnez</span>
-          <div class="char-name">Joseph Lemaire</div>
-          <p class="char-desc">34 ans. Fermier de Saint-Denis. La révolte gronde. L'Empire écrase votre peuple.</p>
+          <div class="char-name">Étienne Leblanc</div>
+          <p class="char-desc">24 ans. Cultivateur de Saint-Denis. Un homme ordinaire pris dans un conflit plus grand que lui.</p>
         </div>
       </div>
       <div class="card-body">
-        <p class="card-premise">Novembre 1837. Les Patriotes prennent les armes. Rejoindrez-vous la rébellion ou protégerez-vous votre famille ?</p>
+        <p class="card-premise">1837–1839. La vallée du Richelieu. Saint-Denis. Saint-Charles. L'exil. Le Pied-du-Courant. 6 chapitres pour survivre à l'histoire.</p>
       </div>
       <div class="card-footer">
-        <span class="card-meta">En développement</span>
-        <button class="locked-btn">🔒 Bientôt</button>
+        <span class="card-meta">6 chapitres · Difficulté élevée</span>
+        <button class="play-btn">Jouer ▸</button>
       </div>
     </div>
 
@@ -1320,6 +1743,8 @@ function startStory() {
 
   if (selectedStory === 'naufrage') {
     launchNaufrage(1);
+  } else if (selectedStory === 'patriotes') {
+    launchPatriotes(1);
   } else {
     launchResistance(1);
   }
@@ -2079,7 +2504,507 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+
+
+// ============================================================
+// ===== LES PATRIOTES =====
+// ============================================================
+
+const PATRIOTES_CHAPITRES = {
+  1: {
+    num: 1,
+    titre: "L'Assemblée",
+    sous: 'Vallée du Richelieu · Automne 1837',
+    maxDecisions: 8,
+    dateDebut: 'Octobre 1837',
+    system: `Tu es le narrateur de CHRONOS — Les Patriotes. Octobre 1837, vallée du Richelieu, Bas-Canada. Le joueur incarne Étienne Leblanc, 24 ans, cultivateur canadien-français. La tension politique est à son comble. Papineau et le Parti patriote défient le gouverneur. Les Habits rouges patrouillent les routes.
+
+CHAPITRE 1 : L'ASSEMBLÉE — 8 décisions sur plusieurs semaines d'automne 1837.
+
+RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
+{"date":"ex: '12 octobre 1837'","narration":"3 paragraphes \n\n 2ème personne immersive 150-200 mots, style sombre et réaliste, époque 1837","pull_quote":"phrase courte et forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+
+JAUGES DE DÉPART : sante:75 moral:60 suspicion:10 reputation:20 fatigue:30
+
+RÈGLES JAUGES (0–100) :
+- sante : une arrestation brutale peut la baisser de 15–25
+- moral : baisse si Étienne hésite ou fuit, monte si actes de conviction. Baisse naturelle de 3–5/décision
+- suspicion : monte très vite (+10 à +25 par imprudence), descend très lentement (-3 à -5 max). À 80+ = arrestation possible. À 100 = arrestation certaine
+- reputation : commence bas (20). Monte seulement si actes prouvent engagement réel (+5 à +15)
+- fatigue : monte lentement (+3 à +8/décision selon activité)
+
+DIFFICULTÉ STRICTE :
+- Si suspicion >= 80 ET Étienne dans lieu public → game_over:true, game_over_type:"arrete_avant_saint_denis"
+- Si suspicion = 100 → game_over immédiat peu importe où il est
+- Si moral <= 0 → game_over:true, game_over_type:"abandonne"
+- Un seul bon choix ne baisse jamais la suspicion de plus de 5 pts
+- Les mauvais choix montent la suspicion de 15–25 pts
+- Décisions 7–8 : la nouvelle arrive — les soldats marchent vers le Richelieu
+
+CONTEXTE : assemblées populaires, Doric Clubs loyalistes, Fils de la Liberté, curés divisés, femmes patriotes, rumeurs et chevaux. Pas de téléphone. 1837.
+ANACHRONISMES INTERDITS.`,
+    startMsg: `Début Chapitre 1. 12 octobre 1837. Saint-Denis-sur-Richelieu. Étienne Leblanc, 24 ans, revient des champs. Son voisin Alphonse lui dit qu'une assemblée patriote se tient ce soir à la taverne Boivin. Sa femme Marie est enceinte. Sa terre est hypothéquée. Il n'a encore rien fait. Décision 1 sur 8.`
+  },
+  2: {
+    num: 2,
+    titre: 'Saint-Denis',
+    sous: 'Vallée du Richelieu · 23 novembre 1837',
+    maxDecisions: 8,
+    dateDebut: '22 novembre 1837',
+    system: `Tu es le narrateur de CHRONOS — Les Patriotes. 22–23 novembre 1837, Saint-Denis-sur-Richelieu. Le colonel Gore marche avec 300 soldats. Les Patriotes se retranchent dans la maison de pierre de Wolfred Nelson.
+
+CHAPITRE 2 : SAINT-DENIS — 8 décisions sur 24 heures. Les Patriotes GAGNENT cette bataille historiquement — mais Étienne peut mourir AVANT la victoire.
+
+RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
+{"date":"heure ex: '23 nov. 1837 — 06h30'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, chaos du combat, peur, bruit, fumée noire","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+
+DIFFICULTÉ TRÈS STRICTE :
+- Sortir dans la rue pendant l'assaut → mort quasi-certaine (game_over, game_over_type:"tue_saint_denis")
+- Attaque héroïque à découvert → sante -40 minimum, souvent fatal
+- Si sante <= 0 → game_over:true, game_over_type:"tue_saint_denis"
+- Position défensive = survie possible mais jamais garantie — une balle perdue peut tuer
+- Fatigue >= 95 ET combat actif → erreur fatale, exposition, blessure grave
+- Les balles ne choisissent pas les héros — la mort peut venir d'une décision anodine
+- Décisions 1–2 : nuit avant la bataille. Décisions 3–5 : l'assaut. Décisions 6–7 : Gore recule. Décision 8 : après victoire, menace inattendue
+
+CONTEXTE : aube vers 9h00, maison de pierre de Nelson, artillerie légère britannique, terrain défavorable pour Gore, l'officier Weir tué, Gore se retire vers 15h00. Euphorie dangereuse après.
+ANACHRONISMES INTERDITS.`,
+    startMsg: `Début Chapitre 2. Nuit du 22 novembre 1837, 23h00. Saint-Denis. Étienne n'a pas dormi. Il tient un vieux fusil de chasse et douze cartouches. Alphonse est à sa gauche. Il tremble. Les Habits rouges arrivent à l'aube. Décision 1 sur 8.`
+  },
+  3: {
+    num: 3,
+    titre: 'Saint-Charles',
+    sous: 'Vallée du Richelieu · 25 novembre 1837',
+    maxDecisions: 6,
+    dateDebut: '24 novembre 1837',
+    system: `Tu es le narrateur de CHRONOS — Les Patriotes. 25 novembre 1837, Saint-Charles. Le colonel Wetherall approche avec 400 soldats et de l'artillerie lourde. Thomas Brown commande des centaines de Patriotes mal équipés derrière des pieux et des charrettes.
+
+CHAPITRE 3 : SAINT-CHARLES — 6 décisions. Les Patriotes PERDENT. Il n'y a pas de victoire possible. La seule question : Étienne survit-il pour fuir ?
+
+RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
+{"date":"heure ex: '25 nov. 1837 — 14h15'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, défaite, chaos, fuite, terreur","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+
+DIFFICULTÉ ABSOLUE :
+- L'artillerie détruit les retranchements en minutes — c'est un fait, pas une décision
+- Refuser de fuir quand la déroute est évidente → game_over:true, game_over_type:"tue_saint_charles"
+- Rester pour les blessés trop longtemps → game_over:true, game_over_type:"capture_saint_charles"
+- Charge héroïque contre les canons → mort immédiate
+- Si sante <= 0 → mort
+- Si suspicion >= 85 encore sur le terrain → capture immédiate
+- La SEULE victoire : fuir vivant. Point.
+- La culpabilité de fuir doit transparaître dans la narration
+
+CONTEXTE : artillerie lourde, Brown s'enfuit, panique générale, soldats qui poursuivent dans les bois, maisons brûlées, civils arrêtés. Fuite vers les États-Unis = seule issue.
+ANACHRONISMES INTERDITS.`,
+    startMsg: `Début Chapitre 3. 24 novembre 1837, 16h00. Saint-Charles. Étienne regarde les retranchements de Brown — des pieux, des charrettes, un vieux canon rouillé. Et dans la plaine : de vrais canons britanniques. Brown dit qu'on tiendra. Les mains d'Étienne tremblent. Décision 1 sur 6.`
+  },
+  4: {
+    num: 4,
+    titre: "L'Exil",
+    sous: 'Bas-Canada · Hiver 1837–1838',
+    maxDecisions: 8,
+    dateDebut: 'Décembre 1837',
+    system: `Tu es le narrateur de CHRONOS — Les Patriotes. Décembre 1837 à février 1838. Étienne fuit vers les États-Unis. Il marche de nuit. Se cache de jour. A faim. A froid. Ne peut pas rentrer chez lui — les soldats ont une liste de noms.
+
+CHAPITRE 4 : L'EXIL — 8 décisions, deux mois de fuite hivernale. La mort peut venir d'une balle, du froid, de la faim, ou d'une trahison.
+
+RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
+{"date":"ex: 'Décembre 1837'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, froid, solitude, paranoïa, hiver québécois brutal","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+
+DIFFICULTÉ STRICTE :
+- Faire confiance à un inconnu sans indice de loyauté → forte probabilité de dénonciation (suspicion +30, game_over possible)
+- Route principale le jour → suspicion +30, risque d'arrestation immédiat
+- Négliger le froid → sante -15 par décision, hypothermie
+- Si sante <= 0 → game_over:true, game_over_type:"mort_froid" ou "mort_blessure"
+- Si suspicion >= 90 → game_over:true, game_over_type:"capture_exil"
+- Si moral <= 5 → game_over:true, game_over_type:"reddition"
+- La trahison peut venir de gens qui semblent sûrs
+
+AIDES POSSIBLES (jamais garanties) : veuve patriote, fermier contre travail, passeur, curé qui regarde ailleurs, loyaliste qui hésite.
+
+CONTEXTE : hiver 1837–38 brutal, soldats patrouillent, loyalistes dénoncent, familles patriotes cachent des fugitifs, frontière Vermont/New York surveillée. Exilés patriotes à Plattsburgh. Robert Nelson organise les Frères Chasseurs.
+ANACHRONISMES INTERDITS.`,
+    startMsg: `Début Chapitre 4. Nuit du 28 novembre 1837. Étienne court depuis trois jours. Bottes trempées. N'a pas mangé depuis hier. Ne sait pas si Marie est en sécurité. À l'est, les cloches de Beloeil. Des soldats sur la route principale. Étienne est dans un bois de bouleaux. Il fait moins vingt. Décision 1 sur 8.`
+  },
+  5: {
+    num: 5,
+    titre: 'Les Frères Chasseurs',
+    sous: 'Vermont · Bas-Canada · Automne 1838',
+    maxDecisions: 8,
+    dateDebut: 'Septembre 1838',
+    system: `Tu es le narrateur de CHRONOS — Les Patriotes. Automne 1838. Étienne est en exil depuis dix mois au Vermont. Il a rejoint les Frères Chasseurs. Robert Nelson prépare une nouvelle insurrection. Novembre : traverser la frontière, soulever les villages.
+
+CHAPITRE 5 : LES FRÈRES CHASSEURS / ODELLTOWN — 8 décisions. La défaite est la règle. La victoire partielle n'est possible QUE SI : sante>=50 ET reputation>=55 ET moral>=45 ET les décisions 6 ET 7 sont tactiquement correctes (terrain, pas de charge frontale).
+
+RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
+{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, tension, désillusion, espoir fragile, courage épuisé","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"victoire_odelltown":false,"game_over":false,"game_over_type":null,"next_chapter":false}
+
+DIFFICULTÉ :
+- Trahison interne possible dès décision 2 (un Frère Chasseur est informateur)
+- Dénoncer sans preuve → reputation -25, moral -20
+- Charge frontale contre l'église en pierre → mort probable
+- Si sante <= 0 → game_over:true, game_over_type:"tue_odelltown"
+- Si capturé → game_over:true, game_over_type:"capture_1838"
+- victoire_odelltown:true SEULEMENT si toutes les conditions sont réunies ET décisions 6–7 tactiquement bonnes
+- Même en victoire → next_chapter:true (Étienne devient trop célèbre, trop recherché)
+
+CONTEXTE : bataille d'Odelltown 9 novembre 1838, loyalistes retranchés dans l'église en pierre, Patriotes manquent d'armes et d'unité, Nelson fuit, États-Unis n'interviennent pas. Villages hésitants. Renforts britanniques dans 48h.
+ANACHRONISMES INTERDITS.`,
+    startMsg: `Début Chapitre 5. Septembre 1838. Plattsburgh, New York. Étienne est dans une grange avec quarante hommes. Nelson parle depuis une heure. Un homme dans le coin ne regarde personne. Décision 1 sur 8.`
+  },
+  6: {
+    num: 6,
+    titre: 'Le Pied-du-Courant',
+    sous: 'Montréal · Hiver 1838–1839',
+    maxDecisions: 6,
+    dateDebut: 'Novembre 1838',
+    system: `Tu es le narrateur de CHRONOS — Les Patriotes. Novembre 1838 à février 1839. Étienne est arrêté. Prison du Pied-du-Courant, Montréal. Haute trahison. Le verdict est presque certain. La question n'est plus vivre ou mourir. La question est : comment mourir.
+
+CHAPITRE 6 : LE PIED-DU-COURANT — 6 décisions finales. La pendaison est la fin normale (80% des parties). La déportation en Australie est possible UNIQUEMENT si moral>=60 ET reputation>=70 ET décisions 5 et 6 sont jouées avec dignité (refus de plaider coupable, mais plaidoyer digne).
+
+RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
+{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, prison, attente, dignité ou effondrement, sobre et lent","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"fin_deportation":false,"game_over":false,"game_over_type":null,"next_chapter":false}
+
+FINS POSSIBLES :
+- game_over:true, game_over_type:"pendu" → fin canonique. Rédige avec une intensité maximale et sobre : le 15 février 1839, l'aube grise, la chemise propre de Marie, onze autres hommes, la potence simple, Étienne a 26 ans.
+- fin_deportation:true → si conditions remplies. Étienne déporté en Australie. Il vivra. Il ne reviendra jamais.
+- game_over:true, game_over_type:"mort_prison" → si sante ou moral effondré
+- game_over:true, game_over_type:"tue_evasion" → si tentative d'évasion
+
+RÈGLES :
+- Coopérer (donner des noms) → reputation -40, moral -30, mais pendu quand même — la trahison ne sauve pas
+- S'effondrer moralement → moral à 0 → mort en prison
+- Tentative d'évasion → mort probable
+- La pendaison est la fin NORMALE et ATTENDUE — ne pas la rendre évitable facilement
+
+CONTEXTE : 12 Patriotes pendus déc. 1838–fév. 1839, 58 déportés en Australie, prison rue Notre-Dame Montréal, cours martiales pas jurys civils, visites de femmes/curés/avocats, offres de clémence contre dénonciation.
+ANACHRONISMES INTERDITS.`,
+    startMsg: `Début Chapitre 6. 18 novembre 1838. Prison du Pied-du-Courant, Montréal. Étienne a été arrêté il y a trois jours. Cellule froide. Quatre autres Patriotes inconnus. Voix anglaises derrière le mur de pierre. Le procès commence bientôt. Haute trahison. Décision 1 sur 6.`
+  }
+};
+
+const PATRIOTES_GAMEOVER = {
+  arrete_avant_saint_denis: { icon:'⛓️', titre:'Arrêté', texte:"Les soldats viennent frapper à ta porte avant l'aube. Quelqu'un t'a dénoncé. Tu n'arriveras jamais à Saint-Denis." },
+  abandonne: { icon:'🏚️', titre:'Abandonné', texte:"Tu rentres chez toi. Tu te tais. Tu regardes les années passer. Le Bas-Canada ne sera jamais une république. Et toi, tu vivras avec ça." },
+  tue_saint_denis: { icon:'🔴', titre:'Mort à Saint-Denis', texte:"Une balle te trouve dans la rue. Tu tombes dans la boue froide de novembre. Les Patriotes gagnent cette bataille. Tu ne le sais pas." },
+  capture_saint_charles: { icon:'⛓️', titre:'Capturé à Saint-Charles', texte:"Tu es resté trop longtemps. Les soldats t'encerclent dans les bois. Tu poses ton fusil. C'est fini." },
+  tue_saint_charles: { icon:'🔴', titre:'Mort à Saint-Charles', texte:"L'artillerie ne fait pas de distinction entre les braves et les imprudents." },
+  mort_froid: { icon:'❄️', titre:'Mort de froid', texte:"On retrouvera ton corps au printemps, dans un fossé près de la frontière. Tu étais à six lieues de la liberté." },
+  mort_blessure: { icon:'🩸', titre:'Mort de tes blessures', texte:"La blessure s'est infectée. Tu es mort dans une grange inconnue. Personne ne saura où tu es enterré." },
+  capture_exil: { icon:'⛓️', titre:'Dénoncé', texte:"La personne en qui tu avais confiance t'a livré. Pour de l'argent, ou par peur, ou parce qu'elle n'avait pas le choix." },
+  reddition: { icon:'🏳️', titre:'Reddition', texte:"Tu marches jusqu'au poste de soldats et tu tends les mains. Tu ne peux plus continuer." },
+  tue_odelltown: { icon:'🔴', titre:'Mort à Odelltown', texte:"Les loyalistes retranchés dans l'église tirent vite et bien. Tu ne verras pas la fin de cette journée." },
+  capture_1838: { icon:'⛓️', titre:'Capturé en 1838', texte:"Le réseau était infiltré depuis le début. Ils t'attendaient." },
+  pendu: { icon:'🪢', titre:'Pendu au Pied-du-Courant', texte:"Le 15 février 1839. Tu marches avec onze autres hommes dans la cour grise de la prison. Tu penses à Marie. À la terre du Richelieu. Tu as vingt-six ans." },
+  tue_evasion: { icon:'🔴', titre:'Tué en tentant de fuir', texte:"Le gardien t'a entendu. La suite a été rapide." },
+  mort_prison: { icon:'💀', titre:'Mort en prison', texte:"Le froid, la maladie, l'épuisement. Tu es mort avant d'être jugé. Personne n'a écrit ton nom." }
+};
+
+function initPatriotesState(chap) {
+  const jaugesParChap = {
+    1: { sante:75, moral:60, suspicion:10, reputation:20, fatigue:30 },
+    2: { sante:70, moral:65, suspicion:15, reputation:35, fatigue:45 },
+    3: { sante:65, moral:55, suspicion:20, reputation:45, fatigue:60 },
+    4: { sante:55, moral:40, suspicion:30, reputation:50, fatigue:70 },
+    5: { sante:60, moral:45, suspicion:20, reputation:55, fatigue:55 },
+    6: { sante:50, moral:35, suspicion:100, reputation:60, fatigue:65 }
+  };
+  return { game:'patriotes', chapter:chap, day:1, jauges:{ ...jaugesParChap[chap] }, history:[], messages:[] };
+}
+
+function clampP(v) { return Math.max(0, Math.min(100, Math.round(v))); }
+
+function launchPatriotes(chap) {
+  gameState = initPatriotesState(chap);
+  const chapData = PATRIOTES_CHAPITRES[chap];
+  if (!chapData) { goHome(); return; }
+  document.getElementById('pat-chap-num').textContent = 'Chapitre ' + chap;
+  document.getElementById('pat-chap-title').textContent = chapData.titre;
+  document.getElementById('pat-chap-sub').textContent = chapData.sous;
+  document.getElementById('pat-chap-info').textContent = 'Chapitre ' + chap + ' · Décision 1';
+  document.getElementById('pat-narrative-date').textContent = chapData.dateDebut;
+  document.getElementById('pat-pull-quote').style.display = 'none';
+  document.getElementById('pat-decision-zone').classList.remove('active');
+  document.getElementById('pat-loading').classList.remove('active');
+  document.getElementById('pat-history-list').innerHTML = '';
+  document.getElementById('pat-history-zone').classList.remove('open');
+  document.getElementById('pat-gameover').style.display = 'none';
+  document.getElementById('pat-victoire').style.display = 'none';
+  document.getElementById('pat-alert').classList.remove('active');
+  updatePatriotesJauges();
+  showScreen('screen-patriotes');
+  document.getElementById('pat-loading').classList.add('active');
+  loadPatriotesScene();
+}
+
+function updatePatriotesJauges() {
+  const j = gameState.jauges;
+  const pairs = [['sante',j.sante],['moral',j.moral],['suspicion',j.suspicion],['reputation',j.reputation],['fatigue',j.fatigue]];
+  pairs.forEach(([id, val]) => {
+    const fill = document.getElementById('pf-' + id);
+    const valEl = document.getElementById('pv-' + id);
+    if (!fill || !valEl) return;
+    valEl.textContent = val;
+    fill.style.width = val + '%';
+    fill.classList.remove('pat-fill-danger', 'pat-fill-warning');
+    if (val <= 20) fill.classList.add('pat-fill-danger');
+    else if (val <= 40) fill.classList.add('pat-fill-warning');
+  });
+  const danger = j.sante <= 20 || j.moral <= 20 || j.suspicion >= 80 || j.fatigue >= 85;
+  document.getElementById('pat-alert').classList.toggle('active', danger);
+  if (j.suspicion >= 80) {
+    document.getElementById('pat-alert').textContent = '⚠ Suspicion critique — vous êtes en danger immédiat';
+  } else {
+    document.getElementById('pat-alert').textContent = '⚠ Danger — agissez immédiatement';
+  }
+}
+
+async function callPatriotesAPI(msg) {
+  gameState.messages.push({ role:'user', content:msg });
+  const resp = await fetch('/.netlify/functions/anthropic', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1500,
+      system: PATRIOTES_CHAPITRES[gameState.chapter].system,
+      messages: gameState.messages
+    })
+  });
+  const data = await resp.json();
+  if (data.error) throw new Error(data.error.message || 'Erreur API');
+  const text = data.content.map(b => b.text || '').join('');
+  gameState.messages.push({ role:'assistant', content:text });
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('Réponse invalide');
+  return JSON.parse(match[0]);
+}
+
+async function loadPatriotesScene() {
+  try {
+    const data = await callPatriotesAPI(PATRIOTES_CHAPITRES[gameState.chapter].startMsg);
+    renderPatriotes(data);
+  } catch(e) {
+    document.getElementById('pat-loading').classList.remove('active');
+    document.getElementById('pat-narrative-text').innerHTML = '<p style="color:#cc4444">Erreur : ' + e.message + '</p>';
+    document.getElementById('pat-decision-zone').classList.add('active');
+  }
+}
+
+function renderPatriotes(data) {
+  const j = gameState.jauges;
+  if (data.delta_sante !== undefined)      j.sante      = clampP(j.sante      + data.delta_sante);
+  if (data.delta_moral !== undefined)      j.moral      = clampP(j.moral      + data.delta_moral);
+  if (data.delta_suspicion !== undefined)  j.suspicion  = clampP(j.suspicion  + data.delta_suspicion);
+  if (data.delta_reputation !== undefined) j.reputation = clampP(j.reputation + data.delta_reputation);
+  if (data.delta_fatigue !== undefined)    j.fatigue    = clampP(j.fatigue    + data.delta_fatigue);
+  updatePatriotesJauges();
+
+  if (data.date) document.getElementById('pat-narrative-date').textContent = data.date;
+
+  const textEl = document.getElementById('pat-narrative-text');
+  if (data.narration) {
+    textEl.innerHTML = data.narration.split('\n\n').map(p => '<p>' + p + '</p>').join('');
+    textEl.classList.remove('fade-in'); void textEl.offsetWidth; textEl.classList.add('fade-in');
+  }
+
+  if (data.pull_quote) {
+    const pq = document.getElementById('pat-pull-quote');
+    pq.textContent = data.pull_quote;
+    pq.style.display = 'block';
+  }
+
+  const choicesEl = document.getElementById('pat-choices');
+  choicesEl.innerHTML = '';
+  (data.quick_choices || []).forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'pat-choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => { document.getElementById('pat-dec-input').value = c; };
+    choicesEl.appendChild(btn);
+  });
+
+  document.getElementById('pat-loading').classList.remove('active');
+
+  if (data.game_over) { handlePatriotesGameOver(data.game_over_type); return; }
+
+  if (data.fin_deportation) {
+    const v = document.getElementById('pat-victoire');
+    v.style.display = 'flex';
+    return;
+  }
+
+  if (data.next_chapter) {
+    const next = gameState.chapter + 1;
+    if (PATRIOTES_CHAPITRES[next]) {
+      setTimeout(() => launchPatriotes(next), 600);
+    } else {
+      handlePatriotesGameOver('pendu');
+    }
+    return;
+  }
+
+  document.getElementById('pat-decision-zone').classList.add('active');
+  document.getElementById('pat-submit-btn').disabled = false;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handlePatriotesGameOver(type) {
+  const go = PATRIOTES_GAMEOVER[type] || { icon:'💀', titre:'Fin', texte:'Votre histoire se termine ici.' };
+  document.getElementById('pat-go-icon').textContent = go.icon;
+  document.getElementById('pat-go-title').textContent = go.titre;
+  document.getElementById('pat-go-text').textContent = go.texte;
+  const nextBtn = document.getElementById('pat-go-next');
+  if (type !== 'pendu' && type !== 'mort_prison' && type !== 'tue_evasion' && PATRIOTES_CHAPITRES[gameState.chapter + 1]) {
+    nextBtn.style.display = 'inline-block';
+    nextBtn.textContent = 'Chapitre ' + (gameState.chapter + 1) + ' ▸';
+  } else {
+    nextBtn.style.display = 'none';
+  }
+  const goEl = document.getElementById('pat-gameover');
+  goEl.style.display = 'flex';
+}
+
+async function submitPatriotesDecision() {
+  const input = document.getElementById('pat-dec-input');
+  const decision = input.value.trim();
+  if (!decision) return;
+  document.getElementById('pat-submit-btn').disabled = true;
+  document.getElementById('pat-decision-zone').classList.remove('active');
+  document.getElementById('pat-loading').classList.add('active');
+  gameState.history.push({ day: gameState.day, decision });
+  const histEl = document.createElement('div');
+  histEl.className = 'pat-hist-entry';
+  histEl.textContent = 'Décision ' + gameState.day + ' — ' + decision.substring(0, 70);
+  document.getElementById('pat-history-list').appendChild(histEl);
+  const currentDecision = gameState.day;
+  const maxDecisions = PATRIOTES_CHAPITRES[gameState.chapter].maxDecisions;
+  const isLast = currentDecision >= maxDecisions;
+  gameState.day++;
+  document.getElementById('pat-chap-info').textContent = 'Chapitre ' + gameState.chapter + ' · Décision ' + gameState.day;
+  const j = gameState.jauges;
+  const msg = 'Décision ' + currentDecision + '/' + maxDecisions
+    + (isLast ? ' (DERNIÈRE DÉCISION — conclure ce chapitre avec next_chapter:true si Étienne est vivant et libre)' : '')
+    + '. Action: "' + decision + '".'
+    + ' Santé:' + j.sante + ' Moral:' + j.moral + ' Suspicion:' + j.suspicion
+    + ' Réputation:' + j.reputation + ' Fatigue:' + j.fatigue;
+  try {
+    const data = await callPatriotesAPI(msg);
+    renderPatriotes(data);
+  } catch(e) {
+    document.getElementById('pat-loading').classList.remove('active');
+    document.getElementById('pat-decision-zone').classList.add('active');
+    document.getElementById('pat-submit-btn').disabled = false;
+  }
+  input.value = '';
+}
+
+function togglePatriotesHistory() {
+  document.getElementById('pat-history-zone').classList.toggle('open');
+}
+
 </script>
+
+
+<!-- ===== LES PATRIOTES ===== -->
+<div id="screen-patriotes" class="screen">
+
+  <!-- Header -->
+  <div class="pat-header">
+    <div class="pat-header-left">
+      <span class="pat-etoile">★</span>
+      <div class="pat-title-block">
+        <span class="pat-game-title">Les Patriotes</span>
+        <span class="pat-chap-info" id="pat-chap-info">Chapitre 1 · Décision 1</span>
+      </div>
+    </div>
+    <button onclick="goHome()" style="background:transparent;border:1px solid rgba(45,90,45,0.4);color:var(--pat-gris);font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
+  </div>
+
+  <!-- Jauges -->
+  <div class="pat-jauges" id="pat-jauges">
+    <div class="pat-jauge">
+      <div class="pat-jauge-hdr"><span>❤ Santé</span><span id="pv-sante">75</span></div>
+      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-sante" id="pf-sante" style="width:75%"></div></div>
+    </div>
+    <div class="pat-jauge">
+      <div class="pat-jauge-hdr"><span>⚡ Moral</span><span id="pv-moral">60</span></div>
+      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-moral" id="pf-moral" style="width:60%"></div></div>
+    </div>
+    <div class="pat-jauge">
+      <div class="pat-jauge-hdr"><span>👁 Suspicion</span><span id="pv-suspicion">10</span></div>
+      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-suspicion" id="pf-suspicion" style="width:10%"></div></div>
+    </div>
+    <div class="pat-jauge">
+      <div class="pat-jauge-hdr"><span>★ Réputation</span><span id="pv-reputation">20</span></div>
+      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-reputation" id="pf-reputation" style="width:20%"></div></div>
+    </div>
+    <div class="pat-jauge">
+      <div class="pat-jauge-hdr"><span>💤 Fatigue</span><span id="pv-fatigue">30</span></div>
+      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-fatigue" id="pf-fatigue" style="width:30%"></div></div>
+    </div>
+  </div>
+
+  <div class="pat-alert" id="pat-alert">⚠ Danger — agissez immédiatement</div>
+
+  <!-- Content -->
+  <div class="pat-content">
+    <div class="pat-chapter-banner">
+      <span class="pat-chap-num" id="pat-chap-num">Chapitre 1</span>
+      <div class="pat-chap-title" id="pat-chap-title">L'Assemblée</div>
+      <div class="pat-chap-sub" id="pat-chap-sub">Vallée du Richelieu · Automne 1837</div>
+    </div>
+
+    <div class="pat-narrative-card">
+      <span class="pat-narrative-date" id="pat-narrative-date">Octobre 1837</span>
+      <div class="pat-narrative-text" id="pat-narrative-text"><p>Le Richelieu coule dans le silence...</p></div>
+      <div class="pat-pull-quote" id="pat-pull-quote" style="display:none;"></div>
+    </div>
+
+    <div class="pat-loading" id="pat-loading">
+      <img src="data:image/webp;base64,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" class="pat-loader-img" alt="Patriote" />
+      <div class="pat-loader-text">L'histoire s'écrit...</div>
+    </div>
+
+    <div class="pat-decision-zone" id="pat-decision-zone">
+      <span class="pat-dec-lbl">— Que faites-vous, Étienne ? —</span>
+      <div class="pat-choices" id="pat-choices"></div>
+      <textarea class="pat-dec-input" id="pat-dec-input" placeholder="Décrivez votre action..."></textarea>
+      <button class="pat-submit-btn" id="pat-submit-btn" onclick="submitPatriotesDecision()">Agir ▸</button>
+      <div style="clear:both;"></div>
+    </div>
+
+    <div style="margin-top:8px;">
+      <button class="pat-hist-toggle" onclick="togglePatriotesHistory()">▸ Historique</button>
+    </div>
+    <div class="pat-history-zone" id="pat-history-zone">
+      <div id="pat-history-list"></div>
+    </div>
+
+    <!-- GAME OVER -->
+    <div class="pat-gameover" id="pat-gameover">
+      <div class="pat-go-icon" id="pat-go-icon">⛓️</div>
+      <div class="pat-go-title" id="pat-go-title">Fin</div>
+      <p class="pat-go-text" id="pat-go-text"></p>
+      <div class="pat-go-btns">
+        <button class="pat-go-btn pat-go-btn-primary" id="pat-go-next" onclick="launchPatriotes(gameState.chapter+1)" style="display:none;">Chapitre suivant ▸</button>
+        <button class="pat-go-btn" onclick="launchPatriotes(gameState.chapter)">↺ Recommencer</button>
+        <button class="pat-go-btn" onclick="goHome()">⌂ Accueil</button>
+      </div>
+    </div>
+
+    <!-- VICTOIRE FINALE (déportation) -->
+    <div class="pat-victoire" id="pat-victoire">
+      <div style="font-size:48px;margin-bottom:20px;">⚓</div>
+      <div style="font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);color:var(--pat-blanc);margin-bottom:16px;">L'Exil</div>
+      <p style="font-family:'IM Fell English',serif;font-style:italic;font-size:14px;color:rgba(232,234,208,0.65);max-width:500px;line-height:1.9;margin-bottom:28px;">18 janvier 1839. Le juge lit la sentence : déportation en Australie, à perpétuité. Pas la potence. Étienne entend les mots sans les comprendre tout de suite. À côté de lui, un homme pleure. Étienne ne pleure pas. Il pense que l'Australie est à l'autre bout du monde. Que Marie ne viendra pas. Que le Richelieu coulera encore sans lui. Le navire part en mars. Étienne regarde le Saint-Laurent disparaître derrière lui pour la dernière fois. Il ne reviendra jamais. Mais il vivra. C'est quelque chose.</p>
+      <div class="pat-go-btns">
+        <button class="pat-go-btn" onclick="goHome()">⌂ Accueil</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 </body>
 </html>
