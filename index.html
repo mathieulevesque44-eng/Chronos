@@ -651,7 +651,7 @@ body::before {
   margin-bottom: 12px;
 }
 
-.choice-btn {
+#screen-naufrage .choice-btn {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(200,168,75,0.3);
   color: rgba(240,234,216,0.7);
@@ -663,7 +663,7 @@ body::before {
   cursor: pointer;
   transition: all 0.2s;
 }
-.choice-btn:hover { background: rgba(200,168,75,0.15); color: var(--gold); border-color: var(--gold); }
+#screen-naufrage .choice-btn:hover { background: rgba(200,168,75,0.15); color: var(--gold); border-color: var(--gold); }
 
 .dec-input {
   width: 100%;
@@ -1304,7 +1304,6 @@ function openModal(story) {
   document.getElementById('modal-title').textContent = titles[story] || 'Chronos';
   document.getElementById('modal-sub').textContent = subs[story] || '';
   document.getElementById('modal').classList.add('active');
-  setTimeout(() => document.getElementById('api-key-input').focus(), 100);
 }
 
 function closeModal() {
@@ -1587,13 +1586,11 @@ async function loadResistanceScene() {
 
 async function callResistanceAPI(userMsg) {
   gameState.messages.push({ role:'user', content: userMsg });
- const resp = await fetch('/.netlify/functions/anthropic', {
-    method:'POST',
-   headers:{
-  'Content-Type':'application/json',
-  'anthropic-version':'2023-06-01',
-  'anthropic-dangerous-direct-browser-access':'true',
-},
+  const resp = await fetch('/.netlify/functions/anthropic', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       model:'claude-sonnet-4-5',
       max_tokens:1500,
@@ -1919,8 +1916,8 @@ function updateNaufrageJauges() {
 async function callNaufrageAPI(msg) {
   gameState.messages.push({ role:'user', content:msg });
   const resp = await fetch('/.netlify/functions/anthropic', {
-    method:'POST',
-   headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':apiKey},
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1500,system:CHAPITRES[gameState.chapter].system,messages:gameState.messages})
   });
   const data = await resp.json();
@@ -2073,10 +2070,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const nDecInput = document.getElementById('n-dec-input');
   if (nDecInput) nDecInput.addEventListener('keydown', e => {
     if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); submitNaufrageDecision(); }
-  });
-  const apiInput = document.getElementById('api-key-input');
-  if (apiInput) apiInput.addEventListener('keydown', e => {
-    if (e.key==='Enter') startStory();
   });
 });
 
