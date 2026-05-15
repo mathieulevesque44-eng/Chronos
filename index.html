@@ -1358,6 +1358,72 @@ body::before {
   padding: 40px 20px;
 }
 
+
+/* ===== POP-UP CONSÉQUENCES ===== */
+.delta-popup {
+  position: fixed;
+  top: 58px;
+  right: 16px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.delta-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  font-family: 'Special Elite', cursive;
+  font-size: 10px;
+  letter-spacing: 2px;
+  border-radius: 2px;
+  opacity: 0;
+  transform: translateY(-6px);
+  animation: delta-show 2.8s ease forwards;
+  white-space: nowrap;
+}
+
+@keyframes delta-show {
+  0%   { opacity:0; transform:translateY(-6px); }
+  15%  { opacity:1; transform:translateY(0); }
+  70%  { opacity:1; transform:translateY(0); }
+  100% { opacity:0; transform:translateY(-10px); }
+}
+
+.delta-pos  { background: rgba(45,90,45,0.9);  color: #b8f0b8; border: 1px solid #4a7c4a; }
+.delta-neg  { background: rgba(139,26,26,0.9); color: #f0b8b8; border: 1px solid #8b1a1a; }
+.delta-warn { background: rgba(180,100,20,0.9);color: #f0d8b8; border: 1px solid #c8a84b; }
+.delta-neu  { background: rgba(40,40,40,0.9);  color: #d0d0c0; border: 1px solid #555; }
+
+/* ===== OBJECTIF ACTUEL ===== */
+.objectif-zone {
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  margin: 6px 0 0 0;
+  border-left: 2px solid var(--pat-or, #c8a84b);
+  color: rgba(200,168,75,0.8);
+  display: none;
+}
+.objectif-zone.active { display: block; }
+.objectif-label { color: rgba(200,168,75,0.5); font-size: 8px; display: block; margin-bottom: 2px; }
+
+/* Resistance objectif */
+.r-objectif {
+  border-left-color: var(--red, #8b1a1a);
+  color: rgba(139,26,26,0.9);
+}
+.r-objectif .objectif-label { color: rgba(139,26,26,0.5); }
+
+/* Naufrage objectif */
+.n-objectif {
+  border-left-color: var(--gold, #c8a84b);
+  color: rgba(200,168,75,0.9);
+}
+
 </style>
 </head>
 <body>
@@ -1616,6 +1682,7 @@ body::before {
   <div class="game-header">
     <div class="game-title-small" onclick="goHome()">Naufragé</div>
     <div class="chap-info" id="n-chap-info">Chapitre 1 · Jour 1</div>
+    <div class="objectif-zone n-objectif" id="n-objectif"><span class="objectif-label">Objectif</span><span id="n-objectif-text"></span></div>
     <div class="jauges" id="n-jauges" style="display:none;">
       <div class="jauge" id="nj-mental"><div class="jauge-hdr"><span class="jauge-lbl">🧠 Mental</span><span class="jauge-val" id="nv-mental">100</span></div><div class="jauge-bar"><div class="jauge-fill safe" id="nf-mental" style="width:100%"></div></div></div>
       <div class="jauge" id="nj-faim"><div class="jauge-hdr"><span class="jauge-lbl">🍖 Faim</span><span class="jauge-val" id="nv-faim">100</span></div><div class="jauge-bar"><div class="jauge-fill safe" id="nf-faim" style="width:100%"></div></div></div>
@@ -1935,21 +2002,21 @@ const SYSTEMS = {
 1: `Tu es le narrateur de CHRONOS. Lyon, France occupée, juin 1942. Le joueur est Marc Aubert, 28 ans, imprimeur.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"kicker":"ACCROCHE MAJUSCULES","headline":"titre journal années 40 max 10 mots","deck":"sous-titre 1-2 phrases","main":"3 paragraphes \\n\\n narration 2ème personne 120-150 mots","secondary":"témoignages 70-90 mots","context":"situation 50-70 mots","pull_quote":"citation forte","stamp":"CONFIDENTIEL ou URGENT ou ALERTE","edition":"ÉDITION DU MATIN ou ÉDITION SPÉCIALE","suspicion_delta":0,"allies_update":null,"resources_update":null,"quick_choices":["choix1","choix2","choix3"],"game_over":false,"game_over_type":null}
+{"kicker":"ACCROCHE MAJUSCULES","headline":"titre journal années 40 max 10 mots","deck":"sous-titre 1-2 phrases","main":"3 paragraphes \\n\\n narration 2ème personne 120-150 mots","secondary":"témoignages 70-90 mots","context":"situation 50-70 mots","pull_quote":"citation forte","objectif":"une ligne — ce que Marc doit accomplir maintenant","stamp":"CONFIDENTIEL ou URGENT ou ALERTE","edition":"ÉDITION DU MATIN ou ÉDITION SPÉCIALE","suspicion_delta":0,"allies_update":null,"resources_update":null,"quick_choices":["choix1","choix2","choix3"],"game_over":false,"game_over_type":null}
 
 RÈGLES: Narration 2ème personne. Personnages: Henri (résistant méfiant), Simone (épouse courageuse), Hauptmann Wolff (officier Gestapo dangereux). suspicion_delta -10 à +25. suspicion>80 → arrested. mort → dead. jour>=10 → survived.`,
 
 2: `Tu es le narrateur de CHRONOS. Lyon, hiver 1943. Marc est maintenant clandestin sous le nom "Paul". Klaus Barbie traque les résistants.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"kicker":"ACCROCHE MAJUSCULES","headline":"titre journal années 40 max 10 mots","deck":"sous-titre 1-2 phrases","main":"3 paragraphes \\n\\n narration 2ème personne 120-150 mots","secondary":"témoignages 70-90 mots","context":"situation 50-70 mots","pull_quote":"citation forte","stamp":"CONFIDENTIEL ou URGENT ou ALERTE","edition":"ÉDITION DU MATIN ou ÉDITION SPÉCIALE","suspicion_delta":0,"allies_update":null,"resources_update":null,"quick_choices":["choix1","choix2","choix3"],"game_over":false,"game_over_type":null}
+{"kicker":"ACCROCHE MAJUSCULES","headline":"titre journal années 40 max 10 mots","deck":"sous-titre 1-2 phrases","main":"3 paragraphes \\n\\n narration 2ème personne 120-150 mots","secondary":"témoignages 70-90 mots","context":"situation 50-70 mots","pull_quote":"citation forte","objectif":"une ligne — ce que Marc doit accomplir maintenant","stamp":"CONFIDENTIEL ou URGENT ou ALERTE","edition":"ÉDITION DU MATIN ou ÉDITION SPÉCIALE","suspicion_delta":0,"allies_update":null,"resources_update":null,"quick_choices":["choix1","choix2","choix3"],"game_over":false,"game_over_type":null}
 
 RÈGLES: Enjeux plus élevés. Barbie actif. Henri paranoïaque. Wolff sur la piste. suspicion_delta -10 à +25. suspicion>80 → arrested. mort → dead. jour>=10 → survived.`,
 
 3: `Tu es le narrateur de CHRONOS. Lyon, été 1944, veille de la Libération. Marc est résistant chevronné depuis 2 ans. Les Alliés approchent.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"kicker":"ACCROCHE MAJUSCULES","headline":"titre journal années 40 max 10 mots","deck":"sous-titre 1-2 phrases","main":"3 paragraphes \\n\\n narration 2ème personne 120-150 mots","secondary":"témoignages 70-90 mots","context":"situation 50-70 mots","pull_quote":"citation forte","stamp":"CONFIDENTIEL ou URGENT ou ALERTE","edition":"ÉDITION DU MATIN ou ÉDITION SPÉCIALE","suspicion_delta":0,"allies_update":null,"resources_update":null,"quick_choices":["choix1","choix2","choix3"],"game_over":false,"game_over_type":null}
+{"kicker":"ACCROCHE MAJUSCULES","headline":"titre journal années 40 max 10 mots","deck":"sous-titre 1-2 phrases","main":"3 paragraphes \\n\\n narration 2ème personne 120-150 mots","secondary":"témoignages 70-90 mots","context":"situation 50-70 mots","pull_quote":"citation forte","objectif":"une ligne — ce que Marc doit accomplir maintenant","stamp":"CONFIDENTIEL ou URGENT ou ALERTE","edition":"ÉDITION DU MATIN ou ÉDITION SPÉCIALE","suspicion_delta":0,"allies_update":null,"resources_update":null,"quick_choices":["choix1","choix2","choix3"],"game_over":false,"game_over_type":null}
 
 RÈGLES: Libération de Lyon le 3 sept 1944 imminente. Allemands en fuite mais dangereux. Dernière mission décisive. suspicion_delta -15 à +30. suspicion>80 → arrested. mort → dead. jour>=10 → survived_final.`
 };
@@ -2062,6 +2129,8 @@ function renderNewspaper(data) {
 
   document.getElementById('susp-fill').style.width = gameState.suspicion + '%';
   document.getElementById('susp-val').textContent = gameState.suspicion;
+  if (data.suspicion_delta) showDeltas([{ label: '👁 Suspicion', value: data.suspicion_delta, type: data.suspicion_delta > 0 ? 'neg' : 'pos' }]);
+  if (data.objectif) updateObjectif('r-objectif', data.objectif);
   document.getElementById('allies-val').textContent = gameState.allies.join(' · ');
   document.getElementById('resources-val').textContent = gameState.resources.join(' · ');
   document.getElementById('current-date').textContent = formatDate(gameState.date);
@@ -2183,7 +2252,7 @@ const CHAPITRES = {
 CHAPITRE 1 : LA TEMPÊTE — 5 moments dramatiques sur quelques heures. Chaque mauvaise décision peut être mortelle.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne immersive 150-200 mots, description sensorielle intense de la tempête","pull_quote":"phrase courte et dramatique","quick_choices":["action courte 1","action courte 2","action courte 3"],"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne immersive 150-200 mots, description sensorielle intense de la tempête","pull_quote":"phrase courte et dramatique","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["action courte 1","action courte 2","action courte 3"],"game_over":false,"game_over_type":null,"next_chapter":false}
 
 RÈGLES :
 - Narration viscérale, sensorielle — le vent, les vagues, la peur
@@ -2207,7 +2276,7 @@ RÈGLES :
 CHAPITRE 2 : L'ÎLE — Survie sur 15 jours avec 4 jauges critiques.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne 150-180 mots","pull_quote":"phrase forte","quick_choices":["action 1","action 2","action 3"],"delta_mental":0,"delta_faim":0,"delta_soif":0,"delta_abri":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne 150-180 mots","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["action 1","action 2","action 3"],"delta_mental":0,"delta_faim":0,"delta_soif":0,"delta_abri":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 RÈGLES JAUGES (valeurs 0-100) :
 - mental : solitude, espoir, désespoir. Commence à 80. Baisse chaque jour de 3-8 pts naturellement
@@ -2233,7 +2302,7 @@ Décisions bonnes récompensées, mauvaises punies durement`,
 CHAPITRE 3 : L'ÉVASION — Planification et construction sur 10 jours.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne 150-180 mots","pull_quote":"phrase forte","quick_choices":["action 1","action 2","action 3"],"delta_mental":0,"delta_faim":0,"delta_soif":0,"delta_abri":0,"progression_radeau":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne 150-180 mots","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["action 1","action 2","action 3"],"delta_mental":0,"delta_faim":0,"delta_soif":0,"delta_abri":0,"progression_radeau":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 RÈGLES :
 - progression_radeau : entre 0 et 100 — avancement de la construction (commence à 0)
@@ -2257,7 +2326,7 @@ RÈGLES :
 CHAPITRE 4 : LA MER — Survie en mer sur 7 jours. Très haute mortalité.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne 150-180 mots, immersion totale — chaleur, soif, désespoir, hallucinations possibles","pull_quote":"phrase forte","quick_choices":["action 1","action 2","action 3"],"delta_faim":0,"delta_soif":0,"delta_froid":0,"game_over":false,"game_over_type":null,"victoire":false}
+{"date":"date courte","narration":"3 paragraphes \\n\\n narration 2ème personne 150-180 mots, immersion totale — chaleur, soif, désespoir, hallucinations possibles","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["action 1","action 2","action 3"],"delta_faim":0,"delta_soif":0,"delta_froid":0,"game_over":false,"game_over_type":null,"victoire":false}
 
 RÈGLES JAUGES (0-100) :
 - faim : commence à 40 (réserves limitées). Baisse 10-15/jour
@@ -2430,6 +2499,8 @@ function renderNaufrage(data) {
     choicesEl.appendChild(btn);
   });
   document.getElementById('n-loading').classList.remove('active');
+  showDeltas(buildNaufrageDeltas(data));
+  if (data.objectif) updateObjectif('n-objectif', data.objectif);
   if (data.game_over) { handleNaufrageGameOver(data.game_over_type); return; }
   if (data.victoire) { handleNaufrageVictoire(); return; }
   if (data.next_chapter) {
@@ -2522,7 +2593,7 @@ const PATRIOTES_CHAPITRES = {
 CHAPITRE 1 : L'ASSEMBLÉE — 8 décisions sur plusieurs semaines d'automne 1837.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"ex: '12 octobre 1837'","narration":"3 paragraphes \n\n 2ème personne immersive 150-200 mots, style sombre et réaliste, époque 1837","pull_quote":"phrase courte et forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"ex: '12 octobre 1837'","narration":"3 paragraphes \n\n 2ème personne immersive 150-200 mots, style sombre et réaliste, époque 1837","pull_quote":"phrase courte et forte","objectif":"une ligne — ce qu'Étienne doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 JAUGES DE DÉPART : sante:75 moral:60 suspicion:10 reputation:20 fatigue:30
 
@@ -2556,7 +2627,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 2 : SAINT-DENIS — 8 décisions sur 24 heures. Les Patriotes GAGNENT cette bataille historiquement — mais Étienne peut mourir AVANT la victoire.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure ex: '23 nov. 1837 — 06h30'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, chaos du combat, peur, bruit, fumée noire","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"heure ex: '23 nov. 1837 — 06h30'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, chaos du combat, peur, bruit, fumée noire","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ TRÈS STRICTE :
 - Sortir dans la rue pendant l'assaut → mort quasi-certaine (game_over, game_over_type:"tue_saint_denis")
@@ -2582,7 +2653,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 3 : SAINT-CHARLES — 6 décisions. Les Patriotes PERDENT. Il n'y a pas de victoire possible. La seule question : Étienne survit-il pour fuir ?
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure ex: '25 nov. 1837 — 14h15'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, défaite, chaos, fuite, terreur","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"heure ex: '25 nov. 1837 — 14h15'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, défaite, chaos, fuite, terreur","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ ABSOLUE :
 - L'artillerie détruit les retranchements en minutes — c'est un fait, pas une décision
@@ -2609,7 +2680,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 4 : L'EXIL — 8 décisions, deux mois de fuite hivernale. La mort peut venir d'une balle, du froid, de la faim, ou d'une trahison.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"ex: 'Décembre 1837'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, froid, solitude, paranoïa, hiver québécois brutal","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"ex: 'Décembre 1837'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, froid, solitude, paranoïa, hiver québécois brutal","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ STRICTE :
 - Faire confiance à un inconnu sans indice de loyauté → forte probabilité de dénonciation (suspicion +30, game_over possible)
@@ -2637,7 +2708,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 5 : LES FRÈRES CHASSEURS / ODELLTOWN — 8 décisions. La défaite est la règle. La victoire partielle n'est possible QUE SI : sante>=50 ET reputation>=55 ET moral>=45 ET les décisions 6 ET 7 sont tactiquement correctes (terrain, pas de charge frontale).
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, tension, désillusion, espoir fragile, courage épuisé","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"victoire_odelltown":false,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, tension, désillusion, espoir fragile, courage épuisé","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"victoire_odelltown":false,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ :
 - Trahison interne possible dès décision 2 (un Frère Chasseur est informateur)
@@ -2663,7 +2734,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 6 : LE PIED-DU-COURANT — 6 décisions finales. La pendaison est la fin normale (80% des parties). La déportation en Australie est possible UNIQUEMENT si moral>=60 ET reputation>=70 ET décisions 5 et 6 sont jouées avec dignité (refus de plaider coupable, mais plaidoyer digne).
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, prison, attente, dignité ou effondrement, sobre et lent","pull_quote":"phrase forte","quick_choices":["choix 1","choix 2","choix 3"],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"fin_deportation":false,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, prison, attente, dignité ou effondrement, sobre et lent","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"fin_deportation":false,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 FINS POSSIBLES :
 - game_over:true, game_over_type:"pendu" → fin canonique. Rédige avec une intensité maximale et sobre : le 15 février 1839, l'aube grise, la chemise propre de Marie, onze autres hommes, la potence simple, Étienne a 26 ans.
@@ -2700,22 +2771,35 @@ const PATRIOTES_GAMEOVER = {
   mort_prison: { icon:'💀', titre:'Mort en prison', texte:"Le froid, la maladie, l'épuisement. Tu es mort avant d'être jugé. Personne n'a écrit ton nom." }
 };
 
-function initPatriotesState(chap) {
-  const jaugesParChap = {
-    1: { sante:75, moral:60, suspicion:10, reputation:20, fatigue:30 },
-    2: { sante:70, moral:65, suspicion:15, reputation:35, fatigue:45 },
-    3: { sante:65, moral:55, suspicion:20, reputation:45, fatigue:60 },
-    4: { sante:55, moral:40, suspicion:30, reputation:50, fatigue:70 },
-    5: { sante:60, moral:45, suspicion:20, reputation:55, fatigue:55 },
-    6: { sante:50, moral:35, suspicion:100, reputation:60, fatigue:65 }
-  };
-  return { game:'patriotes', chapter:chap, day:1, jauges:{ ...jaugesParChap[chap] }, history:[], messages:[] };
+// Jauges de départ pour le chapitre 1 uniquement
+const PATRIOTES_JAUGES_START = { sante:75, moral:60, suspicion:10, reputation:20, fatigue:30 };
+
+// Résumé du chapitre précédent pour la cohérence narrative
+let patriotesPrevSummary = '';
+
+function initPatriotesState(chap, prevJauges) {
+  // Chapitre 1 : jauges fixes de départ
+  // Chapitres suivants : on garde les vraies jauges du chapitre précédent
+  // avec un plancher minimum sur suspicion (chapitre 6 = arrêté)
+  let jauges;
+  if (chap === 1 || !prevJauges) {
+    jauges = { ...PATRIOTES_JAUGES_START };
+  } else {
+    jauges = {
+      sante:      Math.max(10, prevJauges.sante),
+      moral:      Math.max(10, prevJauges.moral),
+      suspicion:  chap === 6 ? 100 : Math.min(prevJauges.suspicion, 85),
+      reputation: prevJauges.reputation,
+      fatigue:    Math.min(prevJauges.fatigue + 10, 95) // fatigue s'accumule
+    };
+  }
+  return { game:'patriotes', chapter:chap, day:1, jauges, history:[], messages:[], prevJauges: prevJauges || null };
 }
 
 function clampP(v) { return Math.max(0, Math.min(100, Math.round(v))); }
 
-function launchPatriotes(chap) {
-  gameState = initPatriotesState(chap);
+function launchPatriotes(chap, prevJauges) {
+  gameState = initPatriotesState(chap, prevJauges);
   const chapData = PATRIOTES_CHAPITRES[chap];
   if (!chapData) { goHome(); return; }
   document.getElementById('pat-chap-num').textContent = 'Chapitre ' + chap;
@@ -2782,7 +2866,17 @@ async function callPatriotesAPI(msg) {
 
 async function loadPatriotesScene() {
   try {
-    const data = await callPatriotesAPI(PATRIOTES_CHAPITRES[gameState.chapter].startMsg);
+    const chap = PATRIOTES_CHAPITRES[gameState.chapter];
+    const j = gameState.jauges;
+    // Injecter les vraies jauges et le résumé du chapitre précédent dans le startMsg
+    const contextMsg = chap.startMsg
+      + (gameState.chapter > 1 && gameState.prevJauges
+        ? ' [CONTEXTE CHAPITRE PRÉCÉDENT — jauges transmises : Santé:' + j.sante
+          + ' Moral:' + j.moral + ' Suspicion:' + j.suspicion
+          + ' Réputation:' + j.reputation + ' Fatigue:' + j.fatigue
+          + '. Ces valeurs REMPLACENT les valeurs par défaut. Respecte-les.]'
+        : '');
+    const data = await callPatriotesAPI(contextMsg);
     renderPatriotes(data);
   } catch(e) {
     document.getElementById('pat-loading').classList.remove('active');
@@ -2799,6 +2893,8 @@ function renderPatriotes(data) {
   if (data.delta_reputation !== undefined) j.reputation = clampP(j.reputation + data.delta_reputation);
   if (data.delta_fatigue !== undefined)    j.fatigue    = clampP(j.fatigue    + data.delta_fatigue);
   updatePatriotesJauges();
+  showDeltas(buildPatriotesDeltas(data));
+  if (data.objectif) updateObjectif('pat-objectif', data.objectif);
 
   if (data.date) document.getElementById('pat-narrative-date').textContent = data.date;
 
@@ -2813,6 +2909,8 @@ function renderPatriotes(data) {
     pq.textContent = data.pull_quote;
     pq.style.display = 'block';
   }
+
+  if (data.personnages) renderPatriotesPersonnages(data.personnages);
 
   const choicesEl = document.getElementById('pat-choices');
   choicesEl.innerHTML = '';
@@ -2837,7 +2935,15 @@ function renderPatriotes(data) {
   if (data.next_chapter) {
     const next = gameState.chapter + 1;
     if (PATRIOTES_CHAPITRES[next]) {
-      setTimeout(() => launchPatriotes(next), 600);
+      // Construire résumé pour cohérence narrative
+      const j = gameState.jauges;
+      patriotesPrevSummary = 'Chapitre ' + gameState.chapter + ' terminé. '
+        + 'Santé:' + j.sante + ' Moral:' + j.moral + ' Suspicion:' + j.suspicion
+        + ' Réputation:' + j.reputation + ' Fatigue:' + j.fatigue + '. '
+        + 'Décisions prises: ' + gameState.history.map(h => h.decision).slice(-3).join(' / ');
+      const savedJauges = { ...j };
+      // Écran de transition — le joueur doit cliquer
+      showPatriotesTransition(next, savedJauges);
     } else {
       handlePatriotesGameOver('pendu');
     }
@@ -2901,6 +3007,131 @@ async function submitPatriotesDecision() {
 
 function togglePatriotesHistory() {
   document.getElementById('pat-history-zone').classList.toggle('open');
+  document.getElementById('pat-personnages-zone').classList.remove('open');
+}
+
+function togglePatriotesPersonnages() {
+  document.getElementById('pat-personnages-zone').classList.toggle('open');
+  document.getElementById('pat-history-zone').classList.remove('open');
+}
+
+function renderPatriotesPersonnages(personnages) {
+  if (!personnages || !personnages.length) return;
+  const el = document.getElementById('pat-personnages-list');
+  // Merge avec les existants
+  const existing = {};
+  el.querySelectorAll('[data-nom]').forEach(e => { existing[e.dataset.nom] = e; });
+  personnages.forEach(p => {
+    const couleur = p.relation === 'allie' ? '#4a7c4a' : p.relation === 'ennemi' ? '#8b1a1a' : '#c8a84b';
+    const icone = p.relation === 'allie' ? '★' : p.relation === 'ennemi' ? '✕' : '?';
+    if (existing[p.nom]) {
+      existing[p.nom].querySelector('.pat-p-desc').textContent = p.description;
+      existing[p.nom].querySelector('.pat-p-badge').style.color = couleur;
+      existing[p.nom].querySelector('.pat-p-badge').textContent = icone + ' ' + p.relation.toUpperCase();
+    } else {
+      const div = document.createElement('div');
+      div.dataset.nom = p.nom;
+      div.style.cssText = 'padding:6px 0;border-bottom:1px solid rgba(45,90,45,0.2);';
+      div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">'
+        + '<span style="font-size:11px;color:#f0ead8;letter-spacing:1px;">' + p.nom + '</span>'
+        + '<span class="pat-p-badge" style="font-size:8px;letter-spacing:2px;color:' + couleur + ';">' + icone + ' ' + p.relation.toUpperCase() + '</span>'
+        + '</div>'
+        + '<p class="pat-p-desc" style="font-size:10px;color:#8a8a7a;font-style:italic;margin:0;">' + p.description + '</p>';
+      el.appendChild(div);
+    }
+  });
+}
+
+
+function showPatriotesTransition(nextChap, savedJauges) {
+  const chapData = PATRIOTES_CHAPITRES[nextChap];
+  if (!chapData) return;
+  const el = document.getElementById('pat-transition');
+  document.getElementById('pat-trans-label').textContent = 'Chapitre ' + nextChap;
+  document.getElementById('pat-trans-title').textContent = chapData.titre;
+  document.getElementById('pat-trans-sub').textContent = chapData.sous;
+
+  // Afficher les jauges transmises
+  const j = savedJauges;
+  const jaugesText = 'Vous entrez dans ce chapitre avec — Santé : ' + j.sante
+    + ' · Moral : ' + j.moral + ' · Suspicion : ' + j.suspicion
+    + ' · Réputation : ' + j.reputation + ' · Fatigue : ' + j.fatigue;
+  document.getElementById('pat-trans-jauges').textContent = jaugesText;
+
+  // Résumé narratif des 3 dernières décisions
+  const summary = patriotesPrevSummary
+    ? 'Ce que vous avez vécu : ' + patriotesPrevSummary.split('Décisions prises: ')[1]
+    : '';
+  document.getElementById('pat-trans-summary').textContent = summary;
+
+  el.style.display = 'flex';
+
+  document.getElementById('pat-trans-btn').onclick = () => {
+    el.style.display = 'none';
+    launchPatriotes(nextChap, savedJauges);
+  };
+}
+
+
+// ============================================================
+// POP-UP CONSÉQUENCES — universel pour les 3 campagnes
+// ============================================================
+function showDeltas(deltas) {
+  // deltas = [{label, value, type}] type: pos|neg|warn|neu
+  const container = document.getElementById('delta-popup');
+  container.innerHTML = '';
+  deltas.forEach((d, i) => {
+    if (!d.value || d.value === 0) return;
+    const tag = document.createElement('div');
+    tag.className = 'delta-tag delta-' + (d.type || (d.value > 0 ? 'pos' : 'neg'));
+    const sign = d.value > 0 ? '+' : '';
+    tag.textContent = sign + d.value + ' ' + d.label;
+    tag.style.animationDelay = (i * 0.15) + 's';
+    container.appendChild(tag);
+  });
+  // Nettoyer après animation
+  setTimeout(() => { container.innerHTML = ''; }, 4000);
+}
+
+function buildPatriotesDeltas(data) {
+  const labels = {
+    delta_sante: '❤ Santé', delta_moral: '⚡ Moral',
+    delta_suspicion: '👁 Suspicion', delta_reputation: '★ Réputation', delta_fatigue: '💤 Fatigue'
+  };
+  const deltas = [];
+  Object.keys(labels).forEach(k => {
+    if (data[k] !== undefined && data[k] !== 0) {
+      const isNeg = k === 'delta_suspicion' || k === 'delta_fatigue';
+      const type = data[k] > 0 ? (isNeg ? 'neg' : 'pos') : (isNeg ? 'pos' : 'neg');
+      deltas.push({ label: labels[k], value: data[k], type });
+    }
+  });
+  return deltas;
+}
+
+function buildNaufrageDeltas(data) {
+  const labels = {
+    delta_mental: '🧠 Mental', delta_faim: '🍖 Faim',
+    delta_soif: '💧 Soif', delta_abri: '🏠 Abri', delta_froid: '🥶 Froid'
+  };
+  const deltas = [];
+  Object.keys(labels).forEach(k => {
+    if (data[k] !== undefined && data[k] !== 0) {
+      const type = data[k] > 0 ? 'pos' : 'neg';
+      deltas.push({ label: labels[k], value: data[k], type });
+    }
+  });
+  return deltas;
+}
+
+function updateObjectif(id, text) {
+  if (!text) return;
+  const zone = document.getElementById(id);
+  const textEl = document.getElementById(id + '-text');
+  if (zone && textEl) {
+    textEl.textContent = text;
+    zone.classList.add('active');
+  }
 }
 
 </script>
@@ -2916,6 +3147,7 @@ function togglePatriotesHistory() {
       <div class="pat-title-block">
         <span class="pat-game-title">Les Patriotes</span>
         <span class="pat-chap-info" id="pat-chap-info">Chapitre 1 · Décision 1</span>
+      <div class="objectif-zone" id="pat-objectif"><span class="objectif-label">Objectif</span><span id="pat-objectif-text"></span></div>
       </div>
     </div>
     <button onclick="goHome()" style="background:transparent;border:1px solid rgba(45,90,45,0.4);color:var(--pat-gris);font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
@@ -2974,11 +3206,15 @@ function togglePatriotesHistory() {
       <div style="clear:both;"></div>
     </div>
 
-    <div style="margin-top:8px;">
+    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
       <button class="pat-hist-toggle" onclick="togglePatriotesHistory()">▸ Historique</button>
+      <button class="pat-hist-toggle" onclick="togglePatriotesPersonnages()">▸ Personnages</button>
     </div>
     <div class="pat-history-zone" id="pat-history-zone">
       <div id="pat-history-list"></div>
+    </div>
+    <div class="pat-history-zone" id="pat-personnages-zone">
+      <div id="pat-personnages-list"><p style="font-size:10px;color:#8a8a7a;font-style:italic;">Les personnages apparaîtront au fil de l'histoire...</p></div>
     </div>
 
     <!-- GAME OVER -->
@@ -3006,5 +3242,19 @@ function togglePatriotesHistory() {
   </div>
 </div>
 
+
+<!-- TRANSITION CHAPITRE PATRIOTES -->
+<div id="pat-transition" style="display:none;position:fixed;inset:0;background:rgba(10,15,10,0.98);z-index:400;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;">
+  <div style="font-size:36px;margin-bottom:16px;">★</div>
+  <div style="font-family:'Playfair Display',serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#4a7c4a;margin-bottom:10px;" id="pat-trans-label">Chapitre suivant</div>
+  <div style="font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);font-weight:700;color:#f0ead8;margin-bottom:6px;" id="pat-trans-title">L'Assemblée</div>
+  <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a8a7a;margin-bottom:24px;" id="pat-trans-sub">Vallée du Richelieu · Automne 1837</div>
+  <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:13px;color:rgba(232,234,208,0.6);max-width:420px;line-height:1.8;margin-bottom:8px;" id="pat-trans-jauges"></div>
+  <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:12px;color:rgba(232,234,208,0.4);max-width:420px;line-height:1.7;margin-bottom:28px;" id="pat-trans-summary"></div>
+  <button id="pat-trans-btn" style="background:#2d5a2d;color:#f0ead8;border:none;padding:11px 32px;font-family:'Special Elite',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>
+</div>
+
+
+<div class="delta-popup" id="delta-popup"></div>
 </body>
 </html>
