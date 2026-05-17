@@ -1442,7 +1442,8 @@ body::before {
     <span class="section-orn">— ✦ —</span>
   </div>
 
-  <div class="stories-grid">
+  <div id="resume-container" style="display:none;max-width:440px;margin:0 auto 20px;padding:0 20px;"></div>
+    <div class="stories-grid">
 
     <!-- LA RÉSISTANCE -->
     <div class="story-card" onclick="openModal('resistance')">
@@ -1781,7 +1782,8 @@ function showScreen(id) {
   if (el) el.classList.add('active');
 }
 
-function goHome() { showScreen('screen-accueil'); }
+function goHome() {
+  showResumeButtons(); showScreen('screen-accueil'); }
 
 // ===== MODAL =====
 function openModal(story) {
@@ -2054,6 +2056,7 @@ function initResistanceState(chapter) {
 
 function launchResistance(chap) {
   gameState = initResistanceState(chap);
+  saveCheckpoint('resistance', chap, null);
   document.getElementById('chap-val').textContent = chap + ' / 3';
   document.getElementById('game-over-sec').style.display = 'none';
   document.getElementById('decision-sec').style.display = 'none';
@@ -2368,6 +2371,7 @@ function launchNaufrage(chap) {
   document.getElementById('n-chap-num').textContent = 'Chapitre ' + chap;
   document.getElementById('n-chap-title').textContent = chapData.titre;
   document.getElementById('n-chap-sub').textContent = chapData.sous;
+  saveCheckpoint('naufrage', chap, null);
   document.getElementById('n-chap-info').textContent = 'Chapitre ' + chap + ' · Jour 1';
   document.getElementById('n-narrative-date').textContent = chapData.dateDebut;
   document.getElementById('n-pull-quote').style.display = 'none';
@@ -2437,8 +2441,10 @@ async function loadNaufrageScene() {
 
 async function submitNaufrageDecision() {
   const input = document.getElementById('n-dec-input');
-  const decision = input.value.trim();
+  // Fallback: si textarea vide mais un choix rapide a été cliqué, utiliser lastNaufrageChoice
+  const decision = input.value.trim() || window.lastNaufrageChoice || '';
   if (!decision) return;
+  window.lastNaufrageChoice = '';
   document.getElementById('n-submit-btn').disabled = true;
   document.getElementById('n-decision-zone').classList.remove('active');
   document.getElementById('n-loading').classList.add('active');
@@ -2495,7 +2501,7 @@ function renderNaufrage(data) {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
     btn.textContent = c;
-    btn.onclick = () => { document.getElementById('n-dec-input').value = c; };
+    btn.onclick = () => { document.getElementById('n-dec-input').value = c; window.lastNaufrageChoice = c; };
     choicesEl.appendChild(btn);
   });
   document.getElementById('n-loading').classList.remove('active');
@@ -2565,6 +2571,7 @@ function toggleNaufrageHistory() {
 // ===== KEYBOARD =====
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+  showResumeButtons();
   const decInput = document.getElementById('dec-input');
   if (decInput) decInput.addEventListener('keydown', e => {
     if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); submitDecision(); }
@@ -2802,6 +2809,7 @@ function launchPatriotes(chap, prevJauges) {
   gameState = initPatriotesState(chap, prevJauges);
   const chapData = PATRIOTES_CHAPITRES[chap];
   if (!chapData) { goHome(); return; }
+  saveCheckpoint('patriotes', chap, gameState.jauges);
   document.getElementById('pat-chap-num').textContent = 'Chapitre ' + chap;
   document.getElementById('pat-chap-title').textContent = chapData.titre;
   document.getElementById('pat-chap-sub').textContent = chapData.sous;
@@ -2918,7 +2926,7 @@ function renderPatriotes(data) {
     const btn = document.createElement('button');
     btn.className = 'pat-choice-btn';
     btn.textContent = c;
-    btn.onclick = () => { document.getElementById('pat-dec-input').value = c; };
+    btn.onclick = () => { document.getElementById('pat-dec-input').value = c; window.lastPatriotesChoice = c; };
     choicesEl.appendChild(btn);
   });
 
@@ -2942,8 +2950,15 @@ function renderPatriotes(data) {
         + ' Réputation:' + j.reputation + ' Fatigue:' + j.fatigue + '. '
         + 'Décisions prises: ' + gameState.history.map(h => h.decision).slice(-3).join(' / ');
       const savedJauges = { ...j };
-      // Écran de transition — le joueur doit cliquer
-      showPatriotesTransition(next, savedJauges);
+      // Afficher un bouton "Chapitre suivant" sous la narration — pas de transition automatique
+      document.getElementById('pat-decision-zone').classList.remove('active');
+      const nextBtn = document.createElement('div');
+      nextBtn.style.cssText = 'text-align:center;margin-top:24px;padding:20px;border-top:1px solid rgba(200,168,75,0.3);';
+      nextBtn.innerHTML = '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pat-or);margin-bottom:12px;">— Chapitre ' + next + ' —</div>'
+        + '<div style="font-family:'Playfair Display',serif;font-size:18px;color:#f0ead8;margin-bottom:16px;">' + PATRIOTES_CHAPITRES[next].titre + '</div>'
+        + '<button onclick="showPatriotesTransition(' + next + ', ' + JSON.stringify(savedJauges) + ')" style="background:var(--pat-vert);color:#f0ead8;border:none;padding:11px 32px;font-family:'Special Elite',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>';
+      document.getElementById('pat-content').appendChild(nextBtn);
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     } else {
       handlePatriotesGameOver('pendu');
     }
@@ -2956,6 +2971,7 @@ function renderPatriotes(data) {
 }
 
 function handlePatriotesGameOver(type) {
+  clearCheckpoint('patriotes');
   const go = PATRIOTES_GAMEOVER[type] || { icon:'💀', titre:'Fin', texte:'Votre histoire se termine ici.' };
   document.getElementById('pat-go-icon').textContent = go.icon;
   document.getElementById('pat-go-title').textContent = go.titre;
@@ -2973,8 +2989,9 @@ function handlePatriotesGameOver(type) {
 
 async function submitPatriotesDecision() {
   const input = document.getElementById('pat-dec-input');
-  const decision = input.value.trim();
+  const decision = input.value.trim() || window.lastPatriotesChoice || '';
   if (!decision) return;
+  window.lastPatriotesChoice = '';
   document.getElementById('pat-submit-btn').disabled = true;
   document.getElementById('pat-decision-zone').classList.remove('active');
   document.getElementById('pat-loading').classList.add('active');
@@ -3132,6 +3149,62 @@ function updateObjectif(id, text) {
     textEl.textContent = text;
     zone.classList.add('active');
   }
+}
+
+
+// ============================================================
+// SYSTÈME DE SAUVEGARDE — localStorage
+// ============================================================
+
+function saveCheckpoint(game, chap, jauges) {
+  try {
+    const save = { game, chap, jauges, date: new Date().toISOString() };
+    localStorage.setItem('chronica_save_' + game, JSON.stringify(save));
+  } catch(e) { console.warn('Save failed:', e); }
+}
+
+function loadCheckpoint(game) {
+  try {
+    const raw = localStorage.getItem('chronica_save_' + game);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) { return null; }
+}
+
+function clearCheckpoint(game) {
+  try { localStorage.removeItem('chronica_save_' + game); } catch(e) {}
+}
+
+function checkAllSaves() {
+  const games = ['patriotes', 'resistance', 'naufrage'];
+  const saves = [];
+  games.forEach(g => {
+    const s = loadCheckpoint(g);
+    if (s) saves.push(s);
+  });
+  return saves;
+}
+
+function showResumeButtons() {
+  const saves = checkAllSaves();
+  const container = document.getElementById('resume-container');
+  if (!container) return;
+  if (saves.length === 0) { container.style.display = 'none'; return; }
+  container.style.display = 'block';
+  container.innerHTML = '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(200,168,75,0.7);margin-bottom:10px;text-align:center;">— Reprendre —</div>';
+  const names = { patriotes: 'Les Patriotes', resistance: 'La Résistance', naufrage: 'Naufragé' };
+  saves.forEach(s => {
+    const btn = document.createElement('button');
+    btn.style.cssText = 'display:block;width:100%;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.25);color:rgba(200,168,75,0.8);font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;cursor:pointer;margin-bottom:6px;text-align:left;';
+    btn.innerHTML = '▸ ' + names[s.game] + ' — Chapitre ' + s.chap;
+    btn.onclick = () => resumeGame(s);
+    container.appendChild(btn);
+  });
+}
+
+function resumeGame(save) {
+  if (save.game === 'patriotes') launchPatriotes(save.chap, save.jauges);
+  else if (save.game === 'resistance') launchResistance(save.chap);
+  else if (save.game === 'naufrage') launchNaufrage(save.chap);
 }
 
 </script>
