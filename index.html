@@ -3097,7 +3097,7 @@ function renderPatriotes(data) {
       const nextBtn = document.createElement('div');
       nextBtn.style.cssText = 'text-align:center;margin-top:24px;padding:20px;border-top:1px solid rgba(200,168,75,0.3);';
       nextBtn.innerHTML = '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pat-or);margin-bottom:12px;">— Chapitre ' + next + ' —</div>'
-        + '<div style="font-family:'Playfair Display',serif;font-size:18px;color:#f0ead8;margin-bottom:16px;">' + PATRIOTES_CHAPITRES[next].titre + '</div>'
+        + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:#f0ead8;margin-bottom:16px;">' + PATRIOTES_CHAPITRES[next].titre + '</div>'
         + '<button onclick="showPatriotesTransition(' + next + ', ' + JSON.stringify(savedJauges) + ')" style="background:var(--pat-vert);color:#f0ead8;border:none;padding:11px 32px;font-family:'Special Elite',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>';
       document.getElementById('pat-content').appendChild(nextBtn);
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -3871,7 +3871,7 @@ function renderDday(data) {
       const nextBtn = document.createElement('div');
       nextBtn.style.cssText = 'text-align:center;margin-top:24px;padding:20px;border-top:1px solid rgba(74,96,128,0.3);';
       nextBtn.innerHTML = '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#4a6080;margin-bottom:12px;">— Chapitre ' + next + ' —</div>'
-        + '<div style="font-family:'Playfair Display',serif;font-size:18px;color:#c9c5b0;margin-bottom:16px;">' + chapitres[next].titre + '</div>'
+        + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:#c9c5b0;margin-bottom:16px;">' + chapitres[next].titre + '</div>'
         + '<button onclick="launchDday('' + ddayState.partie + '',' + next + ',' + JSON.stringify(savedJauges) + ')" style="background:#2a3040;color:#c9c5b0;border:none;padding:11px 32px;font-family:'Special Elite',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>';
       document.getElementById('dday-content').appendChild(nextBtn);
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
