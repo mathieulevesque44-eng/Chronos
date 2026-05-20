@@ -2706,6 +2706,11 @@ async function submitNaufrageDecision() {
   const isChap1 = gameState.chapter === 1;
   const unitLabel = isChap1 ? 'Moment' : 'Jour';
   document.getElementById('n-chap-info').textContent = 'Chapitre ' + gameState.chapter + ' · ' + unitLabel + ' ' + gameState.day;
+  if (gameState.day > maxJours + 2) {
+    const next = gameState.chapter + 1;
+    if (next <= 4) { launchNaufrage(next); } else { handleNaufrageVictoire(); }
+    return;
+  }
   const j = gameState.jauges;
   const msg = unitLabel + ' ' + currentDay + '/' + maxJours + (isLastDay ? (isChap1 ? ' (DERNIER MOMENT — blackout et next_chapter:true)' : ' (DERNIER JOUR — si Thomas est vivant, déclenche next_chapter:true)') : '') + '. Décision: "' + decision + '". Mental:' + j.mental + ' Faim:' + j.faim + ' Soif:' + j.soif + ' Abri:' + (j.abri||'-') + ' Froid:' + (j.froid||'-') + (gameState.chapter===3?' Radeau:'+j.progression_radeau+'%':'');
   try {
@@ -3258,6 +3263,16 @@ async function submitPatriotesDecision() {
   const isLast = currentDecision >= maxDecisions;
   gameState.day++;
   document.getElementById('pat-chap-info').textContent = 'Chapitre ' + gameState.chapter + ' · Décision ' + gameState.day;
+  // Force chapter transition if way past maxDecisions
+  if (gameState.day > maxDecisions + 2) {
+    const next = gameState.chapter + 1;
+    if (PATRIOTES_CHAPITRES[next]) {
+      showPatriotesTransition(next, { ...gameState.jauges });
+    } else {
+      handlePatriotesGameOver('pendu');
+    }
+    return;
+  }
   const j = gameState.jauges;
   const msg = 'Décision ' + currentDecision + '/' + maxDecisions
     + (isLast ? ' (DERNIÈRE DÉCISION — conclure ce chapitre avec next_chapter:true si Étienne est vivant et libre)' : '')
@@ -4033,6 +4048,18 @@ async function submitDdayDecision() {
   const isLast = currentDay >= maxDecisions;
   ddayState.day++;
   document.getElementById('dday-chap-info').textContent = 'Chapitre ' + (ddayState.chapGlobal || ddayState.chapter) + '/6 · Décision ' + ddayState.day;
+  // Force chapter transition if way past maxDecisions
+  if (ddayState.day > maxDecisions + 2) {
+    const nextGlobal = (ddayState.chapGlobal || ddayState.chapter) + 1;
+    const nextPartie = nextGlobal <= 3 ? 'airborne' : 'chaudiere';
+    const nextLocal = nextGlobal <= 3 ? nextGlobal : nextGlobal - 3;
+    if (DDAY_CHAPITRES[nextPartie] && DDAY_CHAPITRES[nextPartie][nextLocal]) {
+      launchDday(nextGlobal, { ...ddayState.jauges });
+    } else {
+      handleDdayGameOver('victoire_complete');
+    }
+    return;
+  }
   const j = ddayState.jauges;
   const partie = ddayState.partie;
   const j3key = partie === 'airborne' ? 'bruit' : 'courage';
