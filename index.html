@@ -1771,7 +1771,7 @@ body::before {
     </div>
 
     <div class="history-sec" id="history-sec">
-      <div style="font-family:'Special Elite',cursive;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--sepia);margin-bottom:5px;">Archives</div>
+      <div style="font-family:\'Special Elite\',cursive;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--sepia);margin-bottom:5px;">Archives</div>
       <div id="history-list"></div>
     </div>
 
@@ -1861,7 +1861,7 @@ body::before {
       <div class="nauf-wave nauf-wave-front"></div>
     </div>
   </div>
-  <div style="color:rgba(200,168,75,0.9);font-family:'Special Elite',cursive;font-size:14px;letter-spacing:2px;margin-top:16px;position:relative;z-index:10;">Traversée en cours<span class="nauf-dots"><span></span><span></span><span></span></span></div>
+  <div style="color:rgba(200,168,75,0.9);font-family:\'Special Elite\',cursive;font-size:14px;letter-spacing:2px;margin-top:16px;position:relative;z-index:10;">Traversée en cours<span class="nauf-dots"><span></span><span></span><span></span></span></div>
 </div>
 
     <div class="decision-zone" id="n-decision-zone">
@@ -3098,7 +3098,7 @@ function renderPatriotes(data) {
       nextBtn.style.cssText = 'text-align:center;margin-top:24px;padding:20px;border-top:1px solid rgba(200,168,75,0.3);';
       nextBtn.innerHTML = '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pat-or);margin-bottom:12px;">— Chapitre ' + next + ' —</div>'
         + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:#f0ead8;margin-bottom:16px;">' + PATRIOTES_CHAPITRES[next].titre + '</div>'
-        + '<button onclick="showPatriotesTransition(' + next + ', ' + JSON.stringify(savedJauges) + ')" style="background:var(--pat-vert);color:#f0ead8;border:none;padding:11px 32px;font-family:'Special Elite',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>';
+        + '<button onclick="showPatriotesTransition(' + next + ', ' + JSON.stringify(savedJauges) + ')" style="background:var(--pat-vert);color:#f0ead8;border:none;padding:11px 32px;font-family:\'Special Elite\',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>';
       document.getElementById('pat-content').appendChild(nextBtn);
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     } else {
@@ -3336,7 +3336,7 @@ function showResumeButtons() {
   const names = { patriotes: 'Les Patriotes', resistance: 'La Résistance', naufrage: 'Naufragé', dday: 'D-Day — Normandie 1944' };
   saves.forEach(s => {
     const btn = document.createElement('button');
-    btn.style.cssText = 'display:block;width:100%;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.25);color:rgba(200,168,75,0.8);font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;cursor:pointer;margin-bottom:6px;text-align:left;';
+    btn.style.cssText = 'display:block;width:100%;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.25);color:rgba(200,168,75,0.8);font-family:\'Special Elite\',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;cursor:pointer;margin-bottom:6px;text-align:left;';
     btn.innerHTML = '▸ ' + names[s.game] + ' — Chapitre ' + s.chap;
     btn.onclick = () => resumeGame(s);
     container.appendChild(btn);
@@ -3872,7 +3872,7 @@ function renderDday(data) {
       nextBtn.style.cssText = 'text-align:center;margin-top:24px;padding:20px;border-top:1px solid rgba(74,96,128,0.3);';
       nextBtn.innerHTML = '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#4a6080;margin-bottom:12px;">— Chapitre ' + next + ' —</div>'
         + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:#c9c5b0;margin-bottom:16px;">' + chapitres[next].titre + '</div>'
-        + '<button onclick="launchDday('' + ddayState.partie + '',' + next + ',' + JSON.stringify(savedJauges) + ')" style="background:#2a3040;color:#c9c5b0;border:none;padding:11px 32px;font-family:'Special Elite',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>';
+        + '<button onclick="launchDday(' + next + ',' + JSON.stringify(savedJauges) + ')" style="background:#2a3040;color:#c9c5b0;border:none;padding:11px 32px;font-family:\'Special Elite\',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>';
       document.getElementById('dday-content').appendChild(nextBtn);
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     } else {
@@ -3993,7 +3993,7 @@ function renderDdayPersonnages(personnages) {
       <div class="objectif-zone" id="pat-objectif"><span class="objectif-label">Objectif</span><span id="pat-objectif-text"></span></div>
       </div>
     </div>
-    <button onclick="goHome()" style="background:transparent;border:1px solid rgba(45,90,45,0.4);color:var(--pat-gris);font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
+    <button onclick="goHome()" style="background:transparent;border:1px solid rgba(45,90,45,0.4);color:var(--pat-gris);font-family:\'Special Elite\',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
   </div>
 
   <!-- Jauges -->
@@ -4079,8 +4079,8 @@ function renderDdayPersonnages(personnages) {
     <!-- VICTOIRE FINALE (déportation) -->
     <div class="pat-victoire" id="pat-victoire">
       <div style="font-size:48px;margin-bottom:20px;">⚓</div>
-      <div style="font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);color:var(--pat-blanc);margin-bottom:16px;">L'Exil</div>
-      <p style="font-family:'IM Fell English',serif;font-style:italic;font-size:14px;color:rgba(232,234,208,0.65);max-width:500px;line-height:1.9;margin-bottom:28px;">18 janvier 1839. Le juge lit la sentence : déportation en Australie, à perpétuité. Pas la potence. Étienne entend les mots sans les comprendre tout de suite. À côté de lui, un homme pleure. Étienne ne pleure pas. Il pense que l'Australie est à l'autre bout du monde. Que Marie ne viendra pas. Que le Richelieu coulera encore sans lui. Le navire part en mars. Étienne regarde le Saint-Laurent disparaître derrière lui pour la dernière fois. Il ne reviendra jamais. Mais il vivra. C'est quelque chose.</p>
+      <div style="font-family:\'Playfair Display\',serif;font-size:clamp(24px,4vw,36px);color:var(--pat-blanc);margin-bottom:16px;">L'Exil</div>
+      <p style="font-family:\'IM Fell English\',serif;font-style:italic;font-size:14px;color:rgba(232,234,208,0.65);max-width:500px;line-height:1.9;margin-bottom:28px;">18 janvier 1839. Le juge lit la sentence : déportation en Australie, à perpétuité. Pas la potence. Étienne entend les mots sans les comprendre tout de suite. À côté de lui, un homme pleure. Étienne ne pleure pas. Il pense que l'Australie est à l'autre bout du monde. Que Marie ne viendra pas. Que le Richelieu coulera encore sans lui. Le navire part en mars. Étienne regarde le Saint-Laurent disparaître derrière lui pour la dernière fois. Il ne reviendra jamais. Mais il vivra. C'est quelque chose.</p>
       <div class="pat-go-btns">
         <button class="pat-go-btn" onclick="goHome()">⌂ Accueil</button>
       </div>
@@ -4093,12 +4093,12 @@ function renderDdayPersonnages(personnages) {
 <!-- TRANSITION CHAPITRE PATRIOTES -->
 <div id="pat-transition" style="display:none;position:fixed;inset:0;background:rgba(10,15,10,0.98);z-index:400;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;">
   <div style="font-size:36px;margin-bottom:16px;">★</div>
-  <div style="font-family:'Playfair Display',serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#4a7c4a;margin-bottom:10px;" id="pat-trans-label">Chapitre suivant</div>
-  <div style="font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);font-weight:700;color:#f0ead8;margin-bottom:6px;" id="pat-trans-title">L'Assemblée</div>
+  <div style="font-family:\'Playfair Display\',serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#4a7c4a;margin-bottom:10px;" id="pat-trans-label">Chapitre suivant</div>
+  <div style="font-family:\'Playfair Display\',serif;font-size:clamp(24px,4vw,36px);font-weight:700;color:#f0ead8;margin-bottom:6px;" id="pat-trans-title">L'Assemblée</div>
   <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a8a7a;margin-bottom:24px;" id="pat-trans-sub">Vallée du Richelieu · Automne 1837</div>
-  <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:13px;color:rgba(232,234,208,0.6);max-width:420px;line-height:1.8;margin-bottom:8px;" id="pat-trans-jauges"></div>
-  <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:12px;color:rgba(232,234,208,0.4);max-width:420px;line-height:1.7;margin-bottom:28px;" id="pat-trans-summary"></div>
-  <button id="pat-trans-btn" style="background:#2d5a2d;color:#f0ead8;border:none;padding:11px 32px;font-family:'Special Elite',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>
+  <div style="font-family:\'IM Fell English\',serif;font-style:italic;font-size:13px;color:rgba(232,234,208,0.6);max-width:420px;line-height:1.8;margin-bottom:8px;" id="pat-trans-jauges"></div>
+  <div style="font-family:\'IM Fell English\',serif;font-style:italic;font-size:12px;color:rgba(232,234,208,0.4);max-width:420px;line-height:1.7;margin-bottom:28px;" id="pat-trans-summary"></div>
+  <button id="pat-trans-btn" style="background:#2d5a2d;color:#f0ead8;border:none;padding:11px 32px;font-family:\'Special Elite\',cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Continuer ▸</button>
 </div>
 
 
@@ -4241,7 +4241,7 @@ function renderDdayPersonnages(personnages) {
         <div class="dday-chap-info" id="dday-chap-info">Chapitre 1 · Décision 1</div>
       </div>
     </div>
-    <button onclick="goHome()" style="background:transparent;border:1px solid rgba(74,96,128,0.4);color:#4a6080;font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
+    <button onclick="goHome()" style="background:transparent;border:1px solid rgba(74,96,128,0.4);color:#4a6080;font-family:\'Special Elite\',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
   </div>
 
   <div class="dday-jauges" id="dday-jauges">
