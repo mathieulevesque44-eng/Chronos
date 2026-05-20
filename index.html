@@ -1427,14 +1427,14 @@ body::before {
   border-radius: 2px;
   opacity: 0;
   transform: translateY(-6px);
-  animation: delta-show 2.8s ease forwards;
+  animation: delta-show 5s ease forwards;
   white-space: nowrap;
 }
 
 @keyframes delta-show {
   0%   { opacity:0; transform:translateY(-6px); }
-  15%  { opacity:1; transform:translateY(0); }
-  70%  { opacity:1; transform:translateY(0); }
+  10%  { opacity:1; transform:translateY(0); }
+  75%  { opacity:1; transform:translateY(0); }
   100% { opacity:0; transform:translateY(-10px); }
 }
 
@@ -2676,7 +2676,11 @@ async function callNaufrageAPI(msg) {
 
 async function loadNaufrageScene() {
   try {
-    const data = await callNaufrageAPI(CHAPITRES[gameState.chapter].startMsg);
+    const j = gameState.jauges;
+    const prevSummary = gameState.prevChapSummary
+      ? ' [CONTEXTE CHAPITRE PRÉCÉDENT: ' + gameState.prevChapSummary + ' — Ces ressources et préparations sont ACQUISES et doivent être respectées.]'
+      : '';
+    const data = await callNaufrageAPI(CHAPITRES[gameState.chapter].startMsg + prevSummary);
     renderNaufrage(data);
   } catch(e) {
     document.getElementById('n-loading').classList.remove('active');
@@ -2705,7 +2709,7 @@ async function submitNaufrageDecision() {
   gameState.day++;
   const isChap1 = gameState.chapter === 1;
   const unitLabel = isChap1 ? 'Moment' : 'Jour';
-  document.getElementById('n-chap-info').textContent = 'Chapitre ' + gameState.chapter + ' · ' + unitLabel + ' ' + gameState.day;
+  document.getElementById('n-chap-info').textContent = 'Chapitre ' + gameState.chapter + ' · ' + unitLabel + ' ' + currentDay;
   if (gameState.day > maxJours + 2) {
     const next = gameState.chapter + 1;
     if (next <= 4) { launchNaufrage(next); } else { handleNaufrageVictoire(); }
@@ -2762,7 +2766,13 @@ function renderNaufrage(data) {
   if (data.victoire) { handleNaufrageVictoire(); return; }
   if (data.next_chapter) {
     const next = chap + 1;
-    if (next <= 4) { setTimeout(() => launchNaufrage(next), 600); return; }
+    if (next <= 4) {
+      // Sauvegarder un résumé des préparations pour le prochain chapitre
+      const j = gameState.jauges;
+      const lastDecisions = gameState.history.slice(-3).map(h => h.decision).join(' / ');
+      gameState.prevChapSummary = 'Chapitre ' + chap + ' terminé. Jauges: Mental:' + j.mental + ' Faim:' + j.faim + ' Soif:' + j.soif + ' Abri:' + (j.abri||0) + ' Froid:' + (j.froid||0) + '. Dernières actions: ' + lastDecisions;
+      setTimeout(() => launchNaufrage(next), 600); return;
+    }
     else { handleNaufrageVictoire(); return; }
   }
   document.getElementById('n-decision-zone').classList.add('active');
@@ -3375,7 +3385,7 @@ function showDeltas(deltas) {
     container.appendChild(tag);
   });
   // Nettoyer après animation
-  setTimeout(() => { container.innerHTML = ''; }, 4000);
+  setTimeout(() => { container.innerHTML = ''; }, 6000);
 }
 
 function buildPatriotesDeltas(data) {
