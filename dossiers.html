@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHRONICA — Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Playfair+Display:ital,wght@0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #e8dfc8;
+    --paper-dark: #d4c8a8;
+    --ink: #1a1208;
+    --ink-faded: #3d2e18;
+    --red: #8b1a1a;
+    --stamp-red: #c0392b;
+    --stamp-blue: #1a3a6b;
+    --gold: #c8a84b;
+  }
+
+  body {
+    background: #111;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Special Elite', cursive;
+    overflow: hidden;
+  }
+
+  /* ===== OVERLAY TRANSITIONS ===== */
+  #overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 999;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  #overlay.fade-out { opacity: 0; }
+
+  /* ===== DOSSIER ===== */
+  .dossier {
+    display: none;
+    position: relative;
+    width: min(820px, 95vw);
+    min-height: min(600px, 95vh);
+    background: var(--paper);
+    box-shadow: 0 20px 80px rgba(0,0,0,0.9), inset 0 0 120px rgba(0,0,0,0.08);
+    padding: 40px;
+    animation: dossierIn 0.5s ease forwards;
+    overflow: hidden;
+  }
+
+  .dossier.active { display: flex; flex-direction: column; }
+
+  @keyframes dossierIn {
+    from { opacity: 0; transform: translateY(20px) rotate(-0.5deg); }
+    to   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  }
+
+  /* Texture papier vieilli */
+  .dossier::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(0,0,0,0.04) 27px, rgba(0,0,0,0.04) 28px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Tache de café */
+  .dossier::after {
+    content: '';
+    position: absolute;
+    bottom: 80px;
+    right: 60px;
+    width: 90px;
+    height: 80px;
+    background: radial-gradient(ellipse, rgba(80,50,20,0.12) 0%, rgba(80,50,20,0.06) 50%, transparent 70%);
+    border-radius: 50%;
+    transform: rotate(-15deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .dossier > * { position: relative; z-index: 1; }
+
+  /* ===== EN-TÊTE DOSSIER ===== */
+  .dossier-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .dossier-institution {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    line-height: 1.8;
+  }
+
+  .dossier-num {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--ink-faded);
+    text-align: right;
+  }
+
+  /* ===== TAMPON ===== */
+  .stamp {
+    position: absolute;
+    font-family: 'Special Elite', cursive;
+    font-size: clamp(18px, 3vw, 28px);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 900;
+    border: 4px solid;
+    padding: 6px 14px;
+    transform: rotate(-12deg);
+    opacity: 0;
+    animation: stampIn 0.3s ease 0.8s forwards;
+    z-index: 10;
+  }
+
+  .stamp-red {
+    color: var(--stamp-red);
+    border-color: var(--stamp-red);
+    top: 36px;
+    right: 40px;
+    text-shadow: 1px 1px 0 rgba(192,57,43,0.3);
+  }
+
+  .stamp-blue {
+    color: var(--stamp-blue);
+    border-color: var(--stamp-blue);
+    top: 80px;
+    right: 30px;
+    font-size: clamp(12px, 2vw, 16px);
+    letter-spacing: 3px;
+  }
+
+  @keyframes stampIn {
+    from { opacity: 0; transform: rotate(-12deg) scale(1.3); }
+    to   { opacity: 0.85; transform: rotate(-12deg) scale(1); }
+  }
+
+  /* ===== CORPS DU DOSSIER ===== */
+  .dossier-body {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 28px;
+    flex: 1;
+  }
+
+  /* ===== PHOTO ===== */
+  .photo-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .photo-frame {
+    width: 180px;
+    height: 220px;
+    border: 3px solid var(--ink);
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+  }
+
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: sepia(30%) contrast(1.1);
+  }
+
+  .photo-frame.silhouette {
+    background: #2a2218;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    filter: none;
+  }
+
+  .photo-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    text-align: center;
+    border-top: 1px solid var(--ink-faded);
+    padding-top: 6px;
+  }
+
+  .fingerprint {
+    width: 60px;
+    height: 70px;
+    margin: 0 auto;
+    opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 70'%3E%3Cellipse cx='30' cy='35' rx='18' ry='22' fill='none' stroke='%231a1208' stroke-width='1.5'/%3E%3Cellipse cx='30' cy='35' rx='13' ry='16' fill='none' stroke='%231a1208' stroke-width='1.2'/%3E%3Cellipse cx='30' cy='35' rx='8' ry='10' fill='none' stroke='%231a1208' stroke-width='1'/%3E%3Cellipse cx='30' cy='35' rx='4' ry='5' fill='none' stroke='%231a1208' stroke-width='0.8'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  /* ===== INFOS ===== */
+  .info-col { display: flex; flex-direction: column; gap: 14px; }
+
+  .subject-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.1;
+    border-bottom: 1px solid var(--ink-faded);
+    padding-bottom: 8px;
+  }
+
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .field-label {
+    font-size: 7px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    border-bottom: 1px solid var(--ink-faded);
+    padding-bottom: 2px;
+  }
+
+  .field-value {
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .dossier-desc {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--ink-faded);
+    border-left: 3px solid var(--ink-faded);
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+
+  .mention {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    font-family: 'Special Elite', cursive;
+    margin-top: 4px;
+  }
+
+  /* ===== PIED DE PAGE ===== */
+  .dossier-footer {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid var(--ink-faded);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dossier-warning {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    max-width: 300px;
+    line-height: 1.6;
+  }
+
+  .btn-commencer {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 12px 32px;
+    font-family: 'Special Elite', cursive;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .btn-commencer:hover {
+    background: var(--ink-faded);
+    transform: translateY(-1px);
+  }
+
+  .btn-commencer:active { transform: translateY(0); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .dossier { padding: 24px 20px; }
+    .dossier-body { grid-template-columns: 1fr; }
+    .photo-frame { width: 140px; height: 170px; }
+    .fields { grid-template-columns: 1fr; }
+    .stamp { font-size: 16px; top: 20px; right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="overlay"></div>
+
+<!-- ===== DOSSIER : LA RÉSISTANCE ===== -->
+<div class="dossier" id="dossier-resistance">
+  <div class="stamp stamp-red">Recherché</div>
+  <div class="stamp stamp-blue" style="top:90px;right:28px;font-size:11px;transform:rotate(-8deg);">Section IV · Gestapo</div>
+
+  <div class="dossier-top">
+    <div class="dossier-institution">
+      Sicherheitspolizei — Lyon<br>
+      Section IV · Affaires politiques<br>
+      <span style="color:var(--red);">CONFIDENTIEL</span>
+    </div>
+    <div class="dossier-num">
+      Dossier nº 1942-0847<br>
+      Date : Juin 1942<br>
+      Classement : Prioritaire
+    </div>
+  </div>
+
+  <div class="dossier-body">
+    <div class="photo-col">
+      <div class="photo-frame">
+        <img src="aubert.png" alt="Marc Aubert">
+      </div>
+      <div class="photo-label">Photo d'identité · 1942</div>
+      <div class="fingerprint"></div>
+    </div>
+    <div class="info-col">
+      <div class="subject-name">Aubert, Marc Henri</div>
+      <div class="fields">
+        <div class="field">
+          <div class="field-label">Âge</div>
+          <div class="field-value">28 ans</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Profession</div>
+          <div class="field-value">Imprimeur</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Adresse</div>
+          <div class="field-value">14, rue de la République, Lyon</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Situation</div>
+          <div class="field-value">Marié, un enfant</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Nationalité</div>
+          <div class="field-value">Française</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Antécédents</div>
+          <div class="field-value">Aucun</div>
+        </div>
+      </div>
+      <div class="dossier-desc">
+        Employé modèle. Discret. Pratiquant. Aucune affiliation politique connue avant juin 1942. Le sujet a été approché par un réseau de résistance pour imprimer et distribuer des tracts clandestins. Sa réponse à cette sollicitation déterminera le cours de sa vie — et peut-être celle de sa famille.
+      </div>
+      <div class="mention">⚠ Surveiller les contacts — famille potentiellement complice</div>
+    </div>
+  </div>
+
+  <div class="dossier-footer">
+    <div class="dossier-warning">
+      Ce dossier est classifié.<br>
+      Toute divulgation est passible de sanctions.
+    </div>
+    <button class="btn-commencer" onclick="commencer('resistance')">
+      Commencer ▸
+    </button>
+  </div>
+</div>
+
+<!-- ===== DOSSIER : LES PATRIOTES ===== -->
+<div class="dossier" id="dossier-patriotes">
+  <div class="stamp stamp-red" style="transform:rotate(-10deg);">Traître</div>
+  <div class="stamp stamp-blue" style="top:88px;right:26px;font-size:10px;transform:rotate(-6deg);letter-spacing:2px;">Haute Trahison · Couronne</div>
+
+  <div class="dossier-top">
+    <div class="dossier-institution">
+      Gouvernement de Sa Majesté · Bas-Canada<br>
+      Bureau du Gouverneur Général<br>
+      <span style="color:var(--red);">CONFIDENTIEL</span>
+    </div>
+    <div class="dossier-num">
+      Dossier nº 1837-2241<br>
+      Date : Octobre 1837<br>
+      Classement : Urgent
+    </div>
+  </div>
+
+  <div class="dossier-body">
+    <div class="photo-col">
+      <div class="photo-frame">
+        <img src="leblanc.png" alt="Étienne Leblanc">
+      </div>
+      <div class="photo-label">Portrait · Vallée du Richelieu · 1837</div>
+      <div class="fingerprint"></div>
+    </div>
+    <div class="info-col">
+      <div class="subject-name">Leblanc, Étienne</div>
+      <div class="fields">
+        <div class="field">
+          <div class="field-label">Âge</div>
+          <div class="field-value">24 ans</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Profession</div>
+          <div class="field-value">Cultivateur</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Résidence</div>
+          <div class="field-value">Saint-Denis-sur-Richelieu</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Situation</div>
+          <div class="field-value">Marié, épouse enceinte</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Terre</div>
+          <div class="field-value">Hypothéquée · 40 arpents</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Menace</div>
+          <div class="field-value" style="color:var(--red);">Élevée</div>
+        </div>
+      </div>
+      <div class="dossier-desc">
+        Sujet sans antécédent. Homme ordinaire, endetté, sans affiliation politique déclarée. En octobre 1837, les assemblées patriotes enflamment la vallée du Richelieu. Papineau parle de liberté. Les Habits rouges patrouillent. Leblanc n'est pas un révolutionnaire. Mais il va devoir choisir son camp.
+      </div>
+      <div class="mention">⚠ Surveiller — assemblées patriotes signalées dans son village</div>
+    </div>
+  </div>
+
+  <div class="dossier-footer">
+    <div class="dossier-warning">
+      Document réservé aux autorités coloniales.<br>
+      God Save the King.
+    </div>
+    <button class="btn-commencer" onclick="commencer('patriotes')">
+      Commencer ▸
+    </button>
+  </div>
+</div>
+
+<!-- ===== DOSSIER : NAUFRAGÉ ===== -->
+<div class="dossier" id="dossier-naufrage">
+  <div class="stamp stamp-blue" style="color:#1a4a2a;border-color:#1a4a2a;transform:rotate(-8deg);top:36px;right:40px;">Disparu en mer</div>
+  <div class="stamp stamp-blue" style="top:88px;right:28px;font-size:10px;transform:rotate(-4deg);color:#3a3a8a;border-color:#3a3a8a;">Saint-Malo · Oct. 1704</div>
+
+  <div class="dossier-top">
+    <div class="dossier-institution">
+      Compagnie des Indes Orientales<br>
+      Bureau des Armateurs · Saint-Malo<br>
+      <span style="color:#1a4a2a;">RAPPORT DE NAUFRAGE</span>
+    </div>
+    <div class="dossier-num">
+      Journal nº 1704-0093<br>
+      Date : Octobre 1704<br>
+      Statut : Disparu
+    </div>
+  </div>
+
+  <div class="dossier-body">
+    <div class="photo-col">
+      <div class="photo-frame">
+        <img src="garnier.png" alt="Thomas Garnier" style="object-position:center 20%;">
+      </div>
+      <div class="photo-label">Portrait d'après nature · 1704</div>
+      <div class="fingerprint"></div>
+    </div>
+    <div class="info-col">
+      <div class="subject-name">Garnier, Thomas</div>
+      <div class="fields">
+        <div class="field">
+          <div class="field-label">Âge</div>
+          <div class="field-value">31 ans</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Rang</div>
+          <div class="field-value">Matelot de première classe</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Origine</div>
+          <div class="field-value">Saint-Malo, Bretagne</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Expérience</div>
+          <div class="field-value">10 ans de mer · 3 naufrages</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Navire</div>
+          <div class="field-value">Le Saint-Malo (coulé)</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Statut</div>
+          <div class="field-value" style="color:var(--red);">Présumé seul survivant</div>
+        </div>
+      </div>
+      <div class="dossier-desc">
+        Marin expérimenté. Aucune peur déclarée. Le Saint-Malo a coulé en moins d'une heure dans la nuit du 14 octobre 1704. Garnier s'est réveillé seul sur une plage inconnue du Pacifique Sud. Un couteau. Des allumettes mouillées. Quinze jours avant que les secours ne commencent à chercher. Peut-être.
+      </div>
+      <div class="mention" style="color:#1a4a2a;">⚓ Dernière position connue : 26°S — 80°W (estimée)</div>
+    </div>
+  </div>
+
+  <div class="dossier-footer">
+    <div class="dossier-warning">
+      Rapport transmis aux familles en cas de non-retour<br>
+      sous 18 mois à compter de la date de naufrage.
+    </div>
+    <button class="btn-commencer" onclick="commencer('naufrage')">
+      Commencer ▸
+    </button>
+  </div>
+</div>
+
+<!-- ===== DOSSIER : D-DAY ===== -->
+<div class="dossier" id="dossier-dday" style="background:#d8d0b8;">
+  <div class="stamp stamp-red" style="color:#8b1a1a;border-color:#8b1a1a;transform:rotate(-10deg);">Top Secret</div>
+  <div class="stamp stamp-blue" style="top:86px;right:28px;font-size:10px;transform:rotate(-6deg);">101st Airborne · HQ</div>
+
+  <div class="dossier-top">
+    <div class="dossier-institution">
+      United States Army · SHAEF<br>
+      Operation Overlord · Personnel File<br>
+      <span style="color:var(--red);">CLASSIFIED · TOP SECRET</span>
+    </div>
+    <div class="dossier-num">
+      File No. 44-06-0612<br>
+      Date: June 5, 1944<br>
+      Priority: Immediate
+    </div>
+  </div>
+
+  <div class="dossier-body">
+    <div class="photo-col">
+      <div class="photo-frame silhouette">🪖</div>
+      <div class="photo-label">Photo on file · 1944</div>
+      <div class="fingerprint"></div>
+    </div>
+    <div class="info-col">
+      <div class="subject-name">Douglas, Robert W.</div>
+      <div class="fields">
+        <div class="field">
+          <div class="field-label">Âge</div>
+          <div class="field-value">22 ans</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Unité</div>
+          <div class="field-value">506th PIR · 101st Airborne</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Origine</div>
+          <div class="field-value">Columbus, Ohio</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Mission</div>
+          <div class="field-value">Saut nocturne · Normandie</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Objectif</div>
+          <div class="field-value">Brécourt Manor · 4 canons</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Statut</div>
+          <div class="field-value" style="color:var(--red);">Dispersé · Position inconnue</div>
+        </div>
+      </div>
+      <div class="dossier-desc">
+        Soldat qualifié. Trois mois d'entraînement intensif en Angleterre. Dans la nuit du 5 au 6 juin 1944, Douglas saute au-dessus de la Normandie. La DCA allemande disperse les appareils. Il atterrit seul dans un champ normand à 20 km de sa zone de saut. 80 cartouches. 4 grenades. Jusqu'à l'aube.
+      </div>
+      <div class="mention">⚠ Localisation inconnue — rejoindre l'objectif avant 06h30</div>
+    </div>
+  </div>
+
+  <div class="dossier-footer">
+    <div class="dossier-warning">
+      Unauthorized disclosure of this document<br>
+      is subject to court-martial. — U.S. Army, 1944
+    </div>
+    <button class="btn-commencer" onclick="commencer('dday')">
+      Commencer ▸
+    </button>
+  </div>
+</div>
+
+<script>
+  // Récupérer le story depuis l'URL
+  const params = new URLSearchParams(window.location.search);
+  const story = params.get('story') || 'resistance';
+
+  // Afficher le bon dossier
+  const dossierMap = {
+    resistance: 'dossier-resistance',
+    patriotes: 'dossier-patriotes',
+    naufrage: 'dossier-naufrage',
+    dday: 'dossier-dday'
+  };
+
+  window.addEventListener('DOMContentLoaded', () => {
+    // Fade in
+    setTimeout(() => {
+      document.getElementById('overlay').classList.add('fade-out');
+    }, 100);
+
+    const id = dossierMap[story];
+    if (id) {
+      document.getElementById(id).classList.add('active');
+    } else {
+      document.getElementById('dossier-resistance').classList.add('active');
+    }
+  });
+
+  function commencer(story) {
+    // Fade out puis rediriger vers index.html
+    const overlay = document.getElementById('overlay');
+    overlay.style.transition = 'opacity 0.5s ease';
+    overlay.style.opacity = '1';
+    overlay.style.pointerEvents = 'all';
+    setTimeout(() => {
+      window.location.href = 'index.html?autostart=' + story;
+    }, 500);
+  }
+</script>
+</body>
+</html>
