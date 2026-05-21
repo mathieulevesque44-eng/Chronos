@@ -1151,36 +1151,23 @@ body::before {
   max-width: 500px;
   height: 160px;
   overflow: hidden;
-  background: linear-gradient(to bottom, #efe2c2, #b9a77c);
+  background: linear-gradient(to bottom, #1a2e1a, #0d1a0d);
   border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pat-walk-img {
-  position: absolute;
-  bottom: 20px;
-  left: -180px;
-  width: 120px;
-  animation: pat-walk-across 4s linear infinite, pat-walk-bounce 0.45s ease-in-out infinite alternate;
-  filter: drop-shadow(4px 6px 4px rgba(0,0,0,0.35));
+  width: 100px;
+  opacity: 0.85;
+  animation: pat-march 0.6s ease-in-out infinite alternate;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
 }
 
-.pat-walk-ground {
-  position: absolute;
-  bottom: 18px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: rgba(60,45,25,0.4);
-}
-
-@keyframes pat-walk-across {
-  from { left: -180px; }
-  to   { left: calc(100% + 60px); }
-}
-
-@keyframes pat-walk-bounce {
-  from { margin-bottom: 0; }
-  to   { margin-bottom: 6px; }
+@keyframes pat-march {
+  from { transform: translateX(-4px) rotate(-1deg); }
+  to   { transform: translateX(4px) rotate(1deg); }
 }
 
 .pat-loader-dots {
@@ -1637,6 +1624,440 @@ body::before {
   color: rgba(240,230,208,0.7);
 }
 
+
+/* ===== DESTIN LIBRE ===== */
+#screen-destin {
+  background: #0c0a06;
+  min-height: 100vh;
+  font-family: 'Special Elite', cursive;
+  color: #e8d8b0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fond — parchemin brûlé */
+.destin-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(180,120,40,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(120,60,20,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(60,40,10,0.15) 0%, transparent 70%);
+}
+
+.destin-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+#screen-destin > * { position: relative; z-index: 1; }
+
+/* Header */
+.destin-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(200,168,75,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(12,10,6,0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.destin-title-block { display: flex; flex-direction: column; }
+.destin-main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #c8a84b;
+}
+.destin-sub-title {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.5);
+  margin-top: 1px;
+}
+
+/* Jauges */
+.destin-jauges {
+  padding: 10px 20px;
+  background: rgba(8,6,2,0.7);
+  border-bottom: 1px solid rgba(200,168,75,0.15);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.destin-jauge { flex: 1; min-width: 80px; }
+.destin-jauge-hdr {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.6);
+  margin-bottom: 3px;
+}
+.destin-jauge-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.destin-jauge-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+.destin-fill-sante { background: #8b3030; }
+.destin-fill-moral { background: #c8a84b; }
+.destin-fill-reputation { background: #4a7c4a; }
+.destin-fill-influence { background: #4a6080; }
+.destin-fill-danger { background: #cc2222 !important; }
+.destin-fill-warning { background: #cc7722 !important; }
+
+/* Argent */
+.destin-argent {
+  padding: 6px 20px;
+  background: rgba(8,6,2,0.5);
+  border-bottom: 1px solid rgba(200,168,75,0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.destin-argent-montant {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #c8a84b;
+  letter-spacing: 1px;
+}
+.destin-argent-monnaie {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.5);
+}
+.destin-titre-perso {
+  margin-left: auto;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.7);
+  border: 1px solid rgba(200,168,75,0.3);
+  padding: 3px 8px;
+  transition: all 0.5s ease;
+}
+
+/* Contenu */
+.destin-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+.destin-narrative-card {
+  background: rgba(200,168,75,0.04);
+  border: 1px solid rgba(200,168,75,0.15);
+  border-left: 3px solid rgba(200,168,75,0.5);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.destin-date {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.6);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.destin-narrative-text p {
+  font-family: 'IM Fell English', serif;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #c8bea0;
+  margin-bottom: 12px;
+}
+
+.destin-pull-quote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(200,168,75,0.7);
+  border-top: 1px solid rgba(200,168,75,0.2);
+  padding-top: 12px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.destin-objectif {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-left: 2px solid rgba(200,168,75,0.4);
+  color: rgba(200,168,75,0.7);
+  padding: 5px 12px;
+  margin-bottom: 16px;
+  display: none;
+}
+.destin-objectif.active { display: block; }
+
+/* Loading */
+.destin-loading {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  flex-direction: column;
+  gap: 12px;
+}
+.destin-loading.active { display: flex; }
+.destin-spinner {
+  width: 28px; height: 28px;
+  border: 2px solid rgba(200,168,75,0.2);
+  border-top-color: #c8a84b;
+  border-radius: 50%;
+  animation: pat-spin 0.8s linear infinite;
+}
+.destin-loader-text {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.5);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Décisions */
+.destin-decision-zone { display: none; margin-top: 16px; }
+.destin-decision-zone.active { display: block; }
+.destin-dec-lbl {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.5);
+  display: block;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.destin-choices { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.destin-choice-btn {
+  background: rgba(200,168,75,0.06);
+  border: 1px solid rgba(200,168,75,0.25);
+  color: rgba(232,216,176,0.8);
+  padding: 6px 14px;
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.destin-choice-btn:hover { background: rgba(200,168,75,0.15); color: #c8a84b; border-color: #c8a84b; }
+.destin-dec-input {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,168,75,0.2);
+  padding: 9px 13px;
+  font-family: 'Special Elite', cursive;
+  font-size: 13px;
+  color: #e8d8b0;
+  resize: none;
+  min-height: 68px;
+  outline: none;
+  box-sizing: border-box;
+}
+.destin-dec-input:focus { border-color: rgba(200,168,75,0.4); }
+.destin-dec-input::placeholder { color: rgba(200,168,75,0.25); font-style: italic; }
+.destin-submit-btn {
+  margin-top: 7px;
+  background: rgba(200,168,75,0.15);
+  color: #c8a84b;
+  border: 1px solid rgba(200,168,75,0.4);
+  padding: 8px 26px;
+  font-family: 'Special Elite', cursive;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  float: right;
+  transition: all 0.2s;
+}
+.destin-submit-btn:hover { background: rgba(200,168,75,0.25); }
+.destin-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* PNJ */
+.destin-pnj-zone { display: none; margin-top: 8px; border-left: 2px solid rgba(200,168,75,0.2); padding-left: 14px; }
+.destin-pnj-zone.open { display: block; }
+.destin-pnj-entry { font-size: 10px; color: rgba(200,168,75,0.6); padding: 3px 0; border-bottom: 1px solid rgba(200,168,75,0.1); }
+
+/* Game Over / Fin */
+.destin-fin {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5,4,2,0.97);
+  z-index: 300;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+.destin-fin-icon { font-size: 48px; margin-bottom: 16px; }
+.destin-fin-nom {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px,4vw,36px);
+  font-weight: 700;
+  color: #c8a84b;
+  margin-bottom: 8px;
+}
+.destin-fin-titre {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.6);
+  margin-bottom: 20px;
+}
+.destin-fin-stats {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.destin-fin-stat { text-align: center; }
+.destin-fin-stat-val { font-family: 'Playfair Display', serif; font-size: 28px; color: #c8a84b; }
+.destin-fin-stat-lbl { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: rgba(200,168,75,0.4); margin-top: 2px; }
+.destin-fin-epitaphe {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(200,168,75,0.6);
+  max-width: 480px;
+  line-height: 1.9;
+  margin-bottom: 28px;
+  border-top: 1px solid rgba(200,168,75,0.2);
+  border-bottom: 1px solid rgba(200,168,75,0.2);
+  padding: 16px 0;
+}
+.destin-fin-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.destin-fin-btn {
+  background: transparent;
+  border: 1px solid rgba(200,168,75,0.4);
+  color: rgba(200,168,75,0.7);
+  padding: 11px 28px;
+  font-family: 'Special Elite', cursive;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.destin-fin-btn:hover { border-color: #c8a84b; color: #c8a84b; }
+.destin-fin-btn-primary { background: rgba(200,168,75,0.15); }
+
+/* ===== ÉCRAN CRÉATION DESTIN ===== */
+#screen-destin-create {
+  background: #0c0a06;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Special Elite', cursive;
+  position: relative;
+  overflow: hidden;
+}
+
+.destin-create-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(60,40,10,0.3) 0%, #0c0a06 70%);
+  z-index: 0;
+}
+
+.destin-create-panel {
+  position: relative;
+  z-index: 1;
+  width: min(520px, 92vw);
+  padding: 40px;
+  border: 1px solid rgba(200,168,75,0.2);
+  background: rgba(12,10,6,0.9);
+}
+
+.destin-create-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.destin-create-logo {
+  font-size: 28px;
+  color: #c8a84b;
+  margin-bottom: 8px;
+}
+
+.destin-create-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px,4vw,30px);
+  font-weight: 700;
+  color: #e8d8b0;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.destin-create-premise {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(200,168,75,0.6);
+  line-height: 1.7;
+}
+
+.destin-create-fields { display: flex; flex-direction: column; gap: 18px; }
+
+.destin-field-lbl {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.6);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.destin-field-input {
+  width: 100%;
+  background: rgba(200,168,75,0.05);
+  border: 1px solid rgba(200,168,75,0.2);
+  border-bottom: 2px solid rgba(200,168,75,0.4);
+  padding: 10px 14px;
+  font-family: 'IM Fell English', serif;
+  font-size: 15px;
+  color: #e8d8b0;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.destin-field-input:focus { border-color: rgba(200,168,75,0.6); border-bottom-color: #c8a84b; }
+.destin-field-input::placeholder { color: rgba(200,168,75,0.25); font-style: italic; }
+
+.destin-create-launch {
+  margin-top: 28px;
+  width: 100%;
+  background: rgba(200,168,75,0.12);
+  border: 1px solid rgba(200,168,75,0.4);
+  color: #c8a84b;
+  padding: 14px;
+  font-family: 'Special Elite', cursive;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.destin-create-launch:hover { background: rgba(200,168,75,0.22); }
+.destin-create-launch:disabled { opacity: 0.4; cursor: not-allowed; }
+
 </style>
 </head>
 <body>
@@ -1778,6 +2199,34 @@ body::before {
 
   </div>
 
+    <!-- DESTIN LIBRE -->
+    <div class="story-card" onclick="openModal('destin')">
+      <div class="story-badge badge-free">Nouveau</div>
+      <div class="card-hdr">
+        <span class="card-era">Toutes époques · Mode libre</span>
+        <div class="card-title">Destin Libre</div>
+        <div class="card-subtitle">Votre histoire, votre époque</div>
+      </div>
+      <div class="card-char">
+        <div class="id-card">
+          <div class="id-photo">⧗</div>
+          <div class="id-name">VOUS<br>20 ans<br>Orphelin</div>
+          <div class="id-stamp">LIBRE</div>
+        </div>
+        <div class="char-info">
+          <span class="char-role">Vous incarnez</span>
+          <div class="char-name">Votre personnage</div>
+          <p class="char-desc">Vos parents viennent de mourir. Vous avez 20 ans et l'équivalent de 1 000 $ en poche. Choisissez votre époque, votre lieu. Le reste dépend de vous.</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-premise">De Orphelin à Légende. Venise 1450, Paris 1789, Rome 44 av. J.-C. — chaque partie est unique.</p>
+      </div>
+      <div class="card-footer">
+        <span class="card-meta">Mode sans fin · PNJ récurrents · Titre évolutif</span>
+        <button class="play-btn">Jouer ▸</button>
+      </div>
+    </div>
 
   </div>
 
@@ -2038,6 +2487,10 @@ function goHome() {
 
 // ===== MODAL =====
 function openModal(story) {
+  if (story === 'destin') {
+    showScreen('screen-destin-create');
+    return;
+  }
   // Rediriger vers la fiche de personnage
   window.location.href = 'dossiers.html?story=' + story;
 }
@@ -2060,6 +2513,8 @@ function startStory() {
     launchPatriotes(1);
   } else if (selectedStory === 'dday') {
     launchDday(1);
+  } else if (selectedStory === 'destin') {
+    showScreen('screen-destin-create');
   } else {
     launchResistance(1);
   }
@@ -2877,7 +3332,7 @@ RÈGLES JAUGES (0–100) :
 - moral : baisse si Étienne hésite ou fuit, monte si actes de conviction. Baisse naturelle de 3–5/décision
 - suspicion : monte très vite (+10 à +25 par imprudence), descend très lentement (-3 à -5 max). À 80+ = arrestation possible. À 100 = arrestation certaine
 - reputation : commence bas (20). Monte seulement si actes prouvent engagement réel (+5 à +15)
-- fatigue : reflet de l'effort réel. Se cacher/dormir/attendre = -5 à -10. Marcher/fuir = +8 à +15. Combat/stress intense = +10 à +20. Décision neutre = +2 à +4. Peut baisser si le joueur se repose.
+- fatigue : reflet de l'effort réel (max 150). Se cacher/dormir/attendre = -5 à -10. Marcher/fuir = +8 à +15. Combat/stress intense = +10 à +20. Décision neutre = +2 à +4. Peut baisser si le joueur se repose. À 120+ = erreurs fatales.
 
 DIFFICULTÉ STRICTE :
 - Si suspicion >= 80 ET Étienne dans lieu public → game_over:true, game_over_type:"arrete_avant_saint_denis"
@@ -3072,6 +3527,7 @@ function initPatriotesState(chap, prevJauges) {
 }
 
 function clampP(v) { return Math.max(0, Math.min(100, Math.round(v))); }
+function clampF(v) { return Math.max(0, Math.min(150, Math.round(v))); } // fatigue max 150
 
 function launchPatriotes(chap, prevJauges) {
   gameState = initPatriotesState(chap, prevJauges);
@@ -3110,7 +3566,7 @@ function updatePatriotesJauges() {
     if (val <= 20) fill.classList.add('pat-fill-danger');
     else if (val <= 40) fill.classList.add('pat-fill-warning');
   });
-  const danger = j.sante <= 20 || j.moral <= 20 || j.suspicion >= 80 || j.fatigue >= 85;
+  const danger = j.sante <= 20 || j.moral <= 20 || j.suspicion >= 80 || j.fatigue >= 120;
   document.getElementById('pat-alert').classList.toggle('active', danger);
   if (j.suspicion >= 80) {
     document.getElementById('pat-alert').textContent = '⚠ Suspicion critique — vous êtes en danger immédiat';
@@ -3167,7 +3623,7 @@ function renderPatriotes(data) {
   if (data.delta_moral !== undefined)      j.moral      = clampP(j.moral      + data.delta_moral);
   if (data.delta_suspicion !== undefined)  j.suspicion  = clampP(j.suspicion  + data.delta_suspicion);
   if (data.delta_reputation !== undefined) j.reputation = clampP(j.reputation + data.delta_reputation);
-  if (data.delta_fatigue !== undefined)    j.fatigue    = clampP(j.fatigue    + data.delta_fatigue);
+  if (data.delta_fatigue !== undefined)    j.fatigue    = clampF(j.fatigue    + data.delta_fatigue);
   updatePatriotesJauges();
   showDeltas(buildPatriotesDeltas(data));
   if (data.objectif) updateObjectif('pat-objectif', data.objectif);
@@ -4127,6 +4583,304 @@ function renderDdayPersonnages(personnages) {
   });
 }
 
+
+// ============================================================
+// ===== DESTIN LIBRE =====
+// ============================================================
+
+const DESTIN_TITRES = [
+  { min: 0,  max: 20,  titre: 'Orphelin' },
+  { min: 21, max: 35,  titre: 'Apprenti' },
+  { min: 36, max: 50,  titre: 'Artisan' },
+  { min: 51, max: 65,  titre: 'Marchand' },
+  { min: 66, max: 78,  titre: 'Notable' },
+  { min: 79, max: 88,  titre: 'Gouverneur' },
+  { min: 89, max: 95,  titre: 'Ministre' },
+  { min: 96, max: 99,  titre: 'Souverain' },
+  { min: 100, max: 100, titre: 'Légende' }
+];
+
+let destinState = {};
+
+function getTitreDestinaire(score) {
+  for (const t of DESTIN_TITRES) {
+    if (score >= t.min && score <= t.max) return t.titre;
+  }
+  return 'Orphelin';
+}
+
+function getScoreDestin(jauges) {
+  return Math.round((jauges.reputation * 0.5 + jauges.influence * 0.3 + jauges.moral * 0.2));
+}
+
+function lancerDestinLibre() {
+  const nom = document.getElementById('destin-nom').value.trim();
+  const epoque = document.getElementById('destin-epoque').value.trim();
+  const desc = document.getElementById('destin-desc').value.trim();
+
+  if (!nom || !epoque) {
+    document.getElementById('destin-nom').style.borderColor = nom ? '' : '#cc4444';
+    document.getElementById('destin-epoque').style.borderColor = epoque ? '' : '#cc4444';
+    return;
+  }
+
+  destinState = {
+    nom, epoque, desc,
+    decision: 1,
+    jauges: { sante: 80, moral: 70, reputation: 10, influence: 5 },
+    argent: 0,
+    monnaie: '',
+    history: [],
+    messages: [],
+    pnj: []
+  };
+
+  document.getElementById('dl-dec-lbl').textContent = '— Que faites-vous, ' + nom.split(' ')[0] + ' ? —';
+  document.getElementById('dl-loading').classList.remove('active');
+  document.getElementById('dl-decision-zone').classList.remove('active');
+  document.getElementById('dl-fin').style.display = 'none';
+  document.getElementById('dl-pnj-list').innerHTML = '<p style="font-size:10px;color:rgba(200,168,75,0.4);font-style:italic;">Les personnages apparaîtront au fil de l\'histoire...</p>';
+  document.getElementById('dl-pnj-zone').classList.remove('open');
+
+  showScreen('screen-destin');
+  document.getElementById('dl-loading').classList.add('active');
+  loadDestinScene();
+}
+
+function getDestinSystemPrompt() {
+  const s = destinState;
+  return `Tu es le narrateur de CHRONICA — Destin Libre. Le joueur incarne ${s.nom}${s.desc ? ', ' + s.desc : ''}, à ${s.epoque}. Il a 20 ans. Ses parents viennent de mourir. Il possède l'équivalent de 1 000 $ en monnaie locale de l'époque.
+
+RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
+{"date":"date/période courte ex: 'Venise, printemps 1450'","narration":"3 paragraphes \n\n 2ème personne immersive 150-200 mots, historiquement crédible, époque respectée","pull_quote":"phrase courte et forte","objectif":"une ligne — ce que le personnage cherche à accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu|neutre","statut":"vivant|mort|inconnu","note":"ce qu'on sait de lui en une phrase"}],"delta_sante":0,"delta_moral":0,"delta_reputation":0,"delta_influence":0,"argent":1000,"monnaie":"nom de la monnaie locale ex: ducats, livres, deniers, dollars","game_over":false,"game_over_type":null,"epitaphe":null,"titre_epoque":"le titre correspondant au niveau du personnage dans CETTE époque ex: Plébéien, Guildmaster, Bourgeois..."}
+
+JAUGES (0-100) :
+- sante : physique. Maladie, blessure, famine. 0 = mort.
+- moral : état mental. Désespoir ou espoir. 0 = abandon.
+- reputation : comment les gens de l'époque te perçoivent. Monte lentement, descend vite.
+- influence : réseau, connexions, pouvoir. Très difficile à monter.
+
+ARGENT :
+- Commence à l'équivalent de 1 000 $ modernes dans la monnaie locale de l'époque
+- Varie selon les décisions — commerce, vol, dépense, investissement, corruption
+- Donne le montant EXACT en nombre (ex: 847, pas "environ 800")
+- Toujours donner la monnaie locale correcte pour l'époque
+
+TITRE :
+- titre_epoque = le titre social réel dans cette époque selon le niveau du personnage
+- Commence bas (Plébéien, Gueux, Apprenti...) et monte selon les succès
+
+DIFFICULTÉ :
+- Monter haut (Roi, Président, Pape) est QUASI IMPOSSIBLE — nécessite 40+ décisions excellentes
+- Les mauvaises décisions ont des conséquences permanentes et réalistes
+- Les PNJ se souviennent — une trahison a des conséquences futures
+- game_over si sante=0 OU moral=0, avec epitaphe unique pour CE personnage
+- ANACHRONISMES INTERDITS — époque et lieu doivent être historiquement cohérents
+
+PERSONNAGES RÉCURRENTS :
+- Réintroduire les personnages des décisions précédentes
+- Leur statut change selon les actions du joueur
+- Un ennemi peut devenir allié, un allié peut trahir
+
+STYLE : immersif, historiquement crédible, conséquences réalistes. Chaque époque a sa propre logique sociale, économique, politique.`;
+}
+
+async function callDestinAPI(msg) {
+  destinState.messages.push({ role: 'user', content: msg });
+  const resp = await fetch('/.netlify/functions/anthropic', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-5',
+      max_tokens: 1500,
+      system: getDestinSystemPrompt(),
+      messages: destinState.messages
+    })
+  });
+  const data = await resp.json();
+  if (data.error) throw new Error(data.error.message || 'Erreur API');
+  const text = data.content.map(b => b.text || '').join('');
+  destinState.messages.push({ role: 'assistant', content: text });
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('Réponse invalide');
+  return JSON.parse(match[0]);
+}
+
+async function loadDestinScene() {
+  try {
+    const s = destinState;
+    const startMsg = `Début. ${s.nom}, 20 ans, ${s.epoque}. Parents décédés. Premier jour seul. Établir la monnaie locale et le montant exact équivalent à 1 000 $. Décision 1.`;
+    const data = await callDestinAPI(startMsg);
+    renderDestin(data);
+  } catch(e) {
+    document.getElementById('dl-loading').classList.remove('active');
+    document.getElementById('dl-narrative').innerHTML = '<p style="color:#cc4444">Erreur : ' + e.message + '</p>';
+    document.getElementById('dl-decision-zone').classList.add('active');
+  }
+}
+
+function clampDL(v) { return Math.max(0, Math.min(100, Math.round(v))); }
+
+function renderDestin(data) {
+  const j = destinState.jauges;
+  if (data.delta_sante !== undefined)      j.sante      = clampDL(j.sante      + data.delta_sante);
+  if (data.delta_moral !== undefined)      j.moral      = clampDL(j.moral      + data.delta_moral);
+  if (data.delta_reputation !== undefined) j.reputation = clampDL(j.reputation + data.delta_reputation);
+  if (data.delta_influence !== undefined)  j.influence  = clampDL(j.influence  + data.delta_influence);
+
+  // Argent
+  if (data.argent !== undefined) destinState.argent = data.argent;
+  if (data.monnaie) destinState.monnaie = data.monnaie;
+
+  // Titre évolue
+  if (data.titre_epoque) {
+    document.getElementById('dl-titre').textContent = data.titre_epoque;
+  } else {
+    const score = getScoreDestin(j);
+    document.getElementById('dl-titre').textContent = getTitreDestinaire(score);
+  }
+
+  // Update UI jauges
+  const pairs = [['sante',j.sante,'dl-v-sante','dl-f-sante'],['moral',j.moral,'dl-v-moral','dl-f-moral'],['reputation',j.reputation,'dl-v-rep','dl-f-rep'],['influence',j.influence,'dl-v-inf','dl-f-inf']];
+  pairs.forEach(([,val,vid,fid]) => {
+    const vEl = document.getElementById(vid);
+    const fEl = document.getElementById(fid);
+    if (vEl) vEl.textContent = val;
+    if (fEl) {
+      fEl.style.width = val + '%';
+      fEl.classList.toggle('destin-fill-danger', val <= 20);
+      fEl.classList.toggle('destin-fill-warning', val > 20 && val <= 40);
+    }
+  });
+
+  // Argent display
+  document.getElementById('dl-argent').textContent = destinState.argent.toLocaleString('fr-FR');
+  document.getElementById('dl-monnaie').textContent = destinState.monnaie;
+
+  // Pop-up deltas
+  const deltasList = [
+    { label: '❤ Santé', value: data.delta_sante, type: (data.delta_sante||0) > 0 ? 'pos' : 'neg' },
+    { label: '⚡ Moral', value: data.delta_moral, type: (data.delta_moral||0) > 0 ? 'pos' : 'neg' },
+    { label: '★ Réputation', value: data.delta_reputation, type: (data.delta_reputation||0) > 0 ? 'pos' : 'neg' },
+    { label: '👥 Influence', value: data.delta_influence, type: (data.delta_influence||0) > 0 ? 'pos' : 'neg' },
+  ].filter(d => d.value && d.value !== 0);
+  if (deltasList.length) showDeltas(deltasList);
+
+  // Narration
+  if (data.date) document.getElementById('dl-date').textContent = data.date;
+  const textEl = document.getElementById('dl-narrative');
+  if (data.narration) {
+    textEl.innerHTML = data.narration.split('\n\n').map(p => '<p>' + p + '</p>').join('');
+    textEl.classList.remove('fade-in'); void textEl.offsetWidth; textEl.classList.add('fade-in');
+  }
+  if (data.pull_quote) {
+    const pq = document.getElementById('dl-pull-quote');
+    pq.textContent = data.pull_quote;
+    pq.style.display = 'block';
+  }
+  if (data.objectif) updateObjectif('dl-objectif', data.objectif);
+
+  // PNJ
+  if (data.personnages && data.personnages.length) renderDestinPNJ(data.personnages);
+
+  document.getElementById('dl-loading').classList.remove('active');
+  document.getElementById('dl-chap-info').textContent = 'Décision ' + destinState.decision;
+
+  // Game over
+  if (data.game_over) {
+    handleDestinGameOver(data);
+    return;
+  }
+
+  // Choix
+  const choicesEl = document.getElementById('dl-choices');
+  choicesEl.innerHTML = '';
+  (data.quick_choices || []).forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'destin-choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => { document.getElementById('dl-dec-input').value = c; window.lastDestinChoice = c; };
+    choicesEl.appendChild(btn);
+  });
+
+  document.getElementById('dl-decision-zone').classList.add('active');
+  document.getElementById('dl-submit-btn').disabled = false;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleDestinGameOver(data) {
+  const j = destinState.jauges;
+  const score = getScoreDestin(j);
+  const titre = data.titre_epoque || getTitreDestinaire(score);
+  const icon = j.sante <= 0 ? '💀' : j.moral <= 0 ? '🏚️' : '⧗';
+
+  document.getElementById('dl-fin-icon').textContent = icon;
+  document.getElementById('dl-fin-nom').textContent = destinState.nom;
+  document.getElementById('dl-fin-titre').textContent = titre + ' · ' + destinState.epoque;
+  document.getElementById('dl-fin-decisions').textContent = destinState.decision;
+  document.getElementById('dl-fin-argent').textContent = destinState.argent.toLocaleString('fr-FR');
+  document.getElementById('dl-fin-monnaie').textContent = destinState.monnaie;
+  document.getElementById('dl-fin-rep').textContent = j.reputation;
+  document.getElementById('dl-fin-epitaphe').textContent = data.epitaphe || destinState.nom + ' vécut et mourut à ' + destinState.epoque + '. ' + (j.reputation > 50 ? 'On se souvient de lui.' : 'Personne ne se souvient de lui.');
+  document.getElementById('dl-fin').style.display = 'flex';
+}
+
+async function submitDestinDecision() {
+  const input = document.getElementById('dl-dec-input');
+  const decision = input.value.trim() || window.lastDestinChoice || '';
+  if (!decision) return;
+  window.lastDestinChoice = '';
+  document.getElementById('dl-submit-btn').disabled = true;
+  document.getElementById('dl-decision-zone').classList.remove('active');
+  document.getElementById('dl-loading').classList.add('active');
+  destinState.history.push({ decision, decision_num: destinState.decision });
+  const currentDec = destinState.decision;
+  destinState.decision++;
+  const j = destinState.jauges;
+  const msg = 'Décision ' + currentDec + '. Action: "' + decision + '". Santé:' + j.sante + ' Moral:' + j.moral + ' Réputation:' + j.reputation + ' Influence:' + j.influence + ' Argent:' + destinState.argent + ' ' + destinState.monnaie + '.';
+  try {
+    const data = await callDestinAPI(msg);
+    renderDestin(data);
+  } catch(e) {
+    document.getElementById('dl-loading').classList.remove('active');
+    document.getElementById('dl-decision-zone').classList.add('active');
+    document.getElementById('dl-submit-btn').disabled = false;
+  }
+  input.value = '';
+}
+
+function renderDestinPNJ(personnages) {
+  const el = document.getElementById('dl-pnj-list');
+  const existing = {};
+  el.querySelectorAll('[data-nom]').forEach(e => { existing[e.dataset.nom] = e; });
+  if (Object.keys(existing).length === 0) el.innerHTML = '';
+
+  personnages.forEach(p => {
+    const couleur = p.relation === 'allie' ? '#4a7c4a' : p.relation === 'ennemi' ? '#8b1a1a' : p.relation === 'ambigu' ? '#c8a84b' : '#6a6a5a';
+    const icone = p.relation === 'allie' ? '★' : p.relation === 'ennemi' ? '✕' : '?';
+    if (existing[p.nom]) {
+      existing[p.nom].querySelector('.dl-pnj-note').textContent = p.note || '';
+      const badge = existing[p.nom].querySelector('.dl-pnj-badge');
+      if (badge) { badge.style.color = couleur; badge.textContent = icone + ' ' + p.statut; }
+    } else {
+      const div = document.createElement('div');
+      div.dataset.nom = p.nom;
+      div.className = 'destin-pnj-entry';
+      div.style.cssText = 'padding:6px 0;border-bottom:1px solid rgba(200,168,75,0.1);';
+      div.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">'
+        + '<span style="font-size:11px;color:#e8d8b0;">' + p.nom + '</span>'
+        + '<span class="dl-pnj-badge" style="font-size:8px;letter-spacing:2px;color:' + couleur + ';">' + icone + ' ' + (p.statut||'vivant') + '</span>'
+        + '</div>'
+        + '<p class="dl-pnj-note" style="font-size:10px;color:rgba(200,168,75,0.5);font-style:italic;margin:0;">' + (p.note||'') + '</p>';
+      el.appendChild(div);
+    }
+  });
+}
+
+function toggleDestinPNJ() {
+  document.getElementById('dl-pnj-zone').classList.toggle('open');
+}
+
 </script>
 
 
@@ -4189,7 +4943,6 @@ function renderDdayPersonnages(personnages) {
     <div class="pat-loading" id="pat-loading">
       <div class="pat-walk-scene">
         <img src="patriote.webp" class="pat-walk-img" alt="Patriote" />
-        <div class="pat-walk-ground"></div>
       </div>
       <div class="pat-loader-text">L'histoire s'écrit...</div>
       <div class="pat-loader-dots"><span></span><span></span><span></span></div>
@@ -4549,6 +5302,135 @@ function renderDdayPersonnages(personnages) {
         <button class="dday-go-btn dday-go-btn-primary" id="dday-go-next" style="display:none;" onclick="launchDday(ddayState.partie, ddayState.chapter+1)">Chapitre suivant ▸</button>
         <button class="dday-go-btn" onclick="launchDday(ddayState.partie, ddayState.chapter)">↺ Recommencer</button>
         <button class="dday-go-btn" onclick="goHome()">⌂ Accueil</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== DESTIN LIBRE — CRÉATION ===== -->
+<div id="screen-destin-create" class="screen">
+  <div class="destin-create-bg"></div>
+  <div class="destin-create-panel">
+    <div class="destin-create-header">
+      <div class="destin-create-logo">⧗</div>
+      <div class="destin-create-title">Destin Libre</div>
+      <p class="destin-create-premise">
+        Vos parents viennent de mourir.<br>
+        Vous avez 20 ans et l'équivalent de 1 000 $ en poche.<br>
+        Le reste dépend de vous.
+      </p>
+    </div>
+    <div class="destin-create-fields">
+      <div>
+        <label class="destin-field-lbl">Votre nom</label>
+        <input class="destin-field-input" id="destin-nom" type="text" placeholder="Ex: Elena Vasari, Marco Lebrun..." maxlength="40">
+      </div>
+      <div>
+        <label class="destin-field-lbl">Époque & Lieu</label>
+        <input class="destin-field-input" id="destin-epoque" type="text" placeholder="Ex: Venise 1450, Paris 1789, Rome 44 av. J.-C." maxlength="60">
+      </div>
+      <div>
+        <label class="destin-field-lbl">Une phrase sur vous <span style="color:rgba(200,168,75,0.3)">(facultatif)</span></label>
+        <input class="destin-field-input" id="destin-desc" type="text" placeholder="Ex: Fille d'un marchand ruiné, parle 3 langues..." maxlength="100">
+      </div>
+    </div>
+    <button class="destin-create-launch" id="destin-launch-btn" onclick="lancerDestinLibre()">
+      Écrire mon destin ▸
+    </button>
+  </div>
+</div>
+
+<!-- ===== DESTIN LIBRE — JEU ===== -->
+<div id="screen-destin" class="screen">
+  <div class="destin-bg"></div>
+
+  <div class="destin-header">
+    <div>
+      <div class="destin-main-title">Destin Libre</div>
+      <div class="destin-sub-title" id="destin-chap-info">Décision 1</div>
+    </div>
+    <button onclick="goHome()" style="background:transparent;border:1px solid rgba(200,168,75,0.2);color:rgba(200,168,75,0.5);font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
+  </div>
+
+  <div class="destin-jauges">
+    <div class="destin-jauge">
+      <div class="destin-jauge-hdr"><span>❤ Santé</span><span id="dl-v-sante">80</span></div>
+      <div class="destin-jauge-bar"><div class="destin-jauge-fill destin-fill-sante" id="dl-f-sante" style="width:80%"></div></div>
+    </div>
+    <div class="destin-jauge">
+      <div class="destin-jauge-hdr"><span>⚡ Moral</span><span id="dl-v-moral">70</span></div>
+      <div class="destin-jauge-bar"><div class="destin-jauge-fill destin-fill-moral" id="dl-f-moral" style="width:70%"></div></div>
+    </div>
+    <div class="destin-jauge">
+      <div class="destin-jauge-hdr"><span>★ Réputation</span><span id="dl-v-rep">10</span></div>
+      <div class="destin-jauge-bar"><div class="destin-jauge-fill destin-fill-reputation" id="dl-f-rep" style="width:10%"></div></div>
+    </div>
+    <div class="destin-jauge">
+      <div class="destin-jauge-hdr"><span>👥 Influence</span><span id="dl-v-inf">5</span></div>
+      <div class="destin-jauge-bar"><div class="destin-jauge-fill destin-fill-influence" id="dl-f-inf" style="width:5%"></div></div>
+    </div>
+  </div>
+
+  <div class="destin-argent">
+    <div>
+      <div class="destin-argent-montant" id="dl-argent">—</div>
+      <div class="destin-argent-monnaie" id="dl-monnaie">—</div>
+    </div>
+    <div class="destin-titre-perso" id="dl-titre">Orphelin</div>
+  </div>
+
+  <div class="destin-content">
+    <div class="destin-narrative-card">
+      <span class="destin-date" id="dl-date">—</span>
+      <div class="destin-narrative-text" id="dl-narrative"></div>
+      <div class="destin-pull-quote" id="dl-pull-quote" style="display:none"></div>
+    </div>
+
+    <div class="destin-objectif" id="dl-objectif"></div>
+
+    <div class="destin-loading" id="dl-loading">
+      <div class="destin-spinner"></div>
+      <div class="destin-loader-text">L'histoire s'écrit...</div>
+    </div>
+
+    <div class="destin-decision-zone" id="dl-decision-zone">
+      <span class="destin-dec-lbl" id="dl-dec-lbl">— Que faites-vous ? —</span>
+      <div class="destin-choices" id="dl-choices"></div>
+      <textarea class="destin-dec-input" id="dl-dec-input" placeholder="Décrivez votre action..."></textarea>
+      <button class="destin-submit-btn" id="dl-submit-btn" onclick="submitDestinDecision()">Agir ▸</button>
+      <div style="clear:both;margin-top:8px;">
+        <button onclick="toggleDestinPNJ()" style="background:transparent;border:1px solid rgba(200,168,75,0.2);color:rgba(200,168,75,0.5);font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">▸ Personnages</button>
+      </div>
+    </div>
+
+    <div class="destin-pnj-zone" id="dl-pnj-zone">
+      <div id="dl-pnj-list"><p style="font-size:10px;color:rgba(200,168,75,0.4);font-style:italic;">Les personnages apparaîtront au fil de l'histoire...</p></div>
+    </div>
+
+    <!-- FIN DE PARTIE -->
+    <div class="destin-fin" id="dl-fin">
+      <div class="destin-fin-icon" id="dl-fin-icon">⧗</div>
+      <div class="destin-fin-nom" id="dl-fin-nom"></div>
+      <div class="destin-fin-titre" id="dl-fin-titre"></div>
+      <div class="destin-fin-stats">
+        <div class="destin-fin-stat">
+          <div class="destin-fin-stat-val" id="dl-fin-decisions">0</div>
+          <div class="destin-fin-stat-lbl">Décisions</div>
+        </div>
+        <div class="destin-fin-stat">
+          <div class="destin-fin-stat-val" id="dl-fin-argent">—</div>
+          <div class="destin-fin-stat-lbl" id="dl-fin-monnaie">—</div>
+        </div>
+        <div class="destin-fin-stat">
+          <div class="destin-fin-stat-val" id="dl-fin-rep">0</div>
+          <div class="destin-fin-stat-lbl">Réputation</div>
+        </div>
+      </div>
+      <p class="destin-fin-epitaphe" id="dl-fin-epitaphe"></p>
+      <div class="destin-fin-btns">
+        <button class="destin-fin-btn destin-fin-btn-primary" onclick="showScreen('screen-destin-create')">↺ Nouveau destin</button>
+        <button class="destin-fin-btn" onclick="goHome()">⌂ Accueil</button>
       </div>
     </div>
   </div>
