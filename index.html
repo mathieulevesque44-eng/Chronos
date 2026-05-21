@@ -2200,7 +2200,7 @@ body::before {
   </div>
 
     <!-- DESTIN LIBRE -->
-    <div class="story-card" onclick="openModal('destin')">
+    <div class="story-card" onclick="showScreen('screen-destin-create')">
       <div class="story-badge badge-free">Nouveau</div>
       <div class="card-hdr">
         <span class="card-era">Toutes époques · Mode libre</span>
@@ -4623,6 +4623,7 @@ function lancerDestinLibre() {
     document.getElementById('destin-epoque').style.borderColor = epoque ? '' : '#cc4444';
     return;
   }
+  document.getElementById('destin-launch-btn').disabled = true;
 
   destinState = {
     nom, epoque, desc,
@@ -4643,8 +4644,10 @@ function lancerDestinLibre() {
   document.getElementById('dl-pnj-zone').classList.remove('open');
 
   showScreen('screen-destin');
-  document.getElementById('dl-loading').classList.add('active');
-  loadDestinScene();
+  setTimeout(() => {
+    document.getElementById('dl-loading').classList.add('active');
+    loadDestinScene();
+  }, 100);
 }
 
 function getDestinSystemPrompt() {
