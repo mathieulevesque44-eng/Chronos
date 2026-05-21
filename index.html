@@ -4718,7 +4718,8 @@ async function callDestinAPI(msg) {
   if (data.error) throw new Error(data.error.message || 'Erreur API');
   const text = data.content.map(b => b.text || '').join('');
   destinState.messages.push({ role: 'assistant', content: text });
-  const match = text.match(/\{[\s\S]*\}/);
+  const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  const match = clean.match(/\{[\s\S]*\}/);
   if (!match) throw new Error('Réponse invalide');
   return JSON.parse(match[0]);
 }
