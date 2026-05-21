@@ -4629,7 +4629,9 @@ function lancerDestinLibre() {
     document.getElementById('destin-epoque').style.borderColor = epoque ? '' : '#cc4444';
     return;
   }
-  document.getElementById('destin-launch-btn').disabled = true;
+  const launchBtn = document.getElementById('destin-launch-btn');
+  launchBtn.disabled = true;
+  launchBtn.textContent = 'Chargement...';
 
   destinState = {
     nom, epoque, desc,
@@ -4649,11 +4651,17 @@ function lancerDestinLibre() {
   document.getElementById('dl-pnj-list').innerHTML = '<p style="font-size:10px;color:rgba(200,168,75,0.4);font-style:italic;">Les personnages apparaîtront au fil de l\'histoire...</p>';
   document.getElementById('dl-pnj-zone').classList.remove('open');
 
-  showScreen('screen-destin');
-  setTimeout(() => {
-    document.getElementById('dl-loading').classList.add('active');
-    loadDestinScene();
-  }, 100);
+  try {
+    showScreen('screen-destin');
+    setTimeout(() => {
+      document.getElementById('dl-loading').classList.add('active');
+      loadDestinScene();
+    }, 100);
+  } catch(e) {
+    launchBtn.disabled = false;
+    launchBtn.textContent = 'Écrire mon destin ▸';
+    console.error('Erreur lancerDestinLibre:', e);
+  }
 }
 
 function getDestinSystemPrompt() {
