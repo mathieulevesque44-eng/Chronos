@@ -4807,7 +4807,7 @@ function renderDestin(data) {
   if (data.personnages && data.personnages.length) renderDestinPNJ(data.personnages);
 
   document.getElementById('dl-loading').classList.remove('active');
-  document.getElementById('dl-chap-info').textContent = 'Décision ' + destinState.decision;
+  document.getElementById('destin-chap-info').textContent = 'Décision ' + destinState.decision;
 
   // Game over
   if (data.game_over) {
