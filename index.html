@@ -4675,10 +4675,18 @@ RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
 {"date":"date/période courte ex: 'Venise, printemps 1450'","narration":"3 paragraphes \n\n 2ème personne immersive 150-200 mots, historiquement crédible, époque respectée","pull_quote":"phrase courte et forte","objectif":"une ligne — ce que le personnage cherche à accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu|neutre","statut":"vivant|mort|inconnu","note":"ce qu'on sait de lui en une phrase"}],"delta_sante":0,"delta_moral":0,"delta_reputation":0,"delta_influence":0,"argent":1000,"monnaie":"nom de la monnaie locale ex: ducats, livres, deniers, dollars","game_over":false,"game_over_type":null,"epitaphe":null,"titre_epoque":"le titre correspondant au niveau du personnage dans CETTE époque ex: Plébéien, Guildmaster, Bourgeois..."}
 
 JAUGES (0-100) :
-- sante : physique. Maladie, blessure, famine. 0 = mort.
-- moral : état mental. Désespoir ou espoir. 0 = abandon.
-- reputation : comment les gens de l'époque te perçoivent. Monte lentement, descend vite.
-- influence : réseau, connexions, pouvoir. Très difficile à monter.
+- sante : physique. Commence à 80. NE BAISSE PAS naturellement avant 50-60 ans. Baisse SEULEMENT si : blessure au combat, maladie grave explicite, famine prolongée, accident violent. Une mauvaise décision seule ne baisse JAMAIS la santé. Max -15 par événement traumatique.
+- moral : état mental. Désespoir ou espoir. Max -10 par décision sauf événement catastrophique (mort d'un proche, trahison grave = max -20). SOUS 20 : l'IA doit proposer au moins UN choix de survie psychologique avant game_over. 0 = abandon total.
+- reputation : comment les gens de l'époque te perçoivent. Monte lentement (+3 à +10), descend vite (-5 à -20).
+- influence : réseau, connexions, pouvoir. Très difficile à monter (+2 à +8 max). Représente le vrai pouvoir accumulé.
+
+RYTHME DE VIE :
+- Chaque décision représente environ 3 à 6 mois de vie réelle
+- Le personnage commence à 20 ans et vieillit naturellement
+- Après 15 décisions (~7 ans) : le personnage a 27 ans, mentionne son âge dans la narration
+- Après 30 décisions (~15 ans) : 35 ans, nouvelles responsabilités possibles
+- Après 50 décisions (~25 ans) : 45 ans, santé commence à décliner naturellement
+- La mort naturelle n'arrive pas avant 60-70 ans sauf maladie grave
 
 ARGENT :
 - Commence à l'équivalent de 1 000 $ modernes dans la monnaie locale de l'époque
@@ -4690,11 +4698,12 @@ TITRE :
 - titre_epoque = le titre social réel dans cette époque selon le niveau du personnage
 - Commence bas (Plébéien, Gueux, Apprenti...) et monte selon les succès
 
-DIFFICULTÉ :
+DIFFICULTÉ ÉQUILIBRÉE :
 - Monter haut (Roi, Président, Pape) est QUASI IMPOSSIBLE — nécessite 40+ décisions excellentes
-- Les mauvaises décisions ont des conséquences permanentes et réalistes
+- Les mauvaises décisions ont des conséquences permanentes et réalistes MAIS ne tuent pas au premier échec
+- Une vie ordinaire (artisan, marchand modeste) est une vraie victoire
 - Les PNJ se souviennent — une trahison a des conséquences futures
-- game_over si sante=0 OU moral=0, avec epitaphe unique pour CE personnage
+- game_over si sante=0 OU moral=0, avec epitaphe unique et touchante pour CE personnage spécifique
 - ANACHRONISMES INTERDITS — époque et lieu doivent être historiquement cohérents
 
 PERSONNAGES RÉCURRENTS :
@@ -4702,7 +4711,7 @@ PERSONNAGES RÉCURRENTS :
 - Leur statut change selon les actions du joueur
 - Un ennemi peut devenir allié, un allié peut trahir
 
-STYLE : immersif, historiquement crédible, conséquences réalistes. Chaque époque a sa propre logique sociale, économique, politique.`;
+STYLE : immersif, historiquement crédible, conséquences réalistes mais humaines. Une vie dure n'est pas une mort rapide. Chaque époque a sa propre logique sociale, économique, politique.`;
 }
 
 async function callDestinAPI(msg) {
