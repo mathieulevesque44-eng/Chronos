@@ -4727,13 +4727,18 @@ async function callDestinAPI(msg) {
 async function loadDestinScene() {
   try {
     const s = destinState;
-    const startMsg = `Début. ${s.nom}, 20 ans, ${s.epoque}. Parents décédés. Premier jour seul. Établir la monnaie locale et le montant exact équivalent à 1 000 $. Décision 1.`;
+    // Make sure we're on the right screen
+    showScreen('screen-destin');
+    const startMsg = 'Début. ' + s.nom + ', 20 ans, ' + s.epoque + '. Parents décédés. Premier jour seul. Établir la monnaie locale et le montant exact équivalent à 1 000 $. Décision 1.';
     const data = await callDestinAPI(startMsg);
     renderDestin(data);
   } catch(e) {
+    console.error('loadDestinScene error:', e);
     document.getElementById('dl-loading').classList.remove('active');
-    document.getElementById('dl-narrative').innerHTML = '<p style="color:#cc4444">Erreur : ' + e.message + '</p>';
-    document.getElementById('dl-decision-zone').classList.add('active');
+    const narr = document.getElementById('dl-narrative');
+    if (narr) narr.innerHTML = '<p style="color:#cc4444">Erreur : ' + e.message + '</p>';
+    const dz = document.getElementById('dl-decision-zone');
+    if (dz) dz.classList.add('active');
   }
 }
 
