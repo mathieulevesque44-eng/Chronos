@@ -1968,12 +1968,15 @@ body::before {
 #screen-destin-create {
   background: #0c0a06;
   min-height: 100vh;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   font-family: 'Special Elite', cursive;
   position: relative;
   overflow: hidden;
+}
+#screen-destin-create.active {
+  display: flex;
 }
 
 .destin-create-bg {
