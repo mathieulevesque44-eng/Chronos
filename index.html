@@ -1608,16 +1608,29 @@ body::before {
 }
 
 /* Centre content */
-.accueil-center {
+.accueil-hero {
   position: relative;
   z-index: 2;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 40px 20px;
+}
+
+.accueil-scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  font-size: 22px;
+  color: rgba(200,168,75,0.4);
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(8px); opacity: 0.8; }
 }
 
 .accueil-logo-txt {
@@ -2460,20 +2473,92 @@ body::before {
     <img class="accueil-bg-slide" src="2eguerre.png" alt="">
   </div>
 
-  <!-- Contenu centré -->
-  <div class="accueil-center">
-    <div id="resume-container" style="display:none;"></div>
-
+  <!-- Section hero — plein écran -->
+  <div class="accueil-hero">
+    <div id="resume-container" style="display:none;margin-bottom:20px;"></div>
     <div class="accueil-logo-txt">CHRONICA</div>
     <div class="accueil-tagline">Chaque choix écrit le destin</div>
     <div class="accueil-sep">— ✦ —</div>
-    <p class="accueil-desc">Incarnez un personnage à n'importe quelle époque.<br>Vos décisions façonnent votre histoire. L'IA écrit votre destin.</p>
-
-    <button class="accueil-cta" onclick="showScreen('screen-destin-create')">
+    <p class="accueil-desc">Incarnez un personnage à n'importe quelle époque.<br>Vos décisions façonnent votre histoire.</p>
+    <button class="accueil-cta" onclick="document.getElementById('creation-section').scrollIntoView({behavior:'smooth'})">
       Écrire mon destin ▸
     </button>
+    <div class="accueil-scroll-hint">↓</div>
+  </div>
 
-    <div class="accueil-footer">Chronica · Simulateur historique IA · 2026</div>
+  <!-- Section création — directement en dessous -->
+  <div id="creation-section" style="position:relative;z-index:2;background:#0a0808;padding:60px 20px 80px;">
+    <div class="destin-create-panel" style="margin:0 auto;">
+      <div class="destin-create-header">
+        <div class="destin-create-logo">⧗</div>
+        <div class="destin-create-title">Votre Personnage</div>
+        <p class="destin-create-premise">
+          Vos parents viennent de mourir.<br>
+          Vous avez 20 ans et l'équivalent de 1 000 $ en poche.<br>
+          Le reste dépend de vous.
+        </p>
+      </div>
+      <div class="destin-create-fields">
+        <div>
+          <label class="destin-field-lbl">Votre nom</label>
+          <input class="destin-field-input" id="destin-nom" type="text" placeholder="Ex: Elena Vasari, Marco Lebrun..." maxlength="40">
+        </div>
+        <div>
+          <label class="destin-field-lbl">Époque & Lieu</label>
+          <span class="destin-epoques-label">Suggestions — cliquez pour sélectionner</span>
+          <div class="destin-epoques-grid">
+            <button class="destin-epoque-btn" onclick="choisirEpoque('Japon, 1560 — Guerre des seigneurs')">
+              <span class="epoque-icon">🗡️</span>
+              <span class="epoque-nom">Guerre des seigneurs</span>
+              <span class="epoque-lieu">Japon · 1560</span>
+            </button>
+            <button class="destin-epoque-btn" onclick="choisirEpoque('Rome, 44 av. J.-C. — Mort de César')">
+              <span class="epoque-icon">🏛️</span>
+              <span class="epoque-nom">Mort de César</span>
+              <span class="epoque-lieu">Rome · 44 av. J.-C.</span>
+            </button>
+            <button class="destin-epoque-btn" onclick="choisirEpoque('Caraïbes, 1680 — Âge d or des pirates')">
+              <span class="epoque-icon">🌊</span>
+              <span class="epoque-nom">Âge d'or des pirates</span>
+              <span class="epoque-lieu">Caraïbes · 1680</span>
+            </button>
+            <button class="destin-epoque-btn" onclick="choisirEpoque('Mongolie, 1200 — Temüjin unifie les tribus')">
+              <span class="epoque-icon">⚔️</span>
+              <span class="epoque-nom">Temüjin & les tribus</span>
+              <span class="epoque-lieu">Mongolie · 1200</span>
+            </button>
+            <button class="destin-epoque-btn" onclick="choisirEpoque('Berlin, 1939 — Début de la Seconde Guerre mondiale')">
+              <span class="epoque-icon">🎖️</span>
+              <span class="epoque-nom">Seconde Guerre mondiale</span>
+              <span class="epoque-lieu">Berlin · 1939</span>
+            </button>
+            <button class="destin-epoque-btn" onclick="choisirEpoque('New York, 1920 — Prohibition')">
+              <span class="epoque-icon">🗽</span>
+              <span class="epoque-nom">Prohibition</span>
+              <span class="epoque-lieu">New York · 1920</span>
+            </button>
+          </div>
+          <input class="destin-field-input" id="destin-epoque" type="text" placeholder="Ou écrivez votre propre époque..." maxlength="60" style="margin-top:8px;">
+        </div>
+        <div>
+          <label class="destin-field-lbl">Une phrase sur vous <span style="color:rgba(200,168,75,0.3)">(facultatif)</span></label>
+          <input class="destin-field-input" id="destin-desc" type="text" placeholder="Ex: Fille d'un marchand ruiné, parle 3 langues..." maxlength="100">
+        </div>
+        <div>
+          <label class="destin-field-lbl">Votre ambition</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;" id="destin-ambitions">
+            <button class="destin-ambition-btn active" data-ambition="Richesse" onclick="selectAmbition(this)">💰 Richesse</button>
+            <button class="destin-ambition-btn" data-ambition="Pouvoir" onclick="selectAmbition(this)">⚔️ Pouvoir</button>
+            <button class="destin-ambition-btn" data-ambition="Famille" onclick="selectAmbition(this)">👨‍👩‍👧 Famille</button>
+            <button class="destin-ambition-btn" data-ambition="Gloire" onclick="selectAmbition(this)">★ Gloire</button>
+            <button class="destin-ambition-btn" data-ambition="Survie" onclick="selectAmbition(this)">🌿 Survie</button>
+          </div>
+        </div>
+      </div>
+      <button class="destin-create-launch" id="destin-launch-btn" onclick="lancerDestinLibre()">
+        Commencer l'aventure ▸
+      </button>
+    </div>
   </div>
 
 </div>
@@ -2514,7 +2599,7 @@ function goHome() {
 // ===== MODAL =====
 function openModal(story) {
   if (story === 'destin') {
-    showScreen('screen-destin-create');
+    goHome();setTimeout(()=>document.getElementById('creation-section').scrollIntoView({behavior:'smooth'}),100);
     return;
   }
   // Rediriger vers la fiche de personnage
@@ -2540,7 +2625,7 @@ function startStory() {
   } else if (selectedStory === 'dday') {
     launchDday(1);
   } else if (selectedStory === 'destin') {
-    showScreen('screen-destin-create');
+    goHome();setTimeout(()=>document.getElementById('creation-section').scrollIntoView({behavior:'smooth'}),100);
   } else {
     launchResistance(1);
   }
@@ -5204,81 +5289,6 @@ function afficherTexteProgressif(elementId, narration, callback) {
 
 
 <!-- ===== DESTIN LIBRE — CRÉATION ===== -->
-<div id="screen-destin-create" class="screen">
-  <div class="destin-create-bg"></div>
-  <div class="destin-create-panel">
-    <div class="destin-create-header">
-      <div class="destin-create-logo">⧗</div>
-      <div class="destin-create-title">Destin Libre</div>
-      <p class="destin-create-premise">
-        Vos parents viennent de mourir.<br>
-        Vous avez 20 ans et l'équivalent de 1 000 $ en poche.<br>
-        Le reste dépend de vous.
-      </p>
-    </div>
-    <div class="destin-create-fields">
-      <div>
-        <label class="destin-field-lbl">Votre nom</label>
-        <input class="destin-field-input" id="destin-nom" type="text" placeholder="Ex: Elena Vasari, Marco Lebrun..." maxlength="40">
-      </div>
-      <div>
-        <label class="destin-field-lbl">Époque & Lieu</label>
-        <span class="destin-epoques-label">Suggestions — cliquez pour sélectionner</span>
-        <div class="destin-epoques-grid">
-          <button class="destin-epoque-btn" onclick="choisirEpoque('Japon, 1560 — Guerre des seigneurs')">
-            <span class="epoque-icon">🗡️</span>
-            <span class="epoque-nom">Guerre des seigneurs</span>
-            <span class="epoque-lieu">Japon · 1560</span>
-          </button>
-          <button class="destin-epoque-btn" onclick="choisirEpoque('Rome, 44 av. J.-C. — Mort de César')">
-            <span class="epoque-icon">🏛️</span>
-            <span class="epoque-nom">Mort de César</span>
-            <span class="epoque-lieu">Rome · 44 av. J.-C.</span>
-          </button>
-          <button class="destin-epoque-btn" onclick="choisirEpoque('Caraïbes, 1680 — Âge d or des pirates')">
-            <span class="epoque-icon">🌊</span>
-            <span class="epoque-nom">Âge d'or des pirates</span>
-            <span class="epoque-lieu">Caraïbes · 1680</span>
-          </button>
-          <button class="destin-epoque-btn" onclick="choisirEpoque('Mongolie, 1200 — Temüjin unifie les tribus')">
-            <span class="epoque-icon">⚔️</span>
-            <span class="epoque-nom">Temüjin & les tribus</span>
-            <span class="epoque-lieu">Mongolie · 1200</span>
-          </button>
-          <button class="destin-epoque-btn" onclick="choisirEpoque('Berlin, 1939 — Début de la Seconde Guerre mondiale')">
-            <span class="epoque-icon">🎖️</span>
-            <span class="epoque-nom">Seconde Guerre mondiale</span>
-            <span class="epoque-lieu">Berlin · 1939</span>
-          </button>
-          <button class="destin-epoque-btn" onclick="choisirEpoque('New York, 1920 — Prohibition')">
-            <span class="epoque-icon">🗽</span>
-            <span class="epoque-nom">Prohibition</span>
-            <span class="epoque-lieu">New York · 1920</span>
-          </button>
-        </div>
-        <input class="destin-field-input" id="destin-epoque" type="text" placeholder="Ou écrivez votre propre époque..." maxlength="60" style="margin-top:8px;">
-      </div>
-      <div>
-        <label class="destin-field-lbl">Une phrase sur vous <span style="color:rgba(200,168,75,0.3)">(facultatif)</span></label>
-        <input class="destin-field-input" id="destin-desc" type="text" placeholder="Ex: Fille d'un marchand ruiné, parle 3 langues..." maxlength="100">
-      </div>
-      <div>
-        <label class="destin-field-lbl">Votre ambition</label>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;" id="destin-ambitions">
-          <button class="destin-ambition-btn active" data-ambition="Richesse" onclick="selectAmbition(this)">💰 Richesse</button>
-          <button class="destin-ambition-btn" data-ambition="Pouvoir" onclick="selectAmbition(this)">⚔️ Pouvoir</button>
-          <button class="destin-ambition-btn" data-ambition="Famille" onclick="selectAmbition(this)">👨‍👩‍👧 Famille</button>
-          <button class="destin-ambition-btn" data-ambition="Gloire" onclick="selectAmbition(this)">★ Gloire</button>
-          <button class="destin-ambition-btn" data-ambition="Survie" onclick="selectAmbition(this)">🌿 Survie</button>
-        </div>
-      </div>
-    </div>
-    <button class="destin-create-launch" id="destin-launch-btn" onclick="lancerDestinLibre()">
-      Écrire mon destin ▸
-    </button>
-  </div>
-</div>
-
 <!-- ===== DESTIN LIBRE — JEU ===== -->
 <div id="screen-destin" class="screen">
   <div class="destin-bg"></div>
@@ -5376,7 +5386,7 @@ function afficherTexteProgressif(elementId, narration, callback) {
       </div>
       <p class="destin-fin-epitaphe" id="dl-fin-epitaphe"></p>
       <div class="destin-fin-btns">
-        <button class="destin-fin-btn destin-fin-btn-primary" onclick="showScreen('screen-destin-create')">↺ Nouveau destin</button>
+        <button class="destin-fin-btn destin-fin-btn-primary" onclick="goHome();setTimeout(()=>document.getElementById('creation-section').scrollIntoView({behavior:'smooth'}),100)">↺ Nouveau destin</button>
         <button class="destin-fin-btn" onclick="goHome()">⌂ Accueil</button>
       </div>
     </div>
