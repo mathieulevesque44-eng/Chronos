@@ -1579,10 +1579,8 @@ body::before {
 
 .accueil-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   z-index: 0;
   pointer-events: none;
 }
@@ -1590,30 +1588,106 @@ body::before {
 .accueil-bg-slide {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
   opacity: 0;
   transition: opacity 1.8s ease;
 }
 
-.accueil-bg-slide.active {
-  opacity: 0.38;
-}
+.accueil-bg-slide.active { opacity: 0.55; }
 
 .accueil-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10,8,8,0.2) 0%,
-    rgba(10,8,8,0.4) 40%,
-    rgba(10,8,8,0.85) 75%,
-    rgba(10,8,8,0.98) 100%
-  );
+  background:
+    radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 70%),
+    linear-gradient(to bottom, rgba(10,8,8,0.5) 0%, rgba(10,8,8,0.3) 40%, rgba(10,8,8,0.6) 80%, rgba(10,8,8,0.97) 100%);
   z-index: 1;
+}
+
+/* Centre content */
+.accueil-center {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.accueil-logo-txt {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: clamp(52px, 10vw, 100px);
+  color: var(--paper);
+  letter-spacing: 8px;
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(200,168,75,0.3), 0 2px 4px rgba(0,0,0,0.8);
+  animation: fadeUp 1s ease both;
+}
+
+.accueil-tagline {
+  font-family: 'Special Elite', cursive;
+  font-size: clamp(10px, 1.5vw, 13px);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 14px;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.accueil-sep {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 8px;
+  margin: 16px 0;
+  animation: fadeUp 0.8s ease 0.5s both;
+}
+
+.accueil-desc {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(13px, 1.8vw, 16px);
+  color: rgba(240,230,208,0.6);
+  line-height: 1.8;
+  max-width: 480px;
+  animation: fadeUp 0.8s ease 0.7s both;
+}
+
+.accueil-cta {
+  margin-top: 40px;
+  background: transparent;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  padding: 16px 56px;
+  font-family: 'Special Elite', cursive;
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  animation: fadeUp 0.8s ease 0.9s both;
+}
+
+.accueil-cta:hover {
+  background: var(--gold);
+  color: #0a0808;
+  box-shadow: 0 0 30px rgba(200,168,75,0.3);
+}
+
+.accueil-footer {
+  position: fixed;
+  bottom: 20px;
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(240,230,208,0.15);
+  text-transform: uppercase;
+  z-index: 2;
 }
 
 #screen-accueil .hero,
@@ -2375,61 +2449,32 @@ body::before {
 
 <!-- ===== ACCUEIL ===== -->
 <div id="screen-accueil" class="screen active">
+
+  <!-- Slideshow plein écran -->
   <div class="accueil-bg" id="accueil-bg">
-    <img class="accueil-bg-slide active" src="medievale.png" alt="">
+    <img class="accueil-bg-slide active" src="prehistoire.png" alt="">
     <img class="accueil-bg-slide" src="antiquite.png" alt="">
-    <img class="accueil-bg-slide" src="prehistoire.png" alt="">
+    <img class="accueil-bg-slide" src="medievale.png" alt="">
     <img class="accueil-bg-slide" src="tricorne.png" alt="">
-    <img class="accueil-bg-slide" src="2eguerre.png" alt="">
     <img class="accueil-bg-slide" src="cowboy.png" alt="">
+    <img class="accueil-bg-slide" src="2eguerre.png" alt="">
   </div>
 
-  <div class="hero">
-    <div class="tagline">Chaque choix écrit le destin</div>
-    <p class="hero-sub">Plongez dans l'Histoire. Chaque décision change le cours des événements. L'IA écrit votre destin.</p>
+  <!-- Contenu centré -->
+  <div class="accueil-center">
+    <div id="resume-container" style="display:none;"></div>
+
+    <div class="accueil-logo-txt">CHRONICA</div>
+    <div class="accueil-tagline">Chaque choix écrit le destin</div>
+    <div class="accueil-sep">— ✦ —</div>
+    <p class="accueil-desc">Incarnez un personnage à n'importe quelle époque.<br>Vos décisions façonnent votre histoire. L'IA écrit votre destin.</p>
+
+    <button class="accueil-cta" onclick="showScreen('screen-destin-create')">
+      Écrire mon destin ▸
+    </button>
+
+    <div class="accueil-footer">Chronica · Simulateur historique IA · 2026</div>
   </div>
-
-  <div class="section-hdr">
-    <div class="section-title">Votre Destin Vous Attend</div>
-    <span class="section-orn">— ✦ —</span>
-  </div>
-
-  <div id="resume-container" style="display:none;max-width:440px;margin:0 auto 20px;padding:0 20px;"></div>
-
-  <div class="stories-grid" style="max-width:480px;margin:0 auto;">
-
-    <!-- DESTIN LIBRE -->
-    <div class="story-card" onclick="showScreen('screen-destin-create')">
-      <div class="story-badge badge-free">Gratuit</div>
-      <div class="card-hdr">
-        <span class="card-era">Toutes époques · Mode libre</span>
-        <div class="card-title">Destin Libre</div>
-        <div class="card-subtitle">Votre histoire, votre époque</div>
-      </div>
-      <div class="card-char">
-        <div class="id-card">
-          <div class="id-photo">⧗</div>
-          <div class="id-name">VOUS<br>20 ans<br>Orphelin</div>
-          <div class="id-stamp">LIBRE</div>
-        </div>
-        <div class="char-info">
-          <span class="char-role">Vous incarnez</span>
-          <div class="char-name">Votre personnage</div>
-          <p class="char-desc">Vos parents viennent de mourir. Vous avez 20 ans et l'équivalent de 1 000 $ en poche. Choisissez votre époque, votre lieu. Le reste dépend de vous.</p>
-        </div>
-      </div>
-      <div class="card-body">
-        <p class="card-premise">De Orphelin à Légende. Venise 1450, Paris 1789, Texas 1840, Rome 44 av. J.-C. — chaque partie est unique.</p>
-      </div>
-      <div class="card-footer">
-        <span class="card-meta">Mode sans fin · PNJ récurrents · Titre évolutif</span>
-        <button class="play-btn" onclick="event.stopPropagation();showScreen('screen-destin-create')">Jouer ▸</button>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="site-footer"><p>Chronica · Simulateur historique IA · 2026</p></div>
 
 </div>
 
@@ -3912,24 +3957,23 @@ function showResumeButtons() {
   const saves = checkAllSaves();
   const container = document.getElementById('resume-container');
   if (!container) return;
-  if (saves.length === 0) { container.style.display = 'none'; return; }
+  // Garder seulement les saves Destin Libre
+  const destinSaves = saves.filter(s => s.game === 'destin');
+  if (destinSaves.length === 0) { container.style.display = 'none'; return; }
   container.style.display = 'block';
-  container.innerHTML = '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(200,168,75,0.7);margin-bottom:10px;text-align:center;">— Reprendre —</div>';
-  const names = { patriotes: 'Les Patriotes', resistance: 'La Résistance', naufrage: 'Naufragé', dday: 'D-Day — Normandie 1944' };
-  saves.forEach(s => {
+  container.style.cssText = 'margin-bottom:20px;';
+  container.innerHTML = '<div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(200,168,75,0.5);margin-bottom:10px;">— Reprendre —</div>';
+  destinSaves.forEach(s => {
     const btn = document.createElement('button');
-    btn.style.cssText = 'display:block;width:100%;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.25);color:rgba(200,168,75,0.8);font-family:\'Special Elite\',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;cursor:pointer;margin-bottom:6px;text-align:left;';
-    btn.innerHTML = '▸ ' + names[s.game] + ' — Chapitre ' + s.chap;
+    btn.style.cssText = 'background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.25);color:rgba(200,168,75,0.8);font-family:\'Special Elite\',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:8px 20px;cursor:pointer;';
+    btn.innerHTML = '▸ Continuer ma partie';
     btn.onclick = () => resumeGame(s);
     container.appendChild(btn);
   });
 }
 
 function resumeGame(save) {
-  if (save.game === 'patriotes') launchPatriotes(save.chap, save.jauges);
-  else if (save.game === 'resistance') launchResistance(save.chap);
-  else if (save.game === 'naufrage') launchNaufrage(save.chap);
-  else if (save.game === 'dday') launchDday(save.chap, save.jauges);
+  if (save.game === 'destin') showScreen('screen-destin');
 }
 
 
