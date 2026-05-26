@@ -1587,12 +1587,19 @@ body::before {
   pointer-events: none;
 }
 
-.accueil-bg img {
+.accueil-bg-slide {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  opacity: 0.35;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+
+.accueil-bg-slide.active {
+  opacity: 0.38;
 }
 
 .accueil-bg::after {
@@ -1606,6 +1613,7 @@ body::before {
     rgba(10,8,8,0.85) 75%,
     rgba(10,8,8,0.98) 100%
   );
+  z-index: 1;
 }
 
 #screen-accueil .hero,
@@ -2367,8 +2375,13 @@ body::before {
 
 <!-- ===== ACCUEIL ===== -->
 <div id="screen-accueil" class="screen active">
-  <div class="accueil-bg">
-    <img src="affiche.png" alt="Chronica" />
+  <div class="accueil-bg" id="accueil-bg">
+    <img class="accueil-bg-slide active" src="medievale.png" alt="">
+    <img class="accueil-bg-slide" src="antiquite.png" alt="">
+    <img class="accueil-bg-slide" src="prehistoire.png" alt="">
+    <img class="accueil-bg-slide" src="tricorne.png" alt="">
+    <img class="accueil-bg-slide" src="2eguerre.png" alt="">
+    <img class="accueil-bg-slide" src="cowboy.png" alt="">
   </div>
 
   <div class="hero">
@@ -2378,133 +2391,17 @@ body::before {
   </div>
 
   <div class="section-hdr">
-    <div class="section-title">Choisissez votre aventure</div>
+    <div class="section-title">Votre Destin Vous Attend</div>
     <span class="section-orn">— ✦ —</span>
   </div>
 
   <div id="resume-container" style="display:none;max-width:440px;margin:0 auto 20px;padding:0 20px;"></div>
-    <div class="stories-grid">
 
-    <!-- LA RÉSISTANCE -->
-    <div class="story-card" onclick="openModal('resistance')" style="display:none">
-      <div class="story-badge badge-free">Gratuit</div>
-      <div class="card-hdr">
-        <span class="card-era">France Occupée · 1942–1944</span>
-        <div class="card-title">La Résistance</div>
-        <div class="card-subtitle">Lyon sous l'Occupation allemande</div>
-      </div>
-      <div class="card-char">
-        <div class="id-card">
-          <div class="id-photo">⚔️</div>
-          <div class="id-name">AUBERT<br>Marc H.<br>Imprimeur</div>
-          <div class="id-stamp">LYON</div>
-        </div>
-        <div class="char-info">
-          <span class="char-role">Vous incarnez</span>
-          <div class="char-name">Marc Aubert</div>
-          <p class="char-desc">28 ans. Imprimeur rue de la République. Un homme ordinaire face à un choix extraordinaire.</p>
-        </div>
-      </div>
-      <div class="card-body">
-        <p class="card-premise">Juin 1942. Un inconnu frappe à votre porte. Il veut que vous imprimiez des tracts pour la Résistance. Refuser, c'est trahir. Accepter, c'est risquer sa vie.</p>
-      </div>
-      <div class="card-footer">
-        <span class="card-meta">3 chapitres · 10 jours chacun</span>
-        <button class="play-btn">Jouer ▸</button>
-      </div>
-    </div>
-
-    <!-- LES PATRIOTES -->
-    <div class="story-card" onclick="openModal('patriotes')" style="display:none">
-      <div class="story-badge badge-free">Nouveau</div>
-      <div class="card-hdr">
-        <span class="card-era">Bas-Canada · 1837</span>
-        <div class="card-title">Les Patriotes</div>
-        <div class="card-subtitle">La rébellion contre l'Empire britannique</div>
-      </div>
-      <div class="card-char">
-        <div class="id-card">
-          <div class="id-photo">⚔️</div>
-          <div class="id-name">LEBLANC<br>Étienne<br>Cultivateur</div>
-          <div class="id-stamp">QUÉBEC</div>
-        </div>
-        <div class="char-info">
-          <span class="char-role">Vous incarnez</span>
-          <div class="char-name">Étienne Leblanc</div>
-          <p class="char-desc">24 ans. Cultivateur de Saint-Denis. Un homme ordinaire pris dans un conflit plus grand que lui.</p>
-        </div>
-      </div>
-      <div class="card-body">
-        <p class="card-premise">1837–1839. La vallée du Richelieu. Saint-Denis. Saint-Charles. L'exil. Le Pied-du-Courant. 6 chapitres pour survivre à l'histoire.</p>
-      </div>
-      <div class="card-footer">
-        <span class="card-meta">6 chapitres · Difficulté élevée</span>
-        <button class="play-btn">Jouer ▸</button>
-      </div>
-    </div>
-
-    <!-- NAUFRAGÉ -->
-    <div class="story-card" onclick="openModal('naufrage')" style="display:none">
-      <div class="story-badge badge-free">Gratuit</div>
-      <div class="card-hdr">
-        <span class="card-era">Pacifique Sud · 1704</span>
-        <div class="card-title">Naufragé</div>
-        <div class="card-subtitle">Inspiré d'Alexander Selkirk</div>
-      </div>
-      <div class="card-char">
-        <div class="id-card">
-          <div class="id-photo">⚓</div>
-          <div class="id-name">GARNIER<br>Thomas<br>Marin</div>
-          <div class="id-stamp">BREST</div>
-        </div>
-        <div class="char-info">
-          <span class="char-role">Vous incarnez</span>
-          <div class="char-name">Thomas Garnier</div>
-          <p class="char-desc">31 ans. Marin breton sur le Saint-Malo. Une tempête va tout changer.</p>
-        </div>
-      </div>
-      <div class="card-body">
-        <p class="card-premise">1704. Tempête. Naufrage. Réveil seul sur une île déserte. Survivre, s'évader, rentrer. 4 chapitres pour ne pas mourir.</p>
-      </div>
-      <div class="card-footer">
-        <span class="card-meta">4 chapitres · Jauges de survie</span>
-        <button class="play-btn">Jouer ▸</button>
-      </div>
-    </div>
-
-    <!-- D-DAY -->
-    <div class="story-card" onclick="openModal('dday')" style="display:none">
-      <div class="story-badge badge-free">Nouveau</div>
-      <div class="card-hdr">
-        <span class="card-era">Normandie · 6 juin 1944</span>
-        <div class="card-title">D-Day</div>
-        <div class="card-subtitle">Douglas &amp; Gendron</div>
-      </div>
-      <div class="card-char">
-        <div class="id-card">
-          <div class="id-photo">🪖</div>
-          <div class="id-name">DOUGLAS<br>Robert H.<br>Parachutiste</div>
-          <div class="id-stamp">101e AB</div>
-        </div>
-        <div class="char-info">
-          <span class="char-role">Vous incarnez</span>
-          <div class="char-name">Douglas &amp; Gendron</div>
-          <p class="char-desc">6 juin 1944. Robert Douglas saute dans le noir normand. Jean-Paul Gendron attend que la rampe descende sur Juno Beach.</p>
-        </div>
-      </div>
-      <div class="card-body">
-        <p class="card-premise">Deux perspectives. Un seul jour. La 101ème Airborne dans la nuit, le Régiment de la Chaudière sur la plage.</p>
-      </div>
-      <div class="card-footer">
-        <span class="card-meta">6 chapitres · Difficulté maximale</span>
-        <button class="play-btn">Jouer ▸</button>
-      </div>
-
-  </div>
+  <div class="stories-grid" style="max-width:480px;margin:0 auto;">
 
     <!-- DESTIN LIBRE -->
     <div class="story-card" onclick="showScreen('screen-destin-create')">
-      <div class="story-badge badge-free">Nouveau</div>
+      <div class="story-badge badge-free">Gratuit</div>
       <div class="card-hdr">
         <span class="card-era">Toutes époques · Mode libre</span>
         <div class="card-title">Destin Libre</div>
@@ -2523,7 +2420,7 @@ body::before {
         </div>
       </div>
       <div class="card-body">
-        <p class="card-premise">De Orphelin à Légende. Venise 1450, Paris 1789, Rome 44 av. J.-C. — chaque partie est unique.</p>
+        <p class="card-premise">De Orphelin à Légende. Venise 1450, Paris 1789, Texas 1840, Rome 44 av. J.-C. — chaque partie est unique.</p>
       </div>
       <div class="card-footer">
         <span class="card-meta">Mode sans fin · PNJ récurrents · Titre évolutif</span>
@@ -2551,225 +2448,7 @@ body::before {
 
 
 
-<!-- ===== JEU ===== -->
-<div id="screen-jeu" class="screen">
 
-  <div class="newspaper">
-    <div class="masthead">
-      <div class="mast-top">
-        <span>Fondé en 1859</span>
-        <span id="mast-story">Zone Occupée — France</span>
-        <span>Prix : 0,50 Franc</span>
-      </div>
-      <div class="paper-title">Le Progrès de Lyon</div>
-      <div class="paper-sub">Journal Quotidien d'Information · Politique · Commerce · Société</div>
-      <div class="mast-meta">
-        <span id="current-date">Mardi 16 Juin 1942</span>
-        <span>★ ÉDITION DU MATIN ★</span>
-        <span id="edition-num">Ch.1 · J.1</span>
-      </div>
-    </div>
-
-    <div class="stats-bar">
-      <div class="stat">
-        <span class="stat-lbl">Suspicion</span>
-        <div class="susp-bar"><div class="susp-fill" id="susp-fill" style="width:12%"></div></div>
-        <span id="susp-val">12</span>
-      </div>
-      <div class="stat"><span class="stat-lbl">Alliés</span><span id="allies-val">Henri · Simone</span></div>
-      <div class="stat"><span class="stat-lbl">Ressources</span><span id="resources-val">200F · Imprimerie</span></div>
-      <div class="stat"><span class="stat-lbl">Chapitre</span><span id="chap-val">1 / 3</span></div>
-      <div class="stat" style="cursor:pointer" onclick="toggleDossiers()">
-        <span class="stat-lbl">Dossiers</span>
-        <span style="font-size:14px">🗂</span>
-      </div>
-    </div>
-
-    <div class="edition-banner" id="edition-banner">— DERNIÈRE HEURE —</div>
-
-    <div class="content">
-      <div class="headline-sec">
-        <span class="kicker" id="article-kicker">ZONE OCCUPÉE · LYON</span>
-        <h1 class="main-headline" id="article-headline">Chargement de l'histoire...</h1>
-        <p class="deck" id="article-deck"></p>
-      </div>
-      <div class="columns">
-        <div class="col">
-          <span class="col-lbl">Récit principal</span>
-          <div class="article-body" id="article-main"><p>Les presses tournent...</p></div>
-        </div>
-        <div class="col">
-          <span class="col-lbl">Témoignages</span>
-          <div class="article-body" id="article-secondary"></div>
-          <div class="ornament">— ✦ —</div>
-          <div class="pull-quote" id="pull-quote"></div>
-          <div class="stamp" id="article-stamp">CONFIDENTIEL</div>
-        </div>
-        <div class="col">
-          <span class="col-lbl">Situation générale</span>
-          <div class="article-body" id="article-context"></div>
-          <div class="ad-block">
-            <div class="ad-title">Imprimerie Aubert</div>
-            <div class="ad-body">Travaux d'impression · Meilleure qualité<br>12, rue de la République · Lyon</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-   <div class="loading" id="loading">
-  <div class="chronos-loader">
-    <div class="cg-clock">
-      <div class="cg-top">
-        <div class="cg-face">
-          <div class="cg-hand cg-hour"></div>
-          <div class="cg-hand cg-minute"></div>
-          <div class="cg-center"></div>
-        </div>
-      </div>
-      <div class="cg-body">
-        <div class="cg-door">
-          <div class="cg-pendulum-rod"></div>
-          <div class="cg-pendulum"></div>
-        </div>
-      </div>
-      <div class="cg-base"></div>
-    </div>
-    <div class="cg-loader-text">Chargement des archives temporelles...</div>
-    <div class="cg-loader-sub">Chaque choix laisse une trace</div>
-  </div>
-</div>
-    <div class="decision-sec" id="decision-sec" style="display:none;">
-      <span class="dec-lbl">— Votre décision, Monsieur Aubert —</span>
-      <div class="quick-choices" id="quick-choices"></div>
-      <textarea class="dec-input" id="dec-input" placeholder="Que faites-vous ? Écrivez librement..."></textarea>
-      <button class="submit-btn" id="submit-btn" onclick="submitDecision()">Publier ▸</button>
-      <div style="clear:both"></div>
-    </div>
-
-    <div class="history-sec" id="history-sec">
-      <div style="font-family:\'Special Elite\',cursive;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--sepia);margin-bottom:5px;">Archives</div>
-      <div id="history-list"></div>
-    </div>
-
-    <!-- DOSSIER PANEL -->
-    <div class="dossier-panel" id="dossier-panel">
-      <div class="dp-title">Dossiers Confidentiels</div>
-      <span class="dp-sub">— Réseau · La Résistance —</span>
-      <div id="dp-content"></div>
-    </div>
-
-    <div class="game-over-sec" id="game-over-sec">
-      <div class="go-title" id="go-title">Fin</div>
-      <p class="go-text" id="go-text"></p>
-      <div class="go-btns">
-        <button class="restart-btn" onclick="restartResistance()">↺ Rejouer ce chapitre</button>
-        <button class="next-btn" id="next-chap-btn" onclick="nextChapterResistance()" style="display:none;">Chapitre suivant ▸</button>
-        <button class="home-btn" onclick="goHome()">⌂ Accueil</button>
-      </div>
-    </div>
-  </div>
-
-  <span class="back-home" onclick="goHome()">← Retour à l'accueil</span>
-
-</div>
-
-
-
-<!-- ===== NAUFRAGÉ ===== -->
-<div id="screen-naufrage" class="screen">
-  <div class="game-header">
-    <div class="game-title-small" onclick="goHome()">Naufragé</div>
-    <div class="chap-info" id="n-chap-info">Chapitre 1 · Jour 1</div>
-    <div class="objectif-zone n-objectif" id="n-objectif"><span class="objectif-label">Objectif</span><span id="n-objectif-text"></span></div>
-    <div class="jauges" id="n-jauges" style="display:none;">
-      <div class="jauge" id="nj-mental"><div class="jauge-hdr"><span class="jauge-lbl">🧠 Mental</span><span class="jauge-val" id="nv-mental">100</span></div><div class="jauge-bar"><div class="jauge-fill safe" id="nf-mental" style="width:100%"></div></div></div>
-      <div class="jauge" id="nj-faim"><div class="jauge-hdr"><span class="jauge-lbl">🍖 Faim</span><span class="jauge-val" id="nv-faim">100</span></div><div class="jauge-bar"><div class="jauge-fill safe" id="nf-faim" style="width:100%"></div></div></div>
-      <div class="jauge" id="nj-soif"><div class="jauge-hdr"><span class="jauge-lbl">💧 Soif</span><span class="jauge-val" id="nv-soif">100</span></div><div class="jauge-bar"><div class="jauge-fill blue" id="nf-soif" style="width:100%"></div></div></div>
-      <div class="jauge" id="nj-abri" style="display:none;"><div class="jauge-hdr"><span class="jauge-lbl">🏠 Abri</span><span class="jauge-val" id="nv-abri">50</span></div><div class="jauge-bar"><div class="jauge-fill warning" id="nf-abri" style="width:50%"></div></div></div>
-      <div class="jauge" id="nj-froid" style="display:none;"><div class="jauge-hdr"><span class="jauge-lbl">🥶 Froid</span><span class="jauge-val" id="nv-froid">100</span></div><div class="jauge-bar"><div class="jauge-fill cold" id="nf-froid" style="width:100%"></div></div></div>
-    </div>
-  </div>
-
-  <div class="game-content">
-    <div class="chapter-banner">
-      <span class="chap-num" id="n-chap-num">Chapitre 1</span>
-      <div class="chap-title" id="n-chap-title">La Tempête</div>
-      <div class="chap-subtitle" id="n-chap-sub">Océan Pacifique · 1704</div>
-    </div>
-
-    <div class="jauge-alert" id="n-jauge-alert">⚠ Danger critique — agissez immédiatement</div>
-
-    <div class="narrative-card">
-      <span class="narrative-date" id="n-narrative-date">14 Octobre 1704</span>
-      <div class="narrative-text" id="n-narrative-text"><p>La mer se prépare...</p></div>
-      <div class="pull-quote" id="n-pull-quote" style="display:none;"></div>
-    </div>
-
-   <div class="loading" id="n-loading">
-  <div class="nauf-boat-scene">
-    <div class="nauf-moon"></div>
-    <div class="nauf-ship-wrapper">
-      <div class="nauf-ship">
-        <div class="nauf-mast nauf-mast1"></div>
-        <div class="nauf-mast nauf-mast2"></div>
-        <div class="nauf-mast nauf-mast3"></div>
-        <div class="nauf-yard nauf-yard1"></div>
-        <div class="nauf-yard nauf-yard2"></div>
-        <div class="nauf-yard nauf-yard3"></div>
-        <div class="nauf-yard nauf-yard4"></div>
-        <div class="nauf-sail nauf-sail1"></div>
-        <div class="nauf-sail nauf-sail2"></div>
-        <div class="nauf-sail nauf-sail3"></div>
-        <div class="nauf-sail nauf-sail4"></div>
-        <div class="nauf-rope nauf-rope1"></div>
-        <div class="nauf-rope nauf-rope2"></div>
-        <div class="nauf-flag"></div>
-        <div class="nauf-deck"></div>
-        <div class="nauf-hull"></div>
-      </div>
-    </div>
-    <div class="nauf-splash nauf-splash-l"></div>
-    <div class="nauf-splash nauf-splash-r"></div>
-    <div class="nauf-sea">
-      <div class="nauf-wave nauf-wave-back"></div>
-      <div class="nauf-wave nauf-wave-mid"></div>
-      <div class="nauf-foam"></div>
-      <div class="nauf-wave nauf-wave-front"></div>
-    </div>
-  </div>
-  <div style="color:rgba(200,168,75,0.9);font-family:\'Special Elite\',cursive;font-size:14px;letter-spacing:2px;margin-top:16px;position:relative;z-index:10;">Traversée en cours<span class="nauf-dots"><span></span><span></span><span></span></span></div>
-</div>
-
-    <div class="decision-zone" id="n-decision-zone">
-      <span class="dec-label">— Que faites-vous, Thomas ? —</span>
-      <div class="quick-choices" id="n-quick-choices"></div>
-      <textarea class="dec-input" id="n-dec-input" placeholder="Décrivez votre action..."></textarea>
-      <button class="submit-btn" id="n-submit-btn" onclick="submitNaufrageDecision()">Agir ▸</button>
-      <div style="clear:both;"></div>
-    </div>
-
-    <div style="margin-top:8px;">
-      <button class="hist-toggle" onclick="toggleNaufrageHistory()">▸ Historique</button>
-    </div>
-    <div class="history-zone" id="n-history-zone">
-      <div id="n-history-list"></div>
-    </div>
-
-    <!-- GAME OVER NAUFRAGE -->
-    <div id="n-gameover" style="display:none;position:fixed;inset:0;background:rgba(10,22,40,0.97);z-index:300;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;">
-      <div style="font-size:64px;margin-bottom:20px" id="n-go-icon">💀</div>
-      <div style="font-family:UnifrakturMaguntia,cursive;font-size:clamp(32px,5vw,52px);color:var(--white);margin-bottom:14px" id="n-go-title">Fin</div>
-      <p style="font-family:Playfair Display,serif;font-style:italic;font-size:15px;color:rgba(240,234,216,0.6);max-width:480px;line-height:1.8;margin-bottom:28px" id="n-go-text"></p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-        <button id="n-go-next" onclick="launchNaufrage(gameState.chapter+1)" style="display:none;background:var(--gold);color:var(--ocean);border:2px solid var(--gold);padding:11px 28px;font-family:Special Elite,cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">Chapitre suivant ▸</button>
-        <button onclick="launchNaufrage(gameState.chapter)" style="background:transparent;color:var(--gold);border:2px solid var(--gold);padding:11px 28px;font-family:Special Elite,cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">↺ Recommencer</button>
-        <button onclick="goHome()" style="background:transparent;color:rgba(240,234,216,0.4);border:2px solid rgba(240,234,216,0.2);padding:11px 28px;font-family:Special Elite,cursive;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;">⌂ Accueil</button>
-      </div>
-    </div>
-  </div>
-
-  <span class="back-home" onclick="goHome()">← Retour à l'accueil</span>
-</div>
 
 <script>
 
@@ -3589,6 +3268,19 @@ function toggleNaufrageHistory() {
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   showResumeButtons();
+
+  // ===== SLIDESHOW ACCUEIL =====
+  const slides = document.querySelectorAll('.accueil-bg-slide');
+  let currentSlide = 0;
+  if (slides.length > 1) {
+    setInterval(() => {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }, 4000);
+  }
+
+
   // Autostart si on vient de dossiers.html
   const params = new URLSearchParams(window.location.search);
   const autostart = params.get('autostart');
@@ -5392,114 +5084,6 @@ function afficherTexteProgressif(elementId, narration, callback) {
 </script>
 
 
-<!-- ===== LES PATRIOTES ===== -->
-<div id="screen-patriotes" class="screen">
-
-  <!-- Header -->
-  <div class="pat-header">
-    <div class="pat-header-left">
-      <span class="pat-etoile">★</span>
-      <div class="pat-title-block">
-        <span class="pat-game-title">Les Patriotes</span>
-        <span class="pat-chap-info" id="pat-chap-info">Chapitre 1 · Décision 1</span>
-      <div class="objectif-zone" id="pat-objectif"><span class="objectif-label">Objectif</span><span id="pat-objectif-text"></span></div>
-      </div>
-    </div>
-    <button onclick="goHome()" style="background:transparent;border:1px solid rgba(45,90,45,0.4);color:var(--pat-gris);font-family:\'Special Elite\',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
-  </div>
-
-  <!-- Jauges -->
-  <div class="pat-jauges" id="pat-jauges">
-    <div class="pat-jauge">
-      <div class="pat-jauge-hdr"><span>❤ Santé</span><span id="pv-sante">75</span></div>
-      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-sante" id="pf-sante" style="width:75%"></div></div>
-    </div>
-    <div class="pat-jauge">
-      <div class="pat-jauge-hdr"><span>⚡ Moral</span><span id="pv-moral">60</span></div>
-      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-moral" id="pf-moral" style="width:60%"></div></div>
-    </div>
-    <div class="pat-jauge">
-      <div class="pat-jauge-hdr"><span>👁 Suspicion</span><span id="pv-suspicion">10</span></div>
-      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-suspicion" id="pf-suspicion" style="width:10%"></div></div>
-    </div>
-    <div class="pat-jauge">
-      <div class="pat-jauge-hdr"><span>★ Réputation</span><span id="pv-reputation">20</span></div>
-      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-reputation" id="pf-reputation" style="width:20%"></div></div>
-    </div>
-    <div class="pat-jauge">
-      <div class="pat-jauge-hdr"><span>💤 Fatigue</span><span id="pv-fatigue">30</span></div>
-      <div class="pat-jauge-bar"><div class="pat-jauge-fill pat-fill-fatigue" id="pf-fatigue" style="width:30%"></div></div>
-    </div>
-  </div>
-
-  <div class="pat-alert" id="pat-alert">⚠ Danger — agissez immédiatement</div>
-
-  <!-- Content -->
-  <div class="pat-content">
-    <div class="pat-chapter-banner">
-      <span class="pat-chap-num" id="pat-chap-num">Chapitre 1</span>
-      <div class="pat-chap-title" id="pat-chap-title">L'Assemblée</div>
-      <div class="pat-chap-sub" id="pat-chap-sub">Vallée du Richelieu · Automne 1837</div>
-    </div>
-
-    <div class="pat-narrative-card">
-      <span class="pat-narrative-date" id="pat-narrative-date">Octobre 1837</span>
-      <div class="pat-narrative-text" id="pat-narrative-text"><p>Le Richelieu coule dans le silence...</p></div>
-      <div class="pat-pull-quote" id="pat-pull-quote" style="display:none;"></div>
-    </div>
-
-    <div class="pat-loading" id="pat-loading">
-      <div class="pat-walk-scene">
-        <img src="patriote.webp" class="pat-walk-img" alt="Patriote" />
-      </div>
-      <div class="pat-loader-text">L'histoire s'écrit...</div>
-      <div class="pat-loader-dots"><span></span><span></span><span></span></div>
-    </div>
-
-    <div class="pat-decision-zone" id="pat-decision-zone">
-      <span class="pat-dec-lbl">— Que faites-vous, Étienne ? —</span>
-      <div class="pat-choices" id="pat-choices"></div>
-      <textarea class="pat-dec-input" id="pat-dec-input" placeholder="Décrivez votre action..."></textarea>
-      <button class="pat-submit-btn" id="pat-submit-btn" onclick="submitPatriotesDecision()">Agir ▸</button>
-      <div style="clear:both;"></div>
-    </div>
-
-    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="pat-hist-toggle" onclick="togglePatriotesHistory()">▸ Historique</button>
-      <button class="pat-hist-toggle" onclick="togglePatriotesPersonnages()">▸ Personnages</button>
-    </div>
-    <div class="pat-history-zone" id="pat-history-zone">
-      <div id="pat-history-list"></div>
-    </div>
-    <div class="pat-history-zone" id="pat-personnages-zone">
-      <div id="pat-personnages-list"><p style="font-size:10px;color:#8a8a7a;font-style:italic;">Les personnages apparaîtront au fil de l'histoire...</p></div>
-    </div>
-
-    <!-- GAME OVER -->
-    <div class="pat-gameover" id="pat-gameover">
-      <div class="pat-go-icon" id="pat-go-icon">⛓️</div>
-      <div class="pat-go-title" id="pat-go-title">Fin</div>
-      <p class="pat-go-text" id="pat-go-text"></p>
-      <div class="pat-go-btns">
-        <button class="pat-go-btn pat-go-btn-primary" id="pat-go-next" onclick="launchPatriotes(gameState.chapter+1)" style="display:none;">Chapitre suivant ▸</button>
-        <button class="pat-go-btn" onclick="launchPatriotes(gameState.chapter)">↺ Recommencer</button>
-        <button class="pat-go-btn" onclick="goHome()">⌂ Accueil</button>
-      </div>
-    </div>
-
-    <!-- VICTOIRE FINALE (déportation) -->
-    <div class="pat-victoire" id="pat-victoire">
-      <div style="font-size:48px;margin-bottom:20px;">⚓</div>
-      <div style="font-family:\'Playfair Display\',serif;font-size:clamp(24px,4vw,36px);color:var(--pat-blanc);margin-bottom:16px;">L'Exil</div>
-      <p style="font-family:\'IM Fell English\',serif;font-style:italic;font-size:14px;color:rgba(232,234,208,0.65);max-width:500px;line-height:1.9;margin-bottom:28px;">18 janvier 1839. Le juge lit la sentence : déportation en Australie, à perpétuité. Pas la potence. Étienne entend les mots sans les comprendre tout de suite. À côté de lui, un homme pleure. Étienne ne pleure pas. Il pense que l'Australie est à l'autre bout du monde. Que Marie ne viendra pas. Que le Richelieu coulera encore sans lui. Le navire part en mars. Étienne regarde le Saint-Laurent disparaître derrière lui pour la dernière fois. Il ne reviendra jamais. Mais il vivra. C'est quelque chose.</p>
-      <div class="pat-go-btns">
-        <button class="pat-go-btn" onclick="goHome()">⌂ Accueil</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 
 <!-- TRANSITION CHAPITRE PATRIOTES -->
 <div id="pat-transition" style="display:none;position:fixed;inset:0;background:rgba(10,15,10,0.98);z-index:400;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;">
@@ -5574,246 +5158,6 @@ function afficherTexteProgressif(elementId, narration, callback) {
   <div class="dday-dots"><span></span><span></span><span></span></div>
 </div>
 
-
-<!-- ===== D-DAY SCREEN ===== -->
-<div id="screen-dday" class="screen">
-
-  <!-- Fond nocturne Normandie -->
-  <div class="dday-night-bg" id="dday-night-bg">
-    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="skyGrad" cx="50%" cy="0%" r="100%">
-          <stop offset="0%" stop-color="#1a2744"/>
-          <stop offset="60%" stop-color="#0d1520"/>
-          <stop offset="100%" stop-color="#060c14"/>
-        </radialGradient>
-        <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#fff8e0" stop-opacity="0.9"/>
-          <stop offset="40%" stop-color="#f0e8c0" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#c8b870" stop-opacity="0"/>
-        </radialGradient>
-        <filter id="moonFilter">
-          <feGaussianBlur stdDeviation="3"/>
-        </filter>
-        <filter id="starGlow">
-          <feGaussianBlur stdDeviation="1"/>
-        </filter>
-      </defs>
-      
-      <!-- Ciel -->
-      <rect width="1440" height="900" fill="url(#skyGrad)"/>
-      
-      <!-- Halo lune -->
-      <ellipse cx="1100" cy="120" rx="120" ry="120" fill="url(#moonGlow)" opacity="0.4"/>
-      
-      <!-- Lune — dernier quartier, comme le 5-6 juin 1944 -->
-      <circle cx="1100" cy="120" r="52" fill="#e8dca0" opacity="0.85"/>
-      <circle cx="1122" cy="114" r="46" fill="#1a2744" opacity="0.92"/>
-      
-      <!-- Étoiles — fixes -->
-      <g fill="white">
-        <circle cx="120" cy="45" r="1.2" opacity="0.9" style="animation:dday-twinkle 3.1s ease-in-out infinite"/>
-        <circle cx="230" cy="80" r="0.8" opacity="0.7" style="animation:dday-twinkle 2.4s ease-in-out infinite 0.3s"/>
-        <circle cx="380" cy="30" r="1.4" opacity="0.95" style="animation:dday-twinkle 4.2s ease-in-out infinite 0.8s"/>
-        <circle cx="520" cy="65" r="0.9" opacity="0.6" style="animation:dday-twinkle 3.7s ease-in-out infinite 1.1s"/>
-        <circle cx="640" cy="25" r="1.1" opacity="0.85" style="animation:dday-twinkle 2.8s ease-in-out infinite 0.5s"/>
-        <circle cx="720" cy="90" r="0.7" opacity="0.65" style="animation:dday-twinkle 5.1s ease-in-out infinite 1.4s"/>
-        <circle cx="820" cy="40" r="1.3" opacity="0.9" style="animation:dday-twinkle 3.4s ease-in-out infinite 0.2s"/>
-        <circle cx="950" cy="70" r="0.8" opacity="0.7" style="animation:dday-twinkle 4.6s ease-in-out infinite 0.9s"/>
-        <circle cx="180" cy="140" r="0.9" opacity="0.6" style="animation:dday-twinkle 3.9s ease-in-out infinite 1.7s"/>
-        <circle cx="310" cy="160" r="1.0" opacity="0.75" style="animation:dday-twinkle 2.6s ease-in-out infinite 0.4s"/>
-        <circle cx="450" cy="120" r="0.7" opacity="0.55" style="animation:dday-twinkle 4.8s ease-in-out infinite 1.2s"/>
-        <circle cx="580" cy="155" r="1.2" opacity="0.8" style="animation:dday-twinkle 3.2s ease-in-out infinite 0.7s"/>
-        <circle cx="760" cy="130" r="0.8" opacity="0.65" style="animation:dday-twinkle 5.3s ease-in-out infinite 1.5s"/>
-        <circle cx="880" cy="160" r="1.0" opacity="0.7" style="animation:dday-twinkle 2.9s ease-in-out infinite 0.6s"/>
-        <circle cx="60" cy="200" r="1.1" opacity="0.8" style="animation:dday-twinkle 4.1s ease-in-out infinite 1.0s"/>
-        <circle cx="1200" cy="60" r="0.9" opacity="0.7" style="animation:dday-twinkle 3.6s ease-in-out infinite 0.3s"/>
-        <circle cx="1300" cy="100" r="1.2" opacity="0.85" style="animation:dday-twinkle 2.7s ease-in-out infinite 1.3s"/>
-        <circle cx="1380" cy="45" r="0.8" opacity="0.6" style="animation:dday-twinkle 4.4s ease-in-out infinite 0.8s"/>
-        <circle cx="1050" cy="200" r="0.7" opacity="0.55" style="animation:dday-twinkle 5.0s ease-in-out infinite 1.6s"/>
-        <circle cx="160" cy="280" r="0.9" opacity="0.6" style="animation:dday-twinkle 3.3s ease-in-out infinite 0.9s"/>
-        <circle cx="420" cy="240" r="1.0" opacity="0.7" style="animation:dday-twinkle 4.7s ease-in-out infinite 0.4s"/>
-        <circle cx="680" cy="220" r="0.8" opacity="0.65" style="animation:dday-twinkle 2.5s ease-in-out infinite 1.1s"/>
-      </g>
-      
-      <!-- Nuages — couverts partiels comme le 5-6 juin 1944 -->
-      <g opacity="0.18" fill="#a0b8d0" style="animation:dday-cloud-drift 12s ease-in-out infinite alternate">
-        <ellipse cx="200" cy="180" rx="180" ry="40"/>
-        <ellipse cx="280" cy="165" rx="120" ry="30"/>
-        <ellipse cx="140" cy="175" rx="100" ry="28"/>
-      </g>
-      <g opacity="0.14" fill="#8aaac0" style="animation:dday-cloud-drift 18s ease-in-out infinite alternate-reverse">
-        <ellipse cx="700" cy="140" rx="220" ry="45"/>
-        <ellipse cx="800" cy="128" rx="150" ry="32"/>
-        <ellipse cx="620" cy="150" rx="130" ry="30"/>
-      </g>
-      <g opacity="0.12" fill="#7090a8" style="animation:dday-cloud-drift 22s ease-in-out infinite alternate">
-        <ellipse cx="1250" cy="160" rx="200" ry="38"/>
-        <ellipse cx="1340" cy="148" rx="140" ry="28"/>
-      </g>
-      
-      <!-- Silhouette bocage normand en bas -->
-      <path d="M0,820 Q80,780 160,800 Q200,770 260,790 Q320,760 380,785 Q430,755 500,775 Q560,745 630,770 Q690,750 760,768 Q820,740 900,760 Q960,738 1040,755 Q1100,735 1180,752 Q1240,730 1320,748 Q1380,728 1440,745 L1440,900 L0,900 Z" fill="#0a0f0a" opacity="0.95"/>
-      <path d="M0,840 Q60,820 120,835 Q180,815 240,830 Q300,810 370,825 Q430,808 490,820 Q550,805 620,818 Q680,803 740,815 Q800,800 870,812 Q930,798 1000,810 Q1070,796 1140,808 Q1200,794 1270,806 Q1340,792 1440,804 L1440,900 L0,900 Z" fill="#060c06" opacity="0.98"/>
-    </svg>
-  </div>
-
-  <style>
-    #screen-dday { background:#0d1117; min-height:100vh; font-family:'Special Elite',cursive; color:#c9c5b0; }
-    .dday-header { background:#0a0e13; border-bottom:2px solid #2a3040; padding:10px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
-    .dday-header-left { display:flex; align-items:center; gap:14px; }
-    .dday-game-title { font-family:'Playfair Display',serif; font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#c9c5b0; }
-    .dday-chap-info { font-size:9px; letter-spacing:2px; color:#4a6080; text-transform:uppercase; }
-    .dday-jauges { display:flex; gap:8px; flex-wrap:wrap; padding:10px 20px; background:#080c10; border-bottom:1px solid #1a2030; }
-    .dday-jauge { flex:1; min-width:90px; }
-    .dday-jauge-hdr { display:flex; justify-content:space-between; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#8aaac8; margin-bottom:4px; font-family:'Special Elite',cursive; }
-    .dday-jauge-bar { height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
-    .dday-jauge-fill { height:100%; border-radius:2px; transition:width 0.6s ease; }
-    .dday-fill-sante { background:#8b3030; }
-    .dday-fill-moral { background:#4a7c4a; }
-    .dday-fill-bruit { background:#8b6030; }
-    .dday-fill-munitions { background:#c8a84b; }
-    .dday-fill-fatigue { background:#404050; }
-    .dday-fill-courage { background:#4a6080; }
-    .dday-fill-danger { background:#cc2222 !important; }
-    .dday-fill-warning { background:#cc7722 !important; }
-    .dday-alert { display:none; background:rgba(139,48,48,0.15); border:1px solid #8b3030; color:#cc4444; font-size:10px; letter-spacing:2px; text-transform:uppercase; text-align:center; padding:6px; margin:10px 20px 0; }
-    .dday-alert.active { display:block; }
-    .dday-content { max-width:720px; margin:0 auto; padding:24px 20px 60px; }
-    .dday-chapter-banner { border-left:3px solid #4a6080; padding:12px 18px; margin-bottom:20px; background:rgba(42,48,64,0.2); }
-    .dday-chap-num { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#4a6080; display:block; margin-bottom:4px; }
-    .dday-chap-title { font-family:'Playfair Display',serif; font-size:clamp(20px,4vw,28px); font-weight:700; color:#c9c5b0; margin-bottom:2px; }
-    .dday-chap-sub { font-size:10px; letter-spacing:2px; color:#4a6080; text-transform:uppercase; }
-    .dday-narrative-card { background:rgba(42,48,64,0.15); border:1px solid rgba(42,48,64,0.5); border-left:3px solid #4a6080; padding:18px 20px; margin-bottom:16px; }
-    .dday-narrative-date { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a9ab0; display:block; margin-bottom:10px; }
-    .dday-narrative-text p { font-family:'IM Fell English',serif; font-size:14px; line-height:1.85; color:#b0b8c8; margin-bottom:12px; }
-    .dday-pull-quote { font-family:'Playfair Display',serif; font-style:italic; font-size:14px; color:#8a9ab0; border-top:1px solid rgba(74,96,128,0.3); padding-top:12px; margin-top:12px; text-align:center; }
-    .dday-objectif { font-size:9px; letter-spacing:2px; text-transform:uppercase; padding:5px 12px; margin:6px 0 0; border-left:2px solid #4a6080; color:rgba(138,154,176,0.8); display:none; }
-    .dday-objectif.active { display:block; }
-    .dday-objectif-label { color:rgba(74,96,128,0.6); font-size:8px; display:block; margin-bottom:2px; }
-    .dday-loading-inline { display:none; justify-content:center; align-items:center; padding:40px 0; flex-direction:column; gap:12px; }
-    .dday-loading-inline.active { display:flex; }
-    .dday-spinner { width:28px; height:28px; border:2px solid rgba(74,96,128,0.2); border-top-color:#4a6080; border-radius:50%; animation:pat-spin 0.8s linear infinite; }
-    .dday-loader-text { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#4a6080; animation:pulse 1.5s ease-in-out infinite; }
-    .dday-decision-zone { display:none; margin-top:16px; }
-    .dday-decision-zone.active { display:block; }
-    .dday-dec-lbl { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#4a6080; display:block; margin-bottom:10px; text-align:center; }
-    .dday-choices { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
-    .dday-choice-btn { background:rgba(42,48,64,0.3); border:1px solid rgba(74,96,128,0.5); color:rgba(201,197,176,0.8); padding:6px 14px; font-family:'Special Elite',cursive; font-size:9px; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all 0.2s; }
-    .dday-choice-btn:hover { background:rgba(74,96,128,0.4); color:#c9c5b0; border-color:#4a6080; }
-    .dday-dec-input { width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(74,96,128,0.4); padding:9px 13px; font-family:'Special Elite',cursive; font-size:13px; color:#c9c5b0; resize:none; min-height:68px; outline:none; box-sizing:border-box; }
-    .dday-dec-input:focus { border-color:#4a6080; }
-    .dday-dec-input::placeholder { color:rgba(74,96,128,0.5); font-style:italic; }
-    .dday-submit-btn { margin-top:7px; background:#2a3040; color:#c9c5b0; border:none; padding:8px 26px; font-family:'Special Elite',cursive; font-size:10px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; float:right; transition:background 0.2s; }
-    .dday-submit-btn:hover { background:#4a6080; }
-    .dday-submit-btn:disabled { opacity:0.4; cursor:not-allowed; }
-    .dday-hist-toggle { background:transparent; border:1px solid rgba(74,96,128,0.3); color:#4a6080; font-family:'Special Elite',cursive; font-size:9px; letter-spacing:2px; text-transform:uppercase; padding:5px 12px; cursor:pointer; margin-top:6px; }
-    .dday-history-zone { display:none; margin-top:8px; border-left:2px solid rgba(74,96,128,0.3); padding-left:14px; }
-    .dday-history-zone.open { display:block; }
-    .dday-hist-entry { font-size:10px; color:#4a6080; letter-spacing:1px; padding:3px 0; border-bottom:1px solid rgba(74,96,128,0.1); }
-    .dday-gameover { display:none; position:fixed; inset:0; background:rgba(5,8,12,0.97); z-index:300; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 20px; }
-    .dday-go-icon { font-size:64px; margin-bottom:20px; }
-    .dday-go-title { font-family:'Playfair Display',serif; font-size:clamp(28px,5vw,44px); font-weight:700; color:#c9c5b0; margin-bottom:14px; }
-    .dday-go-text { font-family:'IM Fell English',serif; font-style:italic; font-size:15px; color:rgba(201,197,176,0.6); max-width:480px; line-height:1.85; margin-bottom:28px; }
-    .dday-go-btns { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
-    .dday-go-btn { background:transparent; border:2px solid rgba(74,96,128,0.5); color:#4a6080; padding:11px 28px; font-family:'Special Elite',cursive; font-size:10px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; }
-    .dday-go-btn-primary { background:#2a3040; border-color:#2a3040; color:#c9c5b0; }
-    /* Canon progress for Brécourt */
-    .dday-canons { display:flex; gap:8px; padding:8px 20px; background:#080c10; border-bottom:1px solid #1a2030; align-items:center; }
-    .dday-canons-label { font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#4a6080; margin-right:4px; }
-    .dday-canon { width:24px; height:24px; border-radius:50%; border:2px solid #4a6080; display:flex; align-items:center; justify-content:center; font-size:10px; transition:all 0.4s; }
-    .dday-canon.neutralise { background:#4a6080; border-color:#8a9ab0; }
-  </style>
-
-  <div class="dday-header">
-    <div class="dday-header-left">
-      <span style="font-size:20px;">🎖</span>
-      <div>
-        <div class="dday-game-title" id="dday-game-title">The Screaming Eagles</div>
-        <div class="dday-game-sub" id="dday-game-sub" style="font-size:9px;letter-spacing:1px;color:#6a8aaa;margin-top:1px;">Robert Douglas · 101ème Airborne · Normandie 1944</div>
-        <div class="dday-chap-info" id="dday-chap-info">Chapitre 1/6 · Décision 1</div>
-      </div>
-    </div>
-    <button onclick="goHome()" style="background:transparent;border:1px solid rgba(74,96,128,0.4);color:#4a6080;font-family:\'Special Elite\',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">⌂ Quitter</button>
-  </div>
-
-  <div class="dday-jauges" id="dday-jauges">
-    <div class="dday-jauge">
-      <div class="dday-jauge-hdr"><span id="dday-j1-label">❤ Santé</span><span id="dday-v-sante">90</span></div>
-      <div class="dday-jauge-bar"><div class="dday-jauge-fill dday-fill-sante" id="dday-f-sante" style="width:90%"></div></div>
-    </div>
-    <div class="dday-jauge">
-      <div class="dday-jauge-hdr"><span>⚡ Moral</span><span id="dday-v-moral">70</span></div>
-      <div class="dday-jauge-bar"><div class="dday-jauge-fill dday-fill-moral" id="dday-f-moral" style="width:70%"></div></div>
-    </div>
-    <div class="dday-jauge">
-      <div class="dday-jauge-hdr"><span id="dday-j3-label">🔊 Bruit</span><span id="dday-v-j3">0</span></div>
-      <div class="dday-jauge-bar"><div class="dday-jauge-fill dday-fill-bruit" id="dday-f-j3" style="width:0%"></div></div>
-    </div>
-    <div class="dday-jauge">
-      <div class="dday-jauge-hdr"><span>🔫 Munitions</span><span id="dday-v-munitions">80</span></div>
-      <div class="dday-jauge-bar"><div class="dday-jauge-fill dday-fill-munitions" id="dday-f-munitions" style="width:80%"></div></div>
-    </div>
-    <div class="dday-jauge">
-      <div class="dday-jauge-hdr"><span>💤 Fatigue</span><span id="dday-v-fatigue">20</span></div>
-      <div class="dday-jauge-bar"><div class="dday-jauge-fill dday-fill-fatigue" id="dday-f-fatigue" style="width:20%"></div></div>
-    </div>
-  </div>
-
-  <!-- Canons progress (Brécourt seulement) -->
-  <div class="dday-canons" id="dday-canons-zone" style="display:none;">
-    <span class="dday-canons-label">Canons :</span>
-    <div class="dday-canon" id="dday-canon-1">💥</div>
-    <div class="dday-canon" id="dday-canon-2">💥</div>
-    <div class="dday-canon" id="dday-canon-3">💥</div>
-    <div class="dday-canon" id="dday-canon-4">💥</div>
-    <span style="font-size:9px;letter-spacing:2px;color:#4a6080;margin-left:8px;" id="dday-canons-count">0/4 neutralisés</span>
-  </div>
-
-  <div class="dday-alert" id="dday-alert">⚠ Danger critique</div>
-
-  <div class="dday-content">
-    <div class="dday-chapter-banner">
-      <span class="dday-chap-num" id="dday-chap-num">Chapitre 1</span>
-      <div class="dday-chap-title" id="dday-chap-title">Le Saut</div>
-      <div class="dday-chap-sub" id="dday-chap-sub">Normandie · 6 juin 1944 · 01h15</div>
-    </div>
-    <div class="dday-narrative-card">
-      <span class="dday-narrative-date" id="dday-narrative-date">6 juin 1944</span>
-      <div class="dday-narrative-text" id="dday-narrative-text"><p>La Normandie attend...</p></div>
-      <div class="dday-pull-quote" id="dday-pull-quote" style="display:none;"></div>
-    </div>
-    <div class="dday-objectif" id="dday-objectif"><span class="dday-objectif-label">Objectif</span><span id="dday-objectif-text"></span></div>
-    <div class="dday-loading-inline" id="dday-loading-inline">
-      <div class="dday-spinner"></div>
-      <div class="dday-loader-text">Mission en cours...</div>
-    </div>
-    <div class="dday-decision-zone" id="dday-decision-zone">
-      <span class="dday-dec-lbl" id="dday-dec-lbl">— Que faites-vous ? —</span>
-      <div class="dday-choices" id="dday-choices"></div>
-      <textarea class="dday-dec-input" id="dday-dec-input" placeholder="Décrivez votre action..."></textarea>
-      <button class="dday-submit-btn" id="dday-submit-btn" onclick="submitDdayDecision()">Agir ▸</button>
-      <div style="clear:both;"></div>
-    </div>
-    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="dday-hist-toggle" onclick="toggleDdayHistory()">▸ Historique</button>
-      <button class="dday-hist-toggle" onclick="toggleDdayPersonnages()">▸ Personnages</button>
-    </div>
-    <div class="dday-history-zone" id="dday-history-zone"><div id="dday-history-list"></div></div>
-    <div class="dday-history-zone" id="dday-personnages-zone"><div id="dday-personnages-list"><p style="font-size:10px;color:#4a6080;font-style:italic;">Les personnages apparaîtront au fil de la mission...</p></div></div>
-
-    <div class="dday-gameover" id="dday-gameover">
-      <div class="dday-go-icon" id="dday-go-icon">💀</div>
-      <div class="dday-go-title" id="dday-go-title">Fin</div>
-      <p class="dday-go-text" id="dday-go-text"></p>
-      <div class="dday-go-btns">
-        <button class="dday-go-btn dday-go-btn-primary" id="dday-go-next" style="display:none;" onclick="launchDday(ddayState.partie, ddayState.chapter+1)">Chapitre suivant ▸</button>
-        <button class="dday-go-btn" onclick="launchDday(ddayState.partie, ddayState.chapter)">↺ Recommencer</button>
-        <button class="dday-go-btn" onclick="goHome()">⌂ Accueil</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <!-- ===== DESTIN LIBRE — CRÉATION ===== -->
