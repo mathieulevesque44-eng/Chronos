@@ -4953,7 +4953,8 @@ function lancerDestinLibre() {
     monnaie: '',
     history: [],
     messages: [],
-    pnj: []
+    pnj: [],
+    pnjActifs: {} // { nomPNJ: derniere_decision_vu }
   };
 
   document.getElementById('dl-dec-lbl').textContent = '— Que faites-vous, ' + nom.split(' ')[0] + ' ? —';
@@ -4990,7 +4991,7 @@ function getDestinSystemPrompt() {
 
   return 'Tu es le narrateur de CHRONICA — Destin Libre. Le joueur incarne ' + s.nom + desc + ', a ' + s.epoque + '. Il a 20 ans. Ses parents viennent de mourir. Il possede l equivalent de 1 000 $ en monnaie locale. ' + ambitionTexte + '\n\n'
     + 'REPONDS UNIQUEMENT EN JSON VALIDE sans markdown :\n'
-    + '{"date":"date courte","narration":"3 paragraphes \\n\\n 2eme personne immersive 150-200 mots","pull_quote":"phrase courte et forte","objectif":"une ligne","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu|neutre","statut":"vivant|mort|inconnu","note":"une phrase"}],"delta_sante":0,"delta_moral":0,"delta_reputation":0,"delta_influence":0,"argent":1000,"monnaie":"monnaie locale","game_over":false,"game_over_type":null,"epitaphe":null,"titre_epoque":"titre social"}\n\n'
+    + '{"date":"date courte","narration":"3 paragraphes \\n\\n 2eme personne immersive 150-200 mots","pull_quote":"phrase courte et forte","objectif":"une ligne","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":"MAX 5 personnages les plus importants de cette scene uniquement — [{nom,relation,statut,note}]","delta_sante":0,"delta_moral":0,"delta_reputation":0,"delta_influence":0,"argent":1000,"monnaie":"monnaie locale","game_over":false,"game_over_type":null,"epitaphe":null,"titre_epoque":"titre social"}\n\n'
     + 'JAUGES (0-100) :\n'
     + '- sante : NE BAISSE PAS avant 50 ans sauf blessure/maladie grave. Max -15 par evenement traumatique.\n'
     + '- moral : Max -10 par decision normale, -20 catastrophe. Sous 20 = proposer un choix de survie avant game_over.\n'
@@ -5194,6 +5195,22 @@ async function submitDestinDecision() {
 
 function renderDestinPNJ(personnages) {
   const el = document.getElementById('dl-pnj-list');
+  const decisionActuelle = destinState.decision;
+
+  // Mettre à jour la dernière décision vue pour chaque PNJ apparu
+  personnages.forEach(p => {
+    destinState.pnjActifs[p.nom] = decisionActuelle;
+  });
+
+  // Purger les PNJ absents depuis 3 décisions
+  Object.keys(destinState.pnjActifs).forEach(nom => {
+    if (decisionActuelle - destinState.pnjActifs[nom] >= 3) {
+      delete destinState.pnjActifs[nom];
+      const el2 = document.querySelector('[data-nom="' + nom + '"]');
+      if (el2) el2.remove();
+    }
+  });
+
   const existing = {};
   el.querySelectorAll('[data-nom]').forEach(e => { existing[e.dataset.nom] = e; });
   if (Object.keys(existing).length === 0) el.innerHTML = '';
@@ -5220,50 +5237,87 @@ function renderDestinPNJ(personnages) {
   });
 }
 
+
 function toggleDestinPNJ() {
   document.getElementById('dl-pnj-zone').classList.toggle('open');
 }
 
 
 // ============================================================
-// LE CONSEILLER
+// LE CONSEILLER — Q&A avec historique
 // ============================================================
-async function ouvrirConseiller() {
-  const overlay = document.getElementById('conseiller-overlay');
-  const loading = document.getElementById('conseiller-loading');
-  const conseils = document.getElementById('conseiller-conseils');
-  const subtitle = document.getElementById('conseiller-subtitle');
+let conseillerHistorique = [];
 
-  overlay.classList.add('active');
+function ouvrirConseiller() {
+  document.getElementById('conseiller-overlay').classList.add('active');
+  afficherHistoriqueConseiller();
+  setTimeout(() => {
+    const q = document.getElementById('conseiller-question');
+    if (q) q.focus();
+  }, 100);
+}
+
+function fermerConseiller(e) {
+  if (e && e.target !== document.getElementById('conseiller-overlay')) return;
+  document.getElementById('conseiller-overlay').classList.remove('active');
+}
+
+function afficherHistoriqueConseiller() {
+  const el = document.getElementById('conseiller-historique');
+  if (!el) return;
+  el.innerHTML = '';
+  if (conseillerHistorique.length === 0) {
+    el.innerHTML = '<p style="font-family:'IM Fell English',serif;font-style:italic;font-size:12px;color:rgba(200,168,75,0.3);text-align:center;padding:10px 0;">Posez votre première question...</p>';
+    return;
+  }
+  conseillerHistorique.forEach(echange => {
+    const q = document.createElement('div');
+    q.style.cssText = 'text-align:right;margin-bottom:4px;';
+    q.innerHTML = '<span style="display:inline-block;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.2);padding:6px 12px;font-family:'Special Elite',cursive;font-size:11px;color:rgba(200,168,75,0.8);max-width:85%;text-align:left;letter-spacing:0.5px;">' + echange.question + '</span>';
+    el.appendChild(q);
+    const r = document.createElement('div');
+    r.style.cssText = 'text-align:left;margin-bottom:8px;';
+    r.innerHTML = '<span style="display:inline-block;border-left:2px solid rgba(200,168,75,0.35);padding:7px 14px;font-family:'IM Fell English',serif;font-style:italic;font-size:13px;color:#c8bea0;line-height:1.7;max-width:90%;">' + echange.reponse + '</span>';
+    el.appendChild(r);
+  });
+  el.scrollTop = el.scrollHeight;
+}
+
+async function envoyerQuestion() {
+  const input = document.getElementById('conseiller-question');
+  const question = input.value.trim();
+  if (!question) return;
+
+  const loading = document.getElementById('conseiller-loading');
+  const btn = document.getElementById('conseiller-send-btn');
   loading.style.display = 'block';
-  conseils.innerHTML = '';
+  if (btn) btn.disabled = true;
+  input.value = '';
+  input.disabled = true;
 
   const s = destinState;
   const j = s.jauges;
 
-  subtitle.textContent = s.epoque;
-
   try {
     const msg = '[CONSULTATION CONSEILLER — NE PAS AVANCER L HISTOIRE] '
-      + 'Analyse la situation de ' + s.nom + ' a ' + s.epoque + '. '
+      + 'Contexte : ' + s.nom + ' a ' + s.epoque + '. '
       + 'Sante:' + j.sante + ' Moral:' + j.moral + ' Reputation:' + j.reputation
       + ' Influence:' + j.influence + ' Argent:' + s.argent + ' ' + s.monnaie + '. '
       + 'Ambition: ' + s.ambition + '. '
-      + 'Donne exactement 3 conseils strategiques courts et specifiques a cette situation. '
-      + 'Reponds UNIQUEMENT en JSON: {"conseils":["conseil 1","conseil 2","conseil 3"]} '
-      + 'Chaque conseil = 1-2 phrases max. Pas de JSON wrapper markdown. '
-      + 'NE PAS changer les jauges, NE PAS avancer l histoire.';
+      + 'Question du joueur: "' + question + '". '
+      + 'Reponds DIRECTEMENT et UNIQUEMENT a cette question (2-4 phrases, concis et sage). '
+      + 'Reponds en JSON: {"reponse":"ta reponse ici"} '
+      + 'NE PAS changer les jauges. NE PAS avancer l histoire.';
 
-    // Use a separate API call that doesn't affect the game history
     const resp = await fetch('/.netlify/functions/anthropic', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
-        max_tokens: 400,
-        system: 'Tu es un conseiller historique. Analyse la situation et donne des conseils strategiques courts et concrets. Reponds uniquement en JSON valide sans markdown.',
+        max_tokens: 300,
+        system: 'Tu es un conseiller anonyme, sage et intemporel qui suit ce personnage a travers son histoire. Tu donnes de vrais conseils strategiques concrets et profonds, adaptes exactement a la situation politique, economique et sociale du joueur. Prose uniquement — jamais de listes, jamais de titres, jamais de puces, jamais d emojis, jamais de graphiques. Style sobre et sombre, comme une lettre confidentielle d un conseiller de l ombre. 3-5 phrases maximum. Reponds uniquement en JSON valide: {"reponse":"ta reponse en prose"}',
         messages: [
-          ...destinState.messages.slice(-6), // Contexte recent seulement
+          ...destinState.messages.slice(-4),
           { role: 'user', content: msg }
         ]
       })
@@ -5271,32 +5325,22 @@ async function ouvrirConseiller() {
 
     const data = await resp.json();
     const text = data.content.map(b => b.text || '').join('');
-    const clean = text.replace(/```json[\n]?/g, '').replace(/```[\n]?/g, '').trim();
+    const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     const match = clean.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('Réponse invalide');
+    if (!match) throw new Error('invalide');
     const parsed = JSON.parse(match[0]);
 
-    loading.style.display = 'none';
-
-    if (parsed.conseils && parsed.conseils.length) {
-      parsed.conseils.forEach((conseil, i) => {
-        const div = document.createElement('div');
-        div.className = 'conseil-item';
-        div.textContent = '"' + conseil + '"';
-        conseils.appendChild(div);
-        setTimeout(() => div.classList.add('visible'), i * 300);
-      });
-    }
+    conseillerHistorique.push({ question, reponse: parsed.reponse });
 
   } catch(e) {
-    loading.style.display = 'none';
-    conseils.innerHTML = '<div class="conseil-item visible" style="color:#cc4444">Votre conseiller est indisponible pour le moment.</div>';
+    conseillerHistorique.push({ question, reponse: 'Votre conseiller est indisponible pour le moment.' });
   }
-}
 
-function fermerConseiller(e) {
-  if (e && e.target !== document.getElementById('conseiller-overlay')) return;
-  document.getElementById('conseiller-overlay').classList.remove('active');
+  loading.style.display = 'none';
+  if (btn) btn.disabled = false;
+  input.disabled = false;
+  setTimeout(() => input.focus(), 50);
+  afficherHistoriqueConseiller();
 }
 
 
@@ -5935,14 +5979,24 @@ function afficherTexteProgressif(elementId, narration, callback) {
       <span class="conseiller-icon">⚖</span>
       <div>
         <div class="conseiller-title">Votre Conseiller</div>
-        <div class="conseiller-subtitle" id="conseiller-subtitle">Analyse de la situation...</div>
+        <div class="conseiller-subtitle" id="conseiller-subtitle">Posez votre question</div>
       </div>
+      <button onclick="fermerConseiller()" style="margin-left:auto;background:transparent;border:none;color:rgba(200,168,75,0.4);font-size:18px;cursor:pointer;">✕</button>
     </div>
-    <div class="conseiller-loading" id="conseiller-loading">Consultation en cours...</div>
-    <div class="conseiller-conseils" id="conseiller-conseils"></div>
-    <div class="conseiller-footer">
-      <span class="conseiller-note">Ce conseil n'avance pas l'histoire</span>
-      <button class="conseiller-close" onclick="fermerConseiller()">Fermer</button>
+
+    <!-- Historique des échanges -->
+    <div id="conseiller-historique" style="max-height:280px;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:12px;"></div>
+
+    <!-- Loading -->
+    <div class="conseiller-loading" id="conseiller-loading" style="display:none;">Consultation en cours...</div>
+
+    <!-- Zone de question -->
+    <div style="border-top:1px solid rgba(200,168,75,0.15);padding-top:14px;">
+      <textarea id="conseiller-question" placeholder="Posez votre question au conseiller..." style="width:100%;background:rgba(200,168,75,0.05);border:1px solid rgba(200,168,75,0.2);color:#e8d8b0;padding:10px 13px;font-family:'IM Fell English',serif;font-size:13px;resize:none;min-height:70px;outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();envoyerQuestion();}"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+        <span style="font-size:8px;letter-spacing:1px;color:rgba(200,168,75,0.25);font-style:italic;">N'avance pas l'histoire · Entrée pour envoyer</span>
+        <button id="conseiller-send-btn" onclick="envoyerQuestion()" style="background:rgba(200,168,75,0.12);border:1px solid rgba(200,168,75,0.35);color:#c8a84b;padding:7px 20px;font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Consulter ▸</button>
+      </div>
     </div>
   </div>
 </div>
