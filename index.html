@@ -2087,108 +2087,271 @@ body::before {
 .destin-create-panel {
   position: relative;
   z-index: 1;
-  width: min(520px, 92vw);
-  padding: 40px;
-  border: 1px solid rgba(200,168,75,0.2);
-  background: rgba(12,10,6,0.9);
+  width: min(580px, 92vw);
+  padding: 48px 44px;
+  border: 1px solid rgba(200,168,75,0.25);
+  border-top: 2px solid rgba(200,168,75,0.5);
+  border-bottom: 2px solid rgba(200,168,75,0.5);
+  background: rgba(8,6,3,0.88);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 80px rgba(0,0,0,0.8), inset 0 0 60px rgba(200,168,75,0.02);
 }
+
+/* Coins dorés */
+.destin-create-panel::before,
+.destin-create-panel::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: rgba(200,168,75,0.5);
+  border-style: solid;
+}
+.destin-create-panel::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.destin-create-panel::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
 .destin-create-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(200,168,75,0.15);
+  position: relative;
 }
 
 .destin-create-logo {
-  font-size: 28px;
+  font-size: 24px;
   color: #c8a84b;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  opacity: 0.8;
 }
 
 .destin-create-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(22px,4vw,30px);
-  font-weight: 700;
+  font-family: 'Special Elite', cursive;
+  font-size: clamp(20px,3.5vw,28px);
+  font-weight: 400;
   color: #e8d8b0;
-  letter-spacing: 2px;
-  margin-bottom: 6px;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.destin-create-sep {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin: 12px 0;
+}
+.destin-create-sep::before,
+.destin-create-sep::after {
+  content: '';
+  width: 60px; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(200,168,75,0.4));
+}
+.destin-create-sep::after { transform: scaleX(-1); }
+.destin-create-sep-diamond {
+  width: 6px; height: 6px;
+  background: rgba(200,168,75,0.6);
+  transform: rotate(45deg);
 }
 
 .destin-create-premise {
   font-family: 'IM Fell English', serif;
   font-style: italic;
-  font-size: 13px;
-  color: rgba(200,168,75,0.6);
-  line-height: 1.7;
+  font-size: 14px;
+  color: rgba(200,168,75,0.55);
+  line-height: 1.8;
 }
 
-.destin-create-fields { display: flex; flex-direction: column; gap: 18px; }
+.destin-create-fields { display: flex; flex-direction: column; gap: 24px; }
+
+/* Numéros romains */
+.destin-field-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.destin-field-num {
+  width: 28px; height: 28px;
+  border: 1px solid rgba(200,168,75,0.35);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Special Elite', cursive;
+  font-size: 10px;
+  color: rgba(200,168,75,0.6);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.destin-field-content { flex: 1; }
 
 .destin-field-lbl {
-  font-size: 8px;
-  letter-spacing: 3px;
+  font-size: 9px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(200,168,75,0.6);
+  color: rgba(200,168,75,0.7);
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  font-family: 'Special Elite', cursive;
 }
 
 .destin-field-input {
   width: 100%;
-  background: rgba(200,168,75,0.05);
-  border: 1px solid rgba(200,168,75,0.2);
-  border-bottom: 2px solid rgba(200,168,75,0.4);
-  padding: 10px 14px;
+  background: rgba(200,168,75,0.04);
+  border: 1px solid rgba(200,168,75,0.18);
+  border-radius: 2px;
+  padding: 12px 16px;
   font-family: 'IM Fell English', serif;
-  font-size: 15px;
+  font-size: 14px;
   color: #e8d8b0;
   outline: none;
   box-sizing: border-box;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
-.destin-field-input:focus { border-color: rgba(200,168,75,0.6); border-bottom-color: #c8a84b; }
-.destin-field-input::placeholder { color: rgba(200,168,75,0.25); font-style: italic; }
+.destin-field-input:focus {
+  border-color: rgba(200,168,75,0.5);
+  background: rgba(200,168,75,0.07);
+  box-shadow: 0 0 20px rgba(200,168,75,0.05);
+}
+.destin-field-input::placeholder { color: rgba(200,168,75,0.22); font-style: italic; }
 
-.destin-create-launch {
-  margin-top: 28px;
-  width: 100%;
-  background: rgba(200,168,75,0.12);
-  border: 1px solid rgba(200,168,75,0.4);
-  color: #c8a84b;
-  padding: 14px;
-  font-family: 'Special Elite', cursive;
-  font-size: 12px;
-  letter-spacing: 4px;
+/* Boutons époques */
+.destin-epoques-label {
+  font-size: 8px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.destin-create-launch:hover { background: rgba(200,168,75,0.22); }
-.destin-create-launch:disabled { opacity: 0.4; cursor: not-allowed; }
-
-
-.destin-ambition-btn {
-  background: rgba(200,168,75,0.06);
-  border: 1px solid rgba(200,168,75,0.2);
-  color: rgba(200,168,75,0.6);
-  padding: 7px 14px;
+  color: rgba(200,168,75,0.3);
+  display: block;
+  margin-bottom: 10px;
   font-family: 'Special Elite', cursive;
-  font-size: 10px;
-  letter-spacing: 1px;
+}
+
+.destin-epoques-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.destin-epoque-btn {
+  background: rgba(200,168,75,0.04);
+  border: 1px solid rgba(200,168,75,0.18);
+  border-radius: 3px;
+  color: rgba(200,168,75,0.6);
+  padding: 12px 8px;
+  font-family: 'Special Elite', cursive;
   cursor: pointer;
   transition: all 0.2s;
-  flex: 1;
-  min-width: 80px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
-.destin-ambition-btn:hover { border-color: rgba(200,168,75,0.5); color: #c8a84b; }
-.destin-ambition-btn.active {
-  background: rgba(200,168,75,0.18);
+
+.destin-epoque-btn:hover {
+  background: rgba(200,168,75,0.1);
+  border-color: rgba(200,168,75,0.45);
+  color: #c8a84b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(200,168,75,0.08);
+}
+
+.destin-epoque-btn.selected {
+  background: rgba(200,168,75,0.15);
   border-color: #c8a84b;
   color: #c8a84b;
 }
 
+.destin-epoque-btn .epoque-icon {
+  font-size: 18px;
+  display: block;
+  filter: grayscale(20%);
+}
 
-/* ===== LOADER DESTIN LIBRE ===== */
+.destin-epoque-btn .epoque-nom {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: rgba(232,216,176,0.85);
+  line-height: 1.3;
+}
+
+.destin-epoque-btn .epoque-lieu {
+  display: block;
+  font-size: 8px;
+  color: rgba(200,168,75,0.4);
+  letter-spacing: 1px;
+}
+
+/* Ambition */
+.destin-ambition-btn {
+  background: rgba(200,168,75,0.04);
+  border: 1px solid rgba(200,168,75,0.18);
+  border-radius: 3px;
+  color: rgba(200,168,75,0.5);
+  padding: 10px 8px;
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+  min-width: 70px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.destin-ambition-btn .ambition-icon { font-size: 16px; }
+.destin-ambition-btn:hover { border-color: rgba(200,168,75,0.4); color: #c8a84b; }
+.destin-ambition-btn.active {
+  background: rgba(200,168,75,0.12);
+  border-color: #c8a84b;
+  color: #c8a84b;
+  box-shadow: 0 0 16px rgba(200,168,75,0.1);
+}
+
+/* Bouton lancement */
+.destin-create-launch {
+  margin-top: 32px;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(200,168,75,0.12) 0%, rgba(200,168,75,0.18) 100%);
+  border: 1px solid rgba(200,168,75,0.5);
+  border-top-color: rgba(200,168,75,0.7);
+  color: #c8a84b;
+  padding: 16px;
+  font-family: 'Special Elite', cursive;
+  font-size: 13px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.destin-create-launch::before,
+.destin-create-launch::after {
+  content: '✦';
+  font-size: 10px;
+  opacity: 0.6;
+}
+.destin-create-launch:hover {
+  background: linear-gradient(135deg, rgba(200,168,75,0.2) 0%, rgba(200,168,75,0.28) 100%);
+  border-color: #c8a84b;
+  box-shadow: 0 0 30px rgba(200,168,75,0.15);
+  letter-spacing: 8px;
+}
+.destin-create-launch:disabled { opacity: 0.35; cursor: not-allowed; }
+
+
 .destin-walk-scene {
   position: relative;
   width: 100%;
@@ -2487,77 +2650,117 @@ body::before {
   </div>
 
   <!-- Section création — directement en dessous -->
-  <div id="creation-section" style="position:relative;z-index:2;background:#0a0808;padding:60px 20px 80px;">
+  <div id="creation-section" style="position:relative;z-index:2;background:linear-gradient(to bottom, #0a0808, #060404);padding:60px 20px 80px;">
     <div class="destin-create-panel" style="margin:0 auto;">
+
       <div class="destin-create-header">
         <div class="destin-create-logo">⧗</div>
-        <div class="destin-create-title">Votre Personnage</div>
+        <div class="destin-create-title">Destin Libre</div>
+        <div class="destin-create-sep"><div class="destin-create-sep-diamond"></div></div>
         <p class="destin-create-premise">
           Vos parents viennent de mourir.<br>
           Vous avez 20 ans et l'équivalent de 1 000 $ en poche.<br>
           Le reste dépend de vous.
         </p>
       </div>
+
       <div class="destin-create-fields">
-        <div>
-          <label class="destin-field-lbl">Votre nom</label>
-          <input class="destin-field-input" id="destin-nom" type="text" placeholder="Ex: Elena Vasari, Marco Lebrun..." maxlength="40">
-        </div>
-        <div>
-          <label class="destin-field-lbl">Époque & Lieu</label>
-          <span class="destin-epoques-label">Suggestions — cliquez pour sélectionner</span>
-          <div class="destin-epoques-grid">
-            <button class="destin-epoque-btn" onclick="choisirEpoque('Japon, 1560 — Guerre des seigneurs')">
-              <span class="epoque-icon">🗡️</span>
-              <span class="epoque-nom">Guerre des seigneurs</span>
-              <span class="epoque-lieu">Japon · 1560</span>
-            </button>
-            <button class="destin-epoque-btn" onclick="choisirEpoque('Rome, 44 av. J.-C. — Mort de César')">
-              <span class="epoque-icon">🏛️</span>
-              <span class="epoque-nom">Mort de César</span>
-              <span class="epoque-lieu">Rome · 44 av. J.-C.</span>
-            </button>
-            <button class="destin-epoque-btn" onclick="choisirEpoque('Caraïbes, 1680 — Âge d or des pirates')">
-              <span class="epoque-icon">🌊</span>
-              <span class="epoque-nom">Âge d'or des pirates</span>
-              <span class="epoque-lieu">Caraïbes · 1680</span>
-            </button>
-            <button class="destin-epoque-btn" onclick="choisirEpoque('Mongolie, 1200 — Temüjin unifie les tribus')">
-              <span class="epoque-icon">⚔️</span>
-              <span class="epoque-nom">Temüjin & les tribus</span>
-              <span class="epoque-lieu">Mongolie · 1200</span>
-            </button>
-            <button class="destin-epoque-btn" onclick="choisirEpoque('Berlin, 1939 — Début de la Seconde Guerre mondiale')">
-              <span class="epoque-icon">🎖️</span>
-              <span class="epoque-nom">Seconde Guerre mondiale</span>
-              <span class="epoque-lieu">Berlin · 1939</span>
-            </button>
-            <button class="destin-epoque-btn" onclick="choisirEpoque('New York, 1920 — Prohibition')">
-              <span class="epoque-icon">🗽</span>
-              <span class="epoque-nom">Prohibition</span>
-              <span class="epoque-lieu">New York · 1920</span>
-            </button>
-          </div>
-          <input class="destin-field-input" id="destin-epoque" type="text" placeholder="Ou écrivez votre propre époque..." maxlength="60" style="margin-top:8px;">
-        </div>
-        <div>
-          <label class="destin-field-lbl">Une phrase sur vous <span style="color:rgba(200,168,75,0.3)">(facultatif)</span></label>
-          <input class="destin-field-input" id="destin-desc" type="text" placeholder="Ex: Fille d'un marchand ruiné, parle 3 langues..." maxlength="100">
-        </div>
-        <div>
-          <label class="destin-field-lbl">Votre ambition</label>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;" id="destin-ambitions">
-            <button class="destin-ambition-btn active" data-ambition="Richesse" onclick="selectAmbition(this)">💰 Richesse</button>
-            <button class="destin-ambition-btn" data-ambition="Pouvoir" onclick="selectAmbition(this)">⚔️ Pouvoir</button>
-            <button class="destin-ambition-btn" data-ambition="Famille" onclick="selectAmbition(this)">👨‍👩‍👧 Famille</button>
-            <button class="destin-ambition-btn" data-ambition="Gloire" onclick="selectAmbition(this)">★ Gloire</button>
-            <button class="destin-ambition-btn" data-ambition="Survie" onclick="selectAmbition(this)">🌿 Survie</button>
+
+        <!-- I — Nom -->
+        <div class="destin-field-row">
+          <div class="destin-field-num">I</div>
+          <div class="destin-field-content">
+            <label class="destin-field-lbl">Votre nom</label>
+            <input class="destin-field-input" id="destin-nom" type="text" placeholder="Ex.: Elena Vasari, Marco Lebrun..." maxlength="40">
           </div>
         </div>
+
+        <!-- II — Époque -->
+        <div class="destin-field-row">
+          <div class="destin-field-num">II</div>
+          <div class="destin-field-content">
+            <label class="destin-field-lbl">Époque & Lieu</label>
+            <span class="destin-epoques-label">Suggestions — cliquez pour sélectionner</span>
+            <div class="destin-epoques-grid">
+              <button class="destin-epoque-btn" onclick="choisirEpoque('Japon, 1560 — Guerre des seigneurs')">
+                <span class="epoque-icon">⚔️</span>
+                <span class="epoque-nom">Guerre des seigneurs</span>
+                <span class="epoque-lieu">Japon · 1560</span>
+              </button>
+              <button class="destin-epoque-btn" onclick="choisirEpoque('Rome, 44 av. J.-C. — Mort de César')">
+                <span class="epoque-icon">🏛️</span>
+                <span class="epoque-nom">Mort de César</span>
+                <span class="epoque-lieu">Rome · 44 av. J.-C.</span>
+              </button>
+              <button class="destin-epoque-btn" onclick="choisirEpoque('Caraïbes, 1680 — Âge d or des pirates')">
+                <span class="epoque-icon">⚓</span>
+                <span class="epoque-nom">Âge d'or des pirates</span>
+                <span class="epoque-lieu">Caraïbes · 1680</span>
+              </button>
+              <button class="destin-epoque-btn" onclick="choisirEpoque('Mongolie, 1200 — Temüjin unifie les tribus')">
+                <span class="epoque-icon">🏹</span>
+                <span class="epoque-nom">Temüjin & les tribus</span>
+                <span class="epoque-lieu">Mongolie · 1200</span>
+              </button>
+              <button class="destin-epoque-btn" onclick="choisirEpoque('Berlin, 1939 — Début de la Seconde Guerre mondiale')">
+                <span class="epoque-icon">🎖️</span>
+                <span class="epoque-nom">Seconde Guerre mondiale</span>
+                <span class="epoque-lieu">Berlin · 1939</span>
+              </button>
+              <button class="destin-epoque-btn" onclick="choisirEpoque('New York, 1920 — Prohibition')">
+                <span class="epoque-icon">🗽</span>
+                <span class="epoque-nom">Prohibition</span>
+                <span class="epoque-lieu">New York · 1920</span>
+              </button>
+            </div>
+            <input class="destin-field-input" id="destin-epoque" type="text" placeholder="Ou écrivez votre propre époque..." maxlength="60" style="margin-top:10px;">
+          </div>
+        </div>
+
+        <!-- III — Description -->
+        <div class="destin-field-row">
+          <div class="destin-field-num">III</div>
+          <div class="destin-field-content">
+            <label class="destin-field-lbl">Une phrase sur vous <span style="color:rgba(200,168,75,0.25);font-size:8px;">(facultatif)</span></label>
+            <input class="destin-field-input" id="destin-desc" type="text" placeholder="Ex.: Fille d'un marchand ruiné, parle 3 langues..." maxlength="100">
+          </div>
+        </div>
+
+        <!-- IV — Ambition -->
+        <div class="destin-field-row">
+          <div class="destin-field-num">IV</div>
+          <div class="destin-field-content">
+            <label class="destin-field-lbl">Votre ambition <span style="color:rgba(200,168,75,0.3);font-size:8px;letter-spacing:2px;">— choisissez votre voie</span></label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;" id="destin-ambitions">
+              <button class="destin-ambition-btn active" data-ambition="Richesse" onclick="selectAmbition(this)">
+                <span class="ambition-icon">💰</span>Richesse
+              </button>
+              <button class="destin-ambition-btn" data-ambition="Pouvoir" onclick="selectAmbition(this)">
+                <span class="ambition-icon">⚔️</span>Pouvoir
+              </button>
+              <button class="destin-ambition-btn" data-ambition="Famille" onclick="selectAmbition(this)">
+                <span class="ambition-icon">🕯️</span>Famille
+              </button>
+              <button class="destin-ambition-btn" data-ambition="Gloire" onclick="selectAmbition(this)">
+                <span class="ambition-icon">★</span>Gloire
+              </button>
+              <button class="destin-ambition-btn" data-ambition="Survie" onclick="selectAmbition(this)">
+                <span class="ambition-icon">🌿</span>Survie
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
+
       <button class="destin-create-launch" id="destin-launch-btn" onclick="lancerDestinLibre()">
-        Commencer l'aventure ▸
+        Écrire mon destin
       </button>
+
+      <div style="text-align:center;margin-top:16px;font-family:'Special Elite',cursive;font-size:8px;letter-spacing:3px;color:rgba(200,168,75,0.2);text-transform:uppercase;">
+        Chronica · Votre histoire, à travers les siècles
+      </div>
+
     </div>
   </div>
 
@@ -4803,31 +5006,18 @@ function lancerDestinLibre() {
 
 function getDestinSystemPrompt() {
   const s = destinState;
-  const ambitionTextes = {
-    Richesse: "Son ambition: accumuler une fortune et ne jamais revivre la pauvrete.",
-    Pouvoir: "Son ambition: dominer, commander, etre craint et respecte politiquement et militairement.",
-    Famille: "Son ambition: fonder une famille, proteger ses proches, laisser un heritage durable.",
-    Gloire: "Son ambition: etre connu et celebre, que son nom reste dans l histoire.",
-    Survie: "Son ambition: simplement survivre et vivre dignement dans ce monde difficile."
+  const ambitions = {
+    Richesse: "Ambition: fortune et ne jamais revivre la pauvrete.",
+    Pouvoir: "Ambition: dominer, commander, etre craint.",
+    Famille: "Ambition: fonder une famille, proteger ses proches.",
+    Gloire: "Ambition: que son nom reste dans l histoire.",
+    Survie: "Ambition: survivre et vivre dignement."
   };
-  const ambitionTexte = ambitionTextes[s.ambition] || ambitionTextes.Richesse;
   const desc = s.desc ? ', ' + s.desc : '';
-
-  return 'Tu es le narrateur de CHRONICA — Destin Libre. Le joueur incarne ' + s.nom + desc + ', a ' + s.epoque + '. Il a 20 ans. Ses parents viennent de mourir. Il possede l equivalent de 1 000 $ en monnaie locale. ' + ambitionTexte + '\n\n'
-    + 'REPONDS UNIQUEMENT EN JSON VALIDE sans markdown :\n'
-    + '{"date":"date courte","narration":"3 paragraphes \\n\\n 2eme personne immersive 150-200 mots","pull_quote":"phrase courte et forte","objectif":"une ligne","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":"MAX 5 personnages les plus importants de cette scene uniquement — [{nom,relation,statut,note}]","delta_sante":0,"delta_moral":0,"delta_reputation":0,"delta_influence":0,"argent":1000,"monnaie":"monnaie locale","game_over":false,"game_over_type":null,"epitaphe":null,"titre_epoque":"titre social"}\n\n'
-    + 'JAUGES (0-100) :\n'
-    + '- sante : NE BAISSE PAS avant 50 ans sauf blessure/maladie grave. Max -15 par evenement traumatique.\n'
-    + '- moral : Max -10 par decision normale, -20 catastrophe. Sous 20 = proposer un choix de survie avant game_over.\n'
-    + '- reputation : monte lentement (+3 a +10), descend vite (-5 a -20).\n'
-    + '- influence : tres difficile a monter (+2 a +8 max).\n\n'
-    + 'RYTHME : chaque decision = 3-6 mois de vie. Personnage commence a 20 ans et vieillit naturellement.\n\n'
-    + 'ARGENT : UNE SEULE monnaie locale fixe pour toute la partie. Montant EXACT. Coherent avec les depenses faites.\n\n'
-    + 'CHOIX COURTS : quick_choices maximum 6 mots chacun.\n\n'
-    + 'REGLE ABSOLUE : la narration doit decouler DIRECTEMENT de l action du joueur. Ne jamais inventer une action que le joueur n a pas choisie.\n\n'
-    + 'PERSONNAGES RECURRENTS : reintroduire les PNJ precedents, leur statut evolue.\n\n'
-    + 'DIFFICULTE : monter haut est quasi impossible. Mourir tot non. Une vie ordinaire est une vraie victoire. ANACHRONISMES INTERDITS.\n\n'
-    + 'STYLE : immersif, historiquement credible, consequences realistes mais humaines.'
+  return 'Narrateur CHRONICA. Joueur: ' + s.nom + desc + ', ' + s.epoque + ', 20 ans, parents morts, 1000$ equiv local. ' + (ambitions[s.ambition]||ambitions.Richesse) + '\n\n'
+    + 'JSON UNIQUEMENT sans markdown:\n'
+    + '{"date":"courte","narration":"3 §\\n\\n 2e personne 120-150 mots","pull_quote":"phrase forte","objectif":"une ligne","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":"max 5 [{nom,relation,statut,note}]","delta_sante":0,"delta_moral":0,"delta_reputation":0,"delta_influence":0,"argent":0,"monnaie":"locale","game_over":false,"game_over_type":null,"epitaphe":null,"titre_epoque":"titre"}\n\n'
+    + 'REGLES: sante baisse seulement si blessure/maladie (max -15). Moral max -10/decision. Argent: UNE monnaie fixe, montant exact. Narration suit DIRECTEMENT l action du joueur. PNJ recurrents. quick_choices 6 mots max. Anachronismes interdits. Chaque decision = 3-6 mois.';
 }
 
 async function callDestinAPI(msg) {
@@ -4839,7 +5029,7 @@ async function callDestinAPI(msg) {
       model: 'claude-sonnet-4-5',
       max_tokens: 1500,
       system: getDestinSystemPrompt(),
-      messages: destinState.messages
+      messages: destinState.messages.slice(-8)
     })
   });
   const data = await resp.json();
