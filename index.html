@@ -196,6 +196,9 @@ body::before { content:''; position:fixed; inset:0; background-image:url("data:i
 
 @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 .fade-in { animation:fadeIn 0.5s ease forwards; }
+@keyframes paraFadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.para-hidden { opacity:0; }
+.para-visible { animation:paraFadeIn 0.5s ease forwards; }
 
 /* CHAPTER NAV */
 .chap-nav { display:flex; justify-content:center; gap:8px; padding:20px 22px 0; animation:fadeUp 0.8s ease 1.9s both; }
@@ -2160,6 +2163,200 @@ body::before {
   40% { opacity:1; transform:scale(1.2); }
 }
 
+
+/* ===== ÉPOQUES SUGGÉRÉES ===== */
+.destin-epoques-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.4);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.destin-epoques-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.destin-epoque-btn {
+  background: rgba(200,168,75,0.04);
+  border: 1px solid rgba(200,168,75,0.15);
+  color: rgba(200,168,75,0.55);
+  padding: 8px 10px;
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.destin-epoque-btn:hover {
+  background: rgba(200,168,75,0.1);
+  border-color: rgba(200,168,75,0.4);
+  color: #c8a84b;
+}
+
+.destin-epoque-btn .epoque-icon {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.destin-epoque-btn .epoque-nom {
+  display: block;
+  font-size: 9px;
+  color: rgba(232,216,176,0.8);
+}
+
+.destin-epoque-btn .epoque-lieu {
+  display: block;
+  font-size: 8px;
+  color: rgba(200,168,75,0.4);
+  margin-top: 1px;
+}
+
+
+/* ===== LE CONSEILLER ===== */
+.conseiller-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5,4,2,0.85);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.conseiller-overlay.active { display: flex; }
+
+.conseiller-panel {
+  background: #0f0d08;
+  border: 1px solid rgba(200,168,75,0.3);
+  max-width: 480px;
+  width: 100%;
+  padding: 28px;
+  position: relative;
+}
+
+.conseiller-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(200,168,75,0.15);
+}
+
+.conseiller-icon { font-size: 24px; }
+
+.conseiller-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: #c8a84b;
+  font-weight: 700;
+}
+
+.conseiller-subtitle {
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.4);
+  margin-top: 2px;
+}
+
+.conseiller-loading {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200,168,75,0.4);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.conseiller-conseils {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.conseil-item {
+  border-left: 2px solid rgba(200,168,75,0.3);
+  padding: 8px 14px;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: #c8bea0;
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.conseil-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.conseiller-footer {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(200,168,75,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.conseiller-note {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: rgba(200,168,75,0.3);
+  font-style: italic;
+}
+
+.conseiller-close {
+  background: transparent;
+  border: 1px solid rgba(200,168,75,0.3);
+  color: rgba(200,168,75,0.6);
+  padding: 7px 20px;
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.conseiller-close:hover {
+  border-color: #c8a84b;
+  color: #c8a84b;
+}
+
+.btn-conseiller {
+  background: transparent;
+  border: 1px solid rgba(200,168,75,0.2);
+  color: rgba(200,168,75,0.45);
+  padding: 6px 14px;
+  font-family: 'Special Elite', cursive;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-conseiller:hover {
+  border-color: rgba(200,168,75,0.5);
+  color: rgba(200,168,75,0.8);
+}
+
 </style>
 </head>
 <body>
@@ -3297,10 +3494,8 @@ function renderNaufrage(data) {
     updateNaufrageJauges();
   }
   if (data.date) document.getElementById('n-narrative-date').textContent = data.date;
-  const textEl = document.getElementById('n-narrative-text');
   if (data.narration) {
-    textEl.innerHTML = data.narration.split('\n\n').map(p=>'<p>'+p+'</p>').join('');
-    textEl.classList.remove('fade-in'); void textEl.offsetWidth; textEl.classList.add('fade-in');
+    afficherTexteProgressif('n-narrative-text', data.narration);
   }
   if (data.pull_quote) {
     const pq = document.getElementById('n-pull-quote');
@@ -3732,10 +3927,8 @@ function renderPatriotes(data) {
 
   if (data.date) document.getElementById('pat-narrative-date').textContent = data.date;
 
-  const textEl = document.getElementById('pat-narrative-text');
   if (data.narration) {
-    textEl.innerHTML = data.narration.split('\n\n').map(p => '<p>' + p + '</p>').join('');
-    textEl.classList.remove('fade-in'); void textEl.offsetWidth; textEl.classList.add('fade-in');
+    afficherTexteProgressif('pat-narrative-text', data.narration);
   }
 
   if (data.pull_quote) {
@@ -4531,10 +4724,8 @@ function renderDday(data) {
 
   // Narration
   if (data.date) document.getElementById('dday-narrative-date').textContent = data.date;
-  const textEl = document.getElementById('dday-narrative-text');
   if (data.narration) {
-    textEl.innerHTML = data.narration.split('\n\n').map(p => '<p>' + p + '</p>').join('');
-    textEl.classList.remove('fade-in'); void textEl.offsetWidth; textEl.classList.add('fade-in');
+    afficherTexteProgressif('dday-narrative-text', data.narration);
   }
   if (data.pull_quote) {
     const pq = document.getElementById('dday-pull-quote');
@@ -4713,6 +4904,20 @@ function getTitreDestinaire(score) {
 
 function getScoreDestin(jauges) {
   return Math.round((jauges.reputation * 0.5 + jauges.influence * 0.3 + jauges.moral * 0.2));
+}
+
+function choisirEpoque(epoque) {
+  const input = document.getElementById('destin-epoque');
+  input.value = epoque;
+  // Highlight selected button
+  document.querySelectorAll('.destin-epoque-btn').forEach(b => {
+    b.style.borderColor = '';
+    b.style.color = '';
+    b.style.background = '';
+  });
+  event.currentTarget.style.borderColor = '#c8a84b';
+  event.currentTarget.style.color = '#c8a84b';
+  event.currentTarget.style.background = 'rgba(200,168,75,0.12)';
 }
 
 function selectAmbition(btn) {
@@ -5017,6 +5222,105 @@ function renderDestinPNJ(personnages) {
 
 function toggleDestinPNJ() {
   document.getElementById('dl-pnj-zone').classList.toggle('open');
+}
+
+
+// ============================================================
+// LE CONSEILLER
+// ============================================================
+async function ouvrirConseiller() {
+  const overlay = document.getElementById('conseiller-overlay');
+  const loading = document.getElementById('conseiller-loading');
+  const conseils = document.getElementById('conseiller-conseils');
+  const subtitle = document.getElementById('conseiller-subtitle');
+
+  overlay.classList.add('active');
+  loading.style.display = 'block';
+  conseils.innerHTML = '';
+
+  const s = destinState;
+  const j = s.jauges;
+
+  subtitle.textContent = s.epoque;
+
+  try {
+    const msg = '[CONSULTATION CONSEILLER — NE PAS AVANCER L HISTOIRE] '
+      + 'Analyse la situation de ' + s.nom + ' a ' + s.epoque + '. '
+      + 'Sante:' + j.sante + ' Moral:' + j.moral + ' Reputation:' + j.reputation
+      + ' Influence:' + j.influence + ' Argent:' + s.argent + ' ' + s.monnaie + '. '
+      + 'Ambition: ' + s.ambition + '. '
+      + 'Donne exactement 3 conseils strategiques courts et specifiques a cette situation. '
+      + 'Reponds UNIQUEMENT en JSON: {"conseils":["conseil 1","conseil 2","conseil 3"]} '
+      + 'Chaque conseil = 1-2 phrases max. Pas de JSON wrapper markdown. '
+      + 'NE PAS changer les jauges, NE PAS avancer l histoire.';
+
+    // Use a separate API call that doesn't affect the game history
+    const resp = await fetch('/.netlify/functions/anthropic', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 400,
+        system: 'Tu es un conseiller historique. Analyse la situation et donne des conseils strategiques courts et concrets. Reponds uniquement en JSON valide sans markdown.',
+        messages: [
+          ...destinState.messages.slice(-6), // Contexte recent seulement
+          { role: 'user', content: msg }
+        ]
+      })
+    });
+
+    const data = await resp.json();
+    const text = data.content.map(b => b.text || '').join('');
+    const clean = text.replace(/```json[\n]?/g, '').replace(/```[\n]?/g, '').trim();
+    const match = clean.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('Réponse invalide');
+    const parsed = JSON.parse(match[0]);
+
+    loading.style.display = 'none';
+
+    if (parsed.conseils && parsed.conseils.length) {
+      parsed.conseils.forEach((conseil, i) => {
+        const div = document.createElement('div');
+        div.className = 'conseil-item';
+        div.textContent = '"' + conseil + '"';
+        conseils.appendChild(div);
+        setTimeout(() => div.classList.add('visible'), i * 300);
+      });
+    }
+
+  } catch(e) {
+    loading.style.display = 'none';
+    conseils.innerHTML = '<div class="conseil-item visible" style="color:#cc4444">Votre conseiller est indisponible pour le moment.</div>';
+  }
+}
+
+function fermerConseiller(e) {
+  if (e && e.target !== document.getElementById('conseiller-overlay')) return;
+  document.getElementById('conseiller-overlay').classList.remove('active');
+}
+
+
+// ============================================================
+// TEXTE PROGRESSIF — universel pour tous les modes
+// ============================================================
+function afficherTexteProgressif(elementId, narration, callback) {
+  const el = document.getElementById(elementId);
+  if (!el || !narration) { if (callback) callback(); return; }
+  const paragraphes = narration.split('\n\n').filter(p => p.trim());
+  el.innerHTML = '';
+  paragraphes.forEach((texte, i) => {
+    const p = document.createElement('p');
+    p.textContent = texte;
+    p.classList.add('para-hidden');
+    el.appendChild(p);
+    setTimeout(() => {
+      p.classList.remove('para-hidden');
+      p.classList.add('para-visible');
+      if (i === paragraphes.length - 1 && callback) {
+        setTimeout(callback, 500);
+      }
+    }, i * 700);
+  });
 }
 
 </script>
@@ -5466,7 +5770,40 @@ function toggleDestinPNJ() {
       </div>
       <div>
         <label class="destin-field-lbl">Époque & Lieu</label>
-        <input class="destin-field-input" id="destin-epoque" type="text" placeholder="Ex: Venise 1450, Paris 1789, Rome 44 av. J.-C." maxlength="60">
+        <span class="destin-epoques-label">Suggestions — cliquez pour sélectionner</span>
+        <div class="destin-epoques-grid">
+          <button class="destin-epoque-btn" onclick="choisirEpoque('Japon, 1560 — Guerre des seigneurs')">
+            <span class="epoque-icon">🗡️</span>
+            <span class="epoque-nom">Guerre des seigneurs</span>
+            <span class="epoque-lieu">Japon · 1560</span>
+          </button>
+          <button class="destin-epoque-btn" onclick="choisirEpoque('Rome, 44 av. J.-C. — Mort de César')">
+            <span class="epoque-icon">🏛️</span>
+            <span class="epoque-nom">Mort de César</span>
+            <span class="epoque-lieu">Rome · 44 av. J.-C.</span>
+          </button>
+          <button class="destin-epoque-btn" onclick="choisirEpoque('Caraïbes, 1680 — Âge d or des pirates')">
+            <span class="epoque-icon">🌊</span>
+            <span class="epoque-nom">Âge d'or des pirates</span>
+            <span class="epoque-lieu">Caraïbes · 1680</span>
+          </button>
+          <button class="destin-epoque-btn" onclick="choisirEpoque('Mongolie, 1200 — Temüjin unifie les tribus')">
+            <span class="epoque-icon">⚔️</span>
+            <span class="epoque-nom">Temüjin & les tribus</span>
+            <span class="epoque-lieu">Mongolie · 1200</span>
+          </button>
+          <button class="destin-epoque-btn" onclick="choisirEpoque('Berlin, 1939 — Début de la Seconde Guerre mondiale')">
+            <span class="epoque-icon">🎖️</span>
+            <span class="epoque-nom">Seconde Guerre mondiale</span>
+            <span class="epoque-lieu">Berlin · 1939</span>
+          </button>
+          <button class="destin-epoque-btn" onclick="choisirEpoque('New York, 1920 — Prohibition')">
+            <span class="epoque-icon">🗽</span>
+            <span class="epoque-nom">Prohibition</span>
+            <span class="epoque-lieu">New York · 1920</span>
+          </button>
+        </div>
+        <input class="destin-field-input" id="destin-epoque" type="text" placeholder="Ou écrivez votre propre époque..." maxlength="60" style="margin-top:8px;">
       </div>
       <div>
         <label class="destin-field-lbl">Une phrase sur vous <span style="color:rgba(200,168,75,0.3)">(facultatif)</span></label>
@@ -5552,8 +5889,9 @@ function toggleDestinPNJ() {
       <div class="destin-choices" id="dl-choices"></div>
       <textarea class="destin-dec-input" id="dl-dec-input" placeholder="Décrivez votre action..."></textarea>
       <button class="destin-submit-btn" id="dl-submit-btn" onclick="submitDestinDecision()">Agir ▸</button>
-      <div style="clear:both;margin-top:8px;">
+      <div style="clear:both;margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
         <button onclick="toggleDestinPNJ()" style="background:transparent;border:1px solid rgba(200,168,75,0.2);color:rgba(200,168,75,0.5);font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;">▸ Personnages</button>
+        <button class="btn-conseiller" onclick="ouvrirConseiller()">⚖ Conseiller</button>
       </div>
     </div>
 
@@ -5585,6 +5923,26 @@ function toggleDestinPNJ() {
         <button class="destin-fin-btn destin-fin-btn-primary" onclick="showScreen('screen-destin-create')">↺ Nouveau destin</button>
         <button class="destin-fin-btn" onclick="goHome()">⌂ Accueil</button>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== LE CONSEILLER ===== -->
+<div class="conseiller-overlay" id="conseiller-overlay" onclick="fermerConseiller(event)">
+  <div class="conseiller-panel">
+    <div class="conseiller-header">
+      <span class="conseiller-icon">⚖</span>
+      <div>
+        <div class="conseiller-title">Votre Conseiller</div>
+        <div class="conseiller-subtitle" id="conseiller-subtitle">Analyse de la situation...</div>
+      </div>
+    </div>
+    <div class="conseiller-loading" id="conseiller-loading">Consultation en cours...</div>
+    <div class="conseiller-conseils" id="conseiller-conseils"></div>
+    <div class="conseiller-footer">
+      <span class="conseiller-note">Ce conseil n'avance pas l'histoire</span>
+      <button class="conseiller-close" onclick="fermerConseiller()">Fermer</button>
     </div>
   </div>
 </div>
