@@ -5267,17 +5267,17 @@ function afficherHistoriqueConseiller() {
   if (!el) return;
   el.innerHTML = '';
   if (conseillerHistorique.length === 0) {
-    el.innerHTML = '<p style="font-family:'IM Fell English',serif;font-style:italic;font-size:12px;color:rgba(200,168,75,0.3);text-align:center;padding:10px 0;">Posez votre première question...</p>';
+    el.innerHTML = '<p style="font-family:\'IM Fell English\',serif;font-style:italic;font-size:12px;color:rgba(200,168,75,0.3);text-align:center;padding:10px 0;">Posez votre première question...</p>';
     return;
   }
   conseillerHistorique.forEach(echange => {
     const q = document.createElement('div');
     q.style.cssText = 'text-align:right;margin-bottom:4px;';
-    q.innerHTML = '<span style="display:inline-block;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.2);padding:6px 12px;font-family:'Special Elite',cursive;font-size:11px;color:rgba(200,168,75,0.8);max-width:85%;text-align:left;letter-spacing:0.5px;">' + echange.question + '</span>';
+    q.innerHTML = '<span style="display:inline-block;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.2);padding:6px 12px;font-family:Special Elite,cursive;font-size:11px;color:rgba(200,168,75,0.8);max-width:85%;text-align:left;letter-spacing:0.5px;">' + echange.question + '</span>';
     el.appendChild(q);
     const r = document.createElement('div');
     r.style.cssText = 'text-align:left;margin-bottom:8px;';
-    r.innerHTML = '<span style="display:inline-block;border-left:2px solid rgba(200,168,75,0.35);padding:7px 14px;font-family:'IM Fell English',serif;font-style:italic;font-size:13px;color:#c8bea0;line-height:1.7;max-width:90%;">' + echange.reponse + '</span>';
+    r.innerHTML = '<span style="display:inline-block;border-left:2px solid rgba(200,168,75,0.35);padding:7px 14px;font-family:IM Fell English,serif;font-style:italic;font-size:13px;color:#c8bea0;line-height:1.7;max-width:90%;">' + echange.reponse + '</span>';
     el.appendChild(r);
   });
   el.scrollTop = el.scrollHeight;
