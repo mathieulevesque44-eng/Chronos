@@ -2222,6 +2222,10 @@ body::before {
 
 
 /* ===== LE CONSEILLER ===== */
+#conseiller-historique::-webkit-scrollbar { width: 4px; }
+#conseiller-historique::-webkit-scrollbar-track { background: transparent; }
+#conseiller-historique::-webkit-scrollbar-thumb { background: rgba(200,168,75,0.2); border-radius: 2px; }
+#conseiller-historique::-webkit-scrollbar-thumb:hover { background: rgba(200,168,75,0.4); }
 .conseiller-overlay {
   display: none;
   position: fixed;
@@ -5033,7 +5037,7 @@ async function loadDestinScene() {
     const s = destinState;
     // Make sure we're on the right screen
     showScreen('screen-destin');
-    const startMsg = 'Début. ' + s.nom + ', 20 ans, ' + s.epoque + '. Parents décédés. Premier jour seul. Établir la monnaie locale et le montant exact équivalent à 1 000 $. Décision 1.';
+    const startMsg = 'Début. ' + s.nom + ', 20 ans, ' + s.epoque + '. Parents décédés. Premier jour seul. Établir la monnaie locale et le montant exact équivalent à 1 000 $. Décision 1. Âge actuel: 20 ans. RÈGLE IMPORTANTE: chaque décision représente ~6 mois de vie réelle — respecter cet âge précis dans toutes les scènes et fins de partie.';
     const data = await callDestinAPI(startMsg);
     renderDestin(data);
   } catch(e) {
@@ -5082,6 +5086,15 @@ function renderDestin(data) {
 
   // Argent display
   document.getElementById('dl-argent').textContent = destinState.argent.toLocaleString('fr-FR');
+
+  // Mettre à jour l'âge affiché
+  const decNum = destinState.decision - 1;
+  let ageAffiche = 20;
+  if (decNum <= 20) ageAffiche = 20 + Math.floor((decNum - 1) * 0.5);
+  else if (decNum <= 40) ageAffiche = 30 + (decNum - 20);
+  else ageAffiche = 50 + (decNum - 40) * 2;
+  const ageEl = document.getElementById('dl-age');
+  if (ageEl) ageEl.textContent = ageAffiche + ' ans';
   document.getElementById('dl-monnaie').textContent = destinState.monnaie;
 
   // Pop-up deltas
@@ -5181,7 +5194,16 @@ async function submitDestinDecision() {
   const currentDec = destinState.decision;
   destinState.decision++;
   const j = destinState.jauges;
-  const msg = 'Décision ' + currentDec + '. Action: "' + decision + '". Santé:' + j.sante + ' Moral:' + j.moral + ' Réputation:' + j.reputation + ' Influence:' + j.influence + ' Argent:' + destinState.argent + ' ' + destinState.monnaie + '.';
+  // Âge progressif : 6 mois/décision jusqu'à 20, 1 an/décision jusqu'à 40, 2 ans/décision après
+  let ageActuel = 20;
+  if (currentDec <= 20) {
+    ageActuel = 20 + Math.floor((currentDec - 1) * 0.5);
+  } else if (currentDec <= 40) {
+    ageActuel = 30 + (currentDec - 20);
+  } else {
+    ageActuel = 50 + (currentDec - 40) * 2;
+  }
+  const msg = 'Décision ' + currentDec + '. Âge actuel du personnage: ' + ageActuel + ' ans. Action: "' + decision + '". Santé:' + j.sante + ' Moral:' + j.moral + ' Réputation:' + j.reputation + ' Influence:' + j.influence + ' Argent:' + destinState.argent + ' ' + destinState.monnaie + '. IMPORTANT: Le personnage a exactement ' + ageActuel + ' ans — respecte cet âge dans la narration et dans toute fin de partie.';
   try {
     const data = await callDestinAPI(msg);
     renderDestin(data);
@@ -5906,7 +5928,10 @@ function afficherTexteProgressif(elementId, narration, callback) {
       <div class="destin-argent-montant" id="dl-argent">—</div>
       <div class="destin-argent-monnaie" id="dl-monnaie">—</div>
     </div>
-    <div class="destin-titre-perso" id="dl-titre">Orphelin</div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+      <div class="destin-titre-perso" id="dl-titre">Orphelin</div>
+      <div id="dl-age" style="font-family:'Special Elite',cursive;font-size:9px;letter-spacing:2px;color:rgba(200,168,75,0.4);text-transform:uppercase;">20 ans</div>
+    </div>
   </div>
 
   <div class="destin-content">
@@ -5985,7 +6010,7 @@ function afficherTexteProgressif(elementId, narration, callback) {
     </div>
 
     <!-- Historique des échanges -->
-    <div id="conseiller-historique" style="max-height:280px;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:12px;"></div>
+    <div id="conseiller-historique" style="max-height:280px;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;scrollbar-color:rgba(200,168,75,0.2) transparent;"></div>
 
     <!-- Loading -->
     <div class="conseiller-loading" id="conseiller-loading" style="display:none;">Consultation en cours...</div>
