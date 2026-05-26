@@ -2067,6 +2067,99 @@ body::before {
 .destin-create-launch:hover { background: rgba(200,168,75,0.22); }
 .destin-create-launch:disabled { opacity: 0.4; cursor: not-allowed; }
 
+
+.destin-ambition-btn {
+  background: rgba(200,168,75,0.06);
+  border: 1px solid rgba(200,168,75,0.2);
+  color: rgba(200,168,75,0.6);
+  padding: 7px 14px;
+  font-family: 'Special Elite', cursive;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+  min-width: 80px;
+  text-align: center;
+}
+.destin-ambition-btn:hover { border-color: rgba(200,168,75,0.5); color: #c8a84b; }
+.destin-ambition-btn.active {
+  background: rgba(200,168,75,0.18);
+  border-color: #c8a84b;
+  color: #c8a84b;
+}
+
+
+/* ===== LOADER DESTIN LIBRE ===== */
+.destin-walk-scene {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 120px;
+  overflow: hidden;
+}
+
+.destin-horizon {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(200,168,75,0.4), transparent);
+}
+
+.destin-silhouette {
+  position: absolute;
+  bottom: 32px;
+  left: -60px;
+  font-size: 36px;
+  animation: destin-walk 3s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(200,168,75,0.3));
+}
+
+.destin-sun {
+  position: absolute;
+  bottom: 50px;
+  right: 60px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,168,75,0.6) 0%, rgba(200,168,75,0.1) 60%, transparent 80%);
+  animation: destin-pulse 2s ease-in-out infinite;
+}
+
+@keyframes destin-walk {
+  from { left: -60px; }
+  to   { left: calc(100% + 20px); }
+}
+
+@keyframes destin-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.destin-loader-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.destin-loader-dots span {
+  width: 6px;
+  height: 6px;
+  background: rgba(200,168,75,0.5);
+  border-radius: 50%;
+  animation: destin-dot 1.2s infinite ease-in-out;
+}
+
+.destin-loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+.destin-loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes destin-dot {
+  0%,80%,100% { opacity:0.2; transform:scale(0.8); }
+  40% { opacity:1; transform:scale(1.2); }
+}
+
 </style>
 </head>
 <body>
@@ -2092,7 +2185,7 @@ body::before {
     <div class="stories-grid">
 
     <!-- LA RÉSISTANCE -->
-    <div class="story-card" onclick="openModal('resistance')">
+    <div class="story-card" onclick="openModal('resistance')" style="display:none">
       <div class="story-badge badge-free">Gratuit</div>
       <div class="card-hdr">
         <span class="card-era">France Occupée · 1942–1944</span>
@@ -2121,7 +2214,7 @@ body::before {
     </div>
 
     <!-- LES PATRIOTES -->
-    <div class="story-card" onclick="openModal('patriotes')">
+    <div class="story-card" onclick="openModal('patriotes')" style="display:none">
       <div class="story-badge badge-free">Nouveau</div>
       <div class="card-hdr">
         <span class="card-era">Bas-Canada · 1837</span>
@@ -2150,7 +2243,7 @@ body::before {
     </div>
 
     <!-- NAUFRAGÉ -->
-    <div class="story-card" onclick="openModal('naufrage')">
+    <div class="story-card" onclick="openModal('naufrage')" style="display:none">
       <div class="story-badge badge-free">Gratuit</div>
       <div class="card-hdr">
         <span class="card-era">Pacifique Sud · 1704</span>
@@ -2179,7 +2272,7 @@ body::before {
     </div>
 
     <!-- D-DAY -->
-    <div class="story-card" onclick="openModal('dday')">
+    <div class="story-card" onclick="openModal('dday')" style="display:none">
       <div class="story-badge badge-free">Nouveau</div>
       <div class="card-hdr">
         <span class="card-era">Normandie · 6 juin 1944</span>
@@ -3332,7 +3425,7 @@ const PATRIOTES_CHAPITRES = {
 CHAPITRE 1 : L'ASSEMBLÉE — 8 décisions sur plusieurs semaines d'automne 1837.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"ex: '12 octobre 1837'","narration":"3 paragraphes \n\n 2ème personne immersive 150-200 mots, style sombre et réaliste, époque 1837","pull_quote":"phrase courte et forte","objectif":"une ligne — ce qu'Étienne doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"ex: '12 octobre 1837'","narration":"3 paragraphes \n\n 2ème personne immersive 150-200 mots, style sombre et réaliste, époque 1837","pull_quote":"phrase courte et forte","objectif":"une ligne — ce qu'Étienne doit accomplir maintenant","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 JAUGES DE DÉPART : sante:75 moral:60 suspicion:10 reputation:20 fatigue:30
 
@@ -3366,7 +3459,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 2 : SAINT-DENIS — 8 décisions sur 24 heures. Les Patriotes GAGNENT cette bataille historiquement — mais Étienne peut mourir AVANT la victoire.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure ex: '23 nov. 1837 — 06h30'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, chaos du combat, peur, bruit, fumée noire","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"heure ex: '23 nov. 1837 — 06h30'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, chaos du combat, peur, bruit, fumée noire","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ TRÈS STRICTE :
 - Sortir dans la rue pendant l'assaut → mort quasi-certaine (game_over, game_over_type:"tue_saint_denis")
@@ -3392,7 +3485,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 3 : SAINT-CHARLES — 6 décisions. Les Patriotes PERDENT. Il n'y a pas de victoire possible. La seule question : Étienne survit-il pour fuir ?
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure ex: '25 nov. 1837 — 14h15'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, défaite, chaos, fuite, terreur","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"heure ex: '25 nov. 1837 — 14h15'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, défaite, chaos, fuite, terreur","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ ABSOLUE :
 - L'artillerie détruit les retranchements en minutes — c'est un fait, pas une décision
@@ -3419,7 +3512,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 4 : L'EXIL — 8 décisions, deux mois de fuite hivernale. La mort peut venir d'une balle, du froid, de la faim, ou d'une trahison.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"ex: 'Décembre 1837'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, froid, solitude, paranoïa, hiver québécois brutal","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"ex: 'Décembre 1837'","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, froid, solitude, paranoïa, hiver québécois brutal","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ STRICTE :
 - Faire confiance à un inconnu sans indice de loyauté → forte probabilité de dénonciation (suspicion +30, game_over possible)
@@ -3447,7 +3540,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 5 : LES FRÈRES CHASSEURS / ODELLTOWN — 8 décisions. La défaite est la règle. La victoire partielle n'est possible QUE SI : sante>=50 ET reputation>=55 ET moral>=45 ET les décisions 6 ET 7 sont tactiquement correctes (terrain, pas de charge frontale).
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, tension, désillusion, espoir fragile, courage épuisé","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"victoire_odelltown":false,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, tension, désillusion, espoir fragile, courage épuisé","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"victoire_odelltown":false,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ :
 - Trahison interne possible dès décision 2 (un Frère Chasseur est informateur)
@@ -3473,7 +3566,7 @@ ANACHRONISMES INTERDITS.`,
 CHAPITRE 6 : LE PIED-DU-COURANT — 6 décisions finales. La pendaison est la fin normale (80% des parties). La déportation en Australie est possible UNIQUEMENT si moral>=60 ET reputation>=70 ET décisions 5 et 6 sont jouées avec dignité (refus de plaider coupable, mais plaidoyer digne).
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, prison, attente, dignité ou effondrement, sobre et lent","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"fin_deportation":false,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"date courte","narration":"3 paragraphes \n\n 2ème personne 150-200 mots, prison, attente, dignité ou effondrement, sobre et lent","pull_quote":"phrase forte","objectif":"une ligne — ce que Thomas doit accomplir maintenant","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase sur ce qu'on sait de lui."}],"delta_sante":0,"delta_moral":0,"delta_suspicion":0,"delta_reputation":0,"delta_fatigue":0,"fin_deportation":false,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 FINS POSSIBLES :
 - game_over:true, game_over_type:"pendu" → fin canonique. Rédige avec une intensité maximale et sobre : le 15 février 1839, l'aube grise, la chemise propre de Marie, onze autres hommes, la potence simple, Étienne a 26 ans.
@@ -3983,7 +4076,7 @@ const CHAPITRES_DDAY_AIRBORNE = {
 CHAPITRE 1 : LE SAUT — 6 décisions sur 45 minutes critiques.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure précise ex: '6 juin 1944 — 01h18'","narration":"3 paragraphes \\n\\n 2ème personne immersive 150-200 mots, nuit noire, peur, désorientation, Normandie","pull_quote":"phrase courte et forte","objectif":"une ligne — ce que Robert doit accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_bruit":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"heure précise ex: '6 juin 1944 — 01h18'","narration":"3 paragraphes \\n\\n 2ème personne immersive 150-200 mots, nuit noire, peur, désorientation, Normandie","pull_quote":"phrase courte et forte","objectif":"une ligne — ce que Robert doit accomplir maintenant","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_bruit":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 JAUGES (0-100, départ: sante:90 moral:70 bruit:0 munitions:80 fatigue:20) :
 - sante : blessures physiques. Atterrissage raté = -20 à -40. Balle = -30 à -60.
@@ -4024,7 +4117,7 @@ STYLE : nuit, désorientation, silence tendu, bocage hostile. Robert ne sait pas
 CHAPITRE 2 : DANS LE NOIR — 8 décisions sur 3 heures critiques.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure précise ex: '6 juin 1944 — 02h45'","narration":"3 paragraphes \\n\\n 2ème personne 150-200 mots, bocage, tension, patrouilles, bruits dans le noir","pull_quote":"phrase forte","objectif":"une ligne — ce que Robert doit accomplir","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_bruit":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"heure précise ex: '6 juin 1944 — 02h45'","narration":"3 paragraphes \\n\\n 2ème personne 150-200 mots, bocage, tension, patrouilles, bruits dans le noir","pull_quote":"phrase forte","objectif":"une ligne — ce que Robert doit accomplir","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_bruit":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 JAUGES (héritées du chapitre 1) :
 - bruit : redescend lentement (-5/décision silencieuse), monte vite (+30 si tir)
@@ -4060,7 +4153,7 @@ CONTEXTE :
 CHAPITRE 3 : BRÉCOURT MANOR — 8 décisions. L'objectif DOIT être accompli pour passer au chapitre suivant. Survivre sans neutraliser les canons = échec.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure ex: '6 juin 1944 — 06h15'","narration":"3 paragraphes \\n\\n 2ème personne 150-200 mots, assaut tactique, fumée, boue, canons, Winters qui commande","pull_quote":"phrase forte","objectif":"une ligne — objectif tactique immédiat","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_bruit":0,"delta_munitions":0,"delta_fatigue":0,"canons_neutralises":0,"game_over":false,"game_over_type":null,"next_chapter":false,"victoire_complete":false}
+{"date":"heure ex: '6 juin 1944 — 06h15'","narration":"3 paragraphes \\n\\n 2ème personne 150-200 mots, assaut tactique, fumée, boue, canons, Winters qui commande","pull_quote":"phrase forte","objectif":"une ligne — objectif tactique immédiat","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_bruit":0,"delta_munitions":0,"delta_fatigue":0,"canons_neutralises":0,"game_over":false,"game_over_type":null,"next_chapter":false,"victoire_complete":false}
 
 JAUGES + PROGRESSION :
 - canons_neutralises : 0 à 4. Chaque bon choix tactique neutralise un canon.
@@ -4102,7 +4195,7 @@ const CHAPITRES_DDAY_CHAUDIERE = {
 CHAPITRE 1 : LA RAMPE — 6 décisions sur 30 minutes d'enfer.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure ex: '6 juin 1944 — 07h48'","narration":"3 paragraphes \\n\\n 2ème personne immersive 150-200 mots, bruit assourdissant, mer froide, plage exposée, camarades qui tombent","pull_quote":"phrase forte","objectif":"une ligne — survivre et atteindre la digue","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_courage":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"heure ex: '6 juin 1944 — 07h48'","narration":"3 paragraphes \\n\\n 2ème personne immersive 150-200 mots, bruit assourdissant, mer froide, plage exposée, camarades qui tombent","pull_quote":"phrase forte","objectif":"une ligne — survivre et atteindre la digue","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_courage":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 JAUGES (départ: sante:85 moral:60 courage:50 munitions:90 fatigue:30) :
 - sante : une balle sur la plage = -40 à -70. L'eau froide + équipement lourd = -10 si trop lent.
@@ -4144,7 +4237,7 @@ STYLE : chaos total, bruit assourdissant, instinct de survie. Pas de gloire ici.
 CHAPITRE 2 : BERNIÈRES-SUR-MER — 8 décisions. Combat urbain maison par maison.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure ex: '6 juin 1944 — 09h30'","narration":"3 paragraphes \\n\\n 2ème personne 150-200 mots, rues normandes, combat rapproché, civils cachés, snipers","pull_quote":"phrase forte","objectif":"une ligne — objectif tactique dans le village","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_courage":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
+{"date":"heure ex: '6 juin 1944 — 09h30'","narration":"3 paragraphes \\n\\n 2ème personne 150-200 mots, rues normandes, combat rapproché, civils cachés, snipers","pull_quote":"phrase forte","objectif":"une ligne — objectif tactique dans le village","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_courage":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false}
 
 DIFFICULTÉ :
 - Entrer dans une maison sans vérifier → sniper possible (-40 sante)
@@ -4178,7 +4271,7 @@ STYLE : combat urbain, tension de chaque coin de rue, dilemmes moraux avec les c
 CHAPITRE 3 : VERS CAEN — 8 décisions. L'objectif n'est pas Caen — c'est de tenir ce qu'on a gagné avant la nuit et les Panzers.
 
 RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"heure ex: '6 juin 1944 — 13h30'","narration":"3 paragraphes \\n\\n 2ème personne 150-200 mots, champs normands, Panzers à l'horizon, fatigue de combat, décisions tactiques","pull_quote":"phrase forte","objectif":"une ligne — jusqu'où avancer avant de s'arrêter","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_courage":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false,"position_finale":0}
+{"date":"heure ex: '6 juin 1944 — 13h30'","narration":"3 paragraphes \\n\\n 2ème personne 150-200 mots, champs normands, Panzers à l'horizon, fatigue de combat, décisions tactiques","pull_quote":"phrase forte","objectif":"une ligne — jusqu'où avancer avant de s'arrêter","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu","description":"Une phrase."}],"delta_sante":0,"delta_moral":0,"delta_courage":0,"delta_munitions":0,"delta_fatigue":0,"game_over":false,"game_over_type":null,"next_chapter":false,"position_finale":0}
 
 JAUGES + PROGRESSION :
 - position_finale : 0 à 18 (km parcourus vers Caen). Objectif réaliste : 8-12 km.
@@ -4622,10 +4715,21 @@ function getScoreDestin(jauges) {
   return Math.round((jauges.reputation * 0.5 + jauges.influence * 0.3 + jauges.moral * 0.2));
 }
 
+function selectAmbition(btn) {
+  document.querySelectorAll('.destin-ambition-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function getAmbitionSelectionnee() {
+  const active = document.querySelector('.destin-ambition-btn.active');
+  return active ? active.dataset.ambition : 'Richesse';
+}
+
 function lancerDestinLibre() {
   const nom = document.getElementById('destin-nom').value.trim();
   const epoque = document.getElementById('destin-epoque').value.trim();
   const desc = document.getElementById('destin-desc').value.trim();
+  const ambition = getAmbitionSelectionnee();
 
   if (!nom || !epoque) {
     document.getElementById('destin-nom').style.borderColor = nom ? '' : '#cc4444';
@@ -4637,7 +4741,7 @@ function lancerDestinLibre() {
   launchBtn.textContent = 'Chargement...';
 
   destinState = {
-    nom, epoque, desc,
+    nom, epoque, desc, ambition,
     decision: 1,
     jauges: { sante: 80, moral: 70, reputation: 10, influence: 5 },
     argent: 0,
@@ -4669,56 +4773,31 @@ function lancerDestinLibre() {
 
 function getDestinSystemPrompt() {
   const s = destinState;
-  return `Tu es le narrateur de CHRONICA — Destin Libre. Le joueur incarne ${s.nom}${s.desc ? ', ' + s.desc : ''}, à ${s.epoque}. Il a 20 ans. Ses parents viennent de mourir. Il possède l'équivalent de 1 000 $ en monnaie locale de l'époque.
+  const ambitionTextes = {
+    Richesse: "Son ambition: accumuler une fortune et ne jamais revivre la pauvrete.",
+    Pouvoir: "Son ambition: dominer, commander, etre craint et respecte politiquement et militairement.",
+    Famille: "Son ambition: fonder une famille, proteger ses proches, laisser un heritage durable.",
+    Gloire: "Son ambition: etre connu et celebre, que son nom reste dans l histoire.",
+    Survie: "Son ambition: simplement survivre et vivre dignement dans ce monde difficile."
+  };
+  const ambitionTexte = ambitionTextes[s.ambition] || ambitionTextes.Richesse;
+  const desc = s.desc ? ', ' + s.desc : '';
 
-RÉPONDS UNIQUEMENT EN JSON VALIDE sans markdown :
-{"date":"date/période courte ex: 'Venise, printemps 1450'","narration":"3 paragraphes \n\n 2ème personne immersive 150-200 mots, historiquement crédible, époque respectée","pull_quote":"phrase courte et forte","objectif":"une ligne — ce que le personnage cherche à accomplir maintenant","quick_choices":["choix 1","choix 2","choix 3"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu|neutre","statut":"vivant|mort|inconnu","note":"ce qu'on sait de lui en une phrase"}],"delta_sante":0,"delta_moral":0,"delta_reputation":0,"delta_influence":0,"argent":1000,"monnaie":"nom de la monnaie locale ex: ducats, livres, deniers, dollars","game_over":false,"game_over_type":null,"epitaphe":null,"titre_epoque":"le titre correspondant au niveau du personnage dans CETTE époque ex: Plébéien, Guildmaster, Bourgeois..."}
-
-JAUGES (0-100) :
-- sante : physique. Commence à 80. NE BAISSE PAS naturellement avant 50-60 ans. Baisse SEULEMENT si : blessure au combat, maladie grave explicite, famine prolongée, accident violent. Une mauvaise décision seule ne baisse JAMAIS la santé. Max -15 par événement traumatique.
-- moral : état mental. Désespoir ou espoir. Max -10 par décision sauf événement catastrophique (mort d'un proche, trahison grave = max -20). SOUS 20 : l'IA doit proposer au moins UN choix de survie psychologique avant game_over. 0 = abandon total.
-- reputation : comment les gens de l'époque te perçoivent. Monte lentement (+3 à +10), descend vite (-5 à -20).
-- influence : réseau, connexions, pouvoir. Très difficile à monter (+2 à +8 max). Représente le vrai pouvoir accumulé.
-
-RYTHME DE VIE :
-- Chaque décision représente environ 3 à 6 mois de vie réelle
-- Le personnage commence à 20 ans et vieillit naturellement
-- Après 15 décisions (~7 ans) : le personnage a 27 ans, mentionne son âge dans la narration
-- Après 30 décisions (~15 ans) : 35 ans, nouvelles responsabilités possibles
-- Après 50 décisions (~25 ans) : 45 ans, santé commence à décliner naturellement
-- La mort naturelle n'arrive pas avant 60-70 ans sauf maladie grave
-
-ARGENT :
-- Commence à l'équivalent de 1 000 $ modernes dans la monnaie locale de l'époque
-- Choisis UNE SEULE monnaie locale et garde-la tout au long de la partie — JAMAIS de conversion, JAMAIS deux monnaies
-- Exemples : New York 1822 = dollars | Paris 1789 = livres tournois | Venise 1450 = ducats | Rome 44 av JC = deniers | Nouvelle-France 1665 = livres
-- Donne le montant EXACT en nombre (ex: 847, pas "environ 800")
-- Le montant "argent" dans le JSON doit toujours être dans CETTE MÊME monnaie, cohérent avec la décision prise
-- Si le joueur dépense 12 dollars, soustraire exactement 12 du montant précédent
-
-TITRE :
-- titre_epoque = le titre social réel dans cette époque selon le niveau du personnage
-- Commence bas (Plébéien, Gueux, Apprenti...) et monte selon les succès
-
-DIFFICULTÉ ÉQUILIBRÉE :
-- Monter haut (Roi, Président, Pape) est QUASI IMPOSSIBLE — nécessite 40+ décisions excellentes
-- Les mauvaises décisions ont des conséquences permanentes et réalistes MAIS ne tuent pas au premier échec
-- Une vie ordinaire (artisan, marchand modeste) est une vraie victoire
-- Les PNJ se souviennent — une trahison a des conséquences futures
-- game_over si sante=0 OU moral=0, avec epitaphe unique et touchante pour CE personnage spécifique
-- ANACHRONISMES INTERDITS — époque et lieu doivent être historiquement cohérents
-
-PERSONNAGES RÉCURRENTS :
-- Réintroduire les personnages des décisions précédentes
-- Leur statut change selon les actions du joueur
-- Un ennemi peut devenir allié, un allié peut trahir
-
-RÈGLE ABSOLUE — RESPECTER L'ACTION DU JOUEUR :
-- La narration DOIT découler directement de l'action écrite par le joueur. Si le joueur dit "je me renseigne sur l'Ouest", la narration montre ce qu'il apprend sur l'Ouest — pas autre chose.
-- NE JAMAIS inventer une action que le joueur n'a pas choisie. Si le joueur demande de l'information, donner de l'information. Si le joueur reste, il reste. Si le joueur part, il part.
-- Les quick_choices doivent être des SUITES logiques de ce que le joueur vient de faire, pas des alternatives à ce qu'il a déjà décidé.
-
-STYLE : immersif, historiquement crédible, conséquences réalistes mais humaines. Une vie dure n'est pas une mort rapide. Chaque époque a sa propre logique sociale, économique, politique.`;
+  return 'Tu es le narrateur de CHRONICA — Destin Libre. Le joueur incarne ' + s.nom + desc + ', a ' + s.epoque + '. Il a 20 ans. Ses parents viennent de mourir. Il possede l equivalent de 1 000 $ en monnaie locale. ' + ambitionTexte + '\n\n'
+    + 'REPONDS UNIQUEMENT EN JSON VALIDE sans markdown :\n'
+    + '{"date":"date courte","narration":"3 paragraphes \\n\\n 2eme personne immersive 150-200 mots","pull_quote":"phrase courte et forte","objectif":"une ligne","quick_choices":["max 6 mots","max 6 mots","max 6 mots"],"personnages":[{"nom":"Nom","relation":"allie|ennemi|ambigu|neutre","statut":"vivant|mort|inconnu","note":"une phrase"}],"delta_sante":0,"delta_moral":0,"delta_reputation":0,"delta_influence":0,"argent":1000,"monnaie":"monnaie locale","game_over":false,"game_over_type":null,"epitaphe":null,"titre_epoque":"titre social"}\n\n'
+    + 'JAUGES (0-100) :\n'
+    + '- sante : NE BAISSE PAS avant 50 ans sauf blessure/maladie grave. Max -15 par evenement traumatique.\n'
+    + '- moral : Max -10 par decision normale, -20 catastrophe. Sous 20 = proposer un choix de survie avant game_over.\n'
+    + '- reputation : monte lentement (+3 a +10), descend vite (-5 a -20).\n'
+    + '- influence : tres difficile a monter (+2 a +8 max).\n\n'
+    + 'RYTHME : chaque decision = 3-6 mois de vie. Personnage commence a 20 ans et vieillit naturellement.\n\n'
+    + 'ARGENT : UNE SEULE monnaie locale fixe pour toute la partie. Montant EXACT. Coherent avec les depenses faites.\n\n'
+    + 'CHOIX COURTS : quick_choices maximum 6 mots chacun.\n\n'
+    + 'REGLE ABSOLUE : la narration doit decouler DIRECTEMENT de l action du joueur. Ne jamais inventer une action que le joueur n a pas choisie.\n\n'
+    + 'PERSONNAGES RECURRENTS : reintroduire les PNJ precedents, leur statut evolue.\n\n'
+    + 'DIFFICULTE : monter haut est quasi impossible. Mourir tot non. Une vie ordinaire est une vraie victoire. ANACHRONISMES INTERDITS.\n\n'
+    + 'STYLE : immersif, historiquement credible, consequences realistes mais humaines.'
 }
 
 async function callDestinAPI(msg) {
@@ -4812,8 +4891,25 @@ function renderDestin(data) {
   if (data.date) document.getElementById('dl-date').textContent = data.date;
   const textEl = document.getElementById('dl-narrative');
   if (data.narration) {
-    textEl.innerHTML = data.narration.split('\n\n').map(p => '<p>' + p + '</p>').join('');
-    textEl.classList.remove('fade-in'); void textEl.offsetWidth; textEl.classList.add('fade-in');
+    textEl.innerHTML = '';
+    textEl.classList.remove('fade-in');
+    const paragraphs = data.narration.split('\n\n').filter(p => p.trim());
+    paragraphs.forEach((p, i) => {
+      setTimeout(() => {
+        const pEl = document.createElement('p');
+        pEl.textContent = p;
+        pEl.style.opacity = '0';
+        pEl.style.transform = 'translateY(8px)';
+        pEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        textEl.appendChild(pEl);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            pEl.style.opacity = '1';
+            pEl.style.transform = 'translateY(0)';
+          });
+        });
+      }, i * 700);
+    });
   }
   if (data.pull_quote) {
     const pq = document.getElementById('dl-pull-quote');
@@ -5376,6 +5472,16 @@ function toggleDestinPNJ() {
         <label class="destin-field-lbl">Une phrase sur vous <span style="color:rgba(200,168,75,0.3)">(facultatif)</span></label>
         <input class="destin-field-input" id="destin-desc" type="text" placeholder="Ex: Fille d'un marchand ruiné, parle 3 langues..." maxlength="100">
       </div>
+      <div>
+        <label class="destin-field-lbl">Votre ambition</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;" id="destin-ambitions">
+          <button class="destin-ambition-btn active" data-ambition="Richesse" onclick="selectAmbition(this)">💰 Richesse</button>
+          <button class="destin-ambition-btn" data-ambition="Pouvoir" onclick="selectAmbition(this)">⚔️ Pouvoir</button>
+          <button class="destin-ambition-btn" data-ambition="Famille" onclick="selectAmbition(this)">👨‍👩‍👧 Famille</button>
+          <button class="destin-ambition-btn" data-ambition="Gloire" onclick="selectAmbition(this)">★ Gloire</button>
+          <button class="destin-ambition-btn" data-ambition="Survie" onclick="selectAmbition(this)">🌿 Survie</button>
+        </div>
+      </div>
     </div>
     <button class="destin-create-launch" id="destin-launch-btn" onclick="lancerDestinLibre()">
       Écrire mon destin ▸
@@ -5432,8 +5538,13 @@ function toggleDestinPNJ() {
     <div class="destin-objectif" id="dl-objectif"></div>
 
     <div class="destin-loading" id="dl-loading">
-      <div class="destin-spinner"></div>
+      <div class="destin-walk-scene">
+        <div class="destin-sun"></div>
+        <div class="destin-silhouette">🚶</div>
+        <div class="destin-horizon"></div>
+      </div>
       <div class="destin-loader-text">L'histoire s'écrit...</div>
+      <div class="destin-loader-dots"><span></span><span></span><span></span></div>
     </div>
 
     <div class="destin-decision-zone" id="dl-decision-zone">
